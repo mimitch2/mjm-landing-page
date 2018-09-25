@@ -1,0 +1,87 @@
+.App {
+  text-align: center;
+  overflow-x: hidden;
+  font-family: "Oswald", sans-serif;
+  width: 100vw;
+  font-weight: 300;
+}
+
+:root {
+  --green-color: #BFBA3D;
+  --header-color: #e8e6de;
+  --headeropacity-color: #e8e6decc;
+  --blue-color: #8AB2C2;
+  --headertext-color: black;
+  --orange-color: #DC5620;
+  --teal-color: #20c0dc;
+  --react-color: #00d8ff;
+  --butter-color: #ffc825;
+  --calcHeight-meas: calc(100vh - 141px);
+}
+
+
+
+
+/************** media queries **************/
+
+
+/* 
+  ##Device = Desktops
+  ##Screen = 1281px to higher resolution desktops
+*/
+
+@media (min-width: 1281px) {
+  
+  
+}
+
+/* 
+  ##Device = Laptops, Desktops
+  ##Screen = B/w 1025px to 1280px
+*/
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+  
+  
+}
+
+/* 
+  ##Device = Tablets, Ipads (portrait)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: portrait) {
+  
+  
+}
+
+/* 
+  ##Device = Tablets, Ipads (landscape)
+  ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  
+  
+}
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+*/
+
+@media (min-width: 481px) and (max-width: 767px) {
+  
+
+  
+}
+
+/* 
+  ##Device = Most of the Smartphones Mobiles (Portrait)
+  ##Screen = B/w 320px to 479px
+*/
+
+@media (min-width: 320px) and (max-width: 480px) {
+  
+  
+}
