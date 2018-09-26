@@ -13,7 +13,7 @@ class SignUp extends Component {
   }
 
   handleSubmit = (event) => {
-    // event.preventDefault();
+
     this.props.onSignIn ({
       username: this.state.username,
       password: this.state.password,
@@ -23,6 +23,7 @@ class SignUp extends Component {
   render() {
     return (
       <form>
+
         <FormGroup>
           <ControlLabel>Username</ControlLabel>
           <FormControl
@@ -36,7 +37,7 @@ class SignUp extends Component {
           />
         </FormGroup>
 
-        <FormGroup>
+        <FormGroup >
           <ControlLabel>Password</ControlLabel>
           <FormControl
             type="password"
@@ -44,6 +45,7 @@ class SignUp extends Component {
             onChange={e => {
               this.setState({[e.target.name]: e.target.value});
             }}
+            
             placeholder="Enter Password"
             value={this.state.password}
           />
@@ -52,6 +54,7 @@ class SignUp extends Component {
         <Button onClick={this.handleSubmit.bind(this)}>
          Sign In
         </Button>
+
       </form>
     );
   }

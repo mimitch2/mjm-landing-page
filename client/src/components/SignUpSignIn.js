@@ -16,19 +16,21 @@ class SignUpSignIn extends Component {
 
   render() {
     return (
-      <Row>
-        <Col xs={8} xsOffset={2}>
-          {this.props.error && this.renderError()}
-          <Tabs defaultActiveKey={1} id="signup-signin-tabs">
-            <Tab eventKey={1} title="Sign In">
-              <SignIn onSignIn={this.props.onSignIn} />
-            </Tab>
-            <Tab eventKey={2} title="Sign Up">
-              <SignUp onSignUp={this.props.onSignUp} />
-            </Tab>
-          </Tabs>
-        </Col>
-      </Row>
+      <div className="sing-up-in" style={{marginTop:"80px"}}>
+        <Row>
+          <Col xs={8} xsOffset={2}>
+            {this.props.error && this.renderError()}
+            <Tabs defaultActiveKey={1} id="signup-signin-tabs">
+              <Tab eventKey={1} title="Sign In">
+                <SignIn onSignIn={this.props.onSignIn} />
+              </Tab>
+              <Tab eventKey={2} title="Sign Up">
+                <SignUp onSignUp={this.props.onSignUp} />
+              </Tab>
+            </Tabs>
+          </Col>
+        </Row>
+      </div>
     )
   }
 }
