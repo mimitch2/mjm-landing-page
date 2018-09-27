@@ -24,7 +24,7 @@ class SignUp extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit.bind(this)}>
+      <form onSubmit={this.handleSubmit.bind(this)} style={{marginTop: "10px"}}>
         <FormGroup>
           <ControlLabel>Username</ControlLabel>
           <FormControl

@@ -1,12 +1,11 @@
-
-import App from "./App";
+import MainContent from "../components/MainContent";
 import { connect } from "react-redux";
 // import {/* loadMyMovieList */} from "./actions";
 
 function mapStateToProps(state) {
   return {
-    fullData: state.fullData,
-    defaultData: state.defaultData
+    defaultData: state.defaultData,
+    fullData: state.fullData
   };
 }
   
@@ -14,9 +13,9 @@ function mapStateToProps(state) {
 //   return {
 //     /* loadMyMovieList */: () => {
 //       const action = /* loadMyMovieList() */;
-//     dispatch(action);
+//       dispatch(action);
 //     },
 //   };
 // }
 
-export default connect(mapStateToProps,null)(App);
+export default connect(mapStateToProps,null)(MainContent);

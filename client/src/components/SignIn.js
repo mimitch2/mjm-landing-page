@@ -22,7 +22,7 @@ class SignUp extends Component {
 
   render() {
     return (
-      <form>
+      <form style={{marginTop: "10px"}}>
 
         <FormGroup>
           <ControlLabel>Username</ControlLabel>
