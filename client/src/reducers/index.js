@@ -1,13 +1,29 @@
 import {combineReducers} from "redux";
 
-function fullData(state = [], action) {
-  if (action.type === "FULLDATA_LOADED") {
-    return action.value;
+// function fullData(state = [], action) {
+//   if (action.type === "FULLDATA_LOADED") {
+//     return action.value;
+//   }
+//   return state;
+// }
+
+function defaultData(state = []) {
+  return state;
+}
+
+
+
+function userName(state = "", action) {
+  if (action.type === "SET_USER_NAME") {
+    return action.value
   }
   return state;
 }
 
-function defaultData(state = [], action) {
+function userData(state = {}, action) {
+  if (action.type === "SET_USER_DATA") {
+    return action.value
+  }
   return state;
 }
 
@@ -21,7 +37,7 @@ function defaultData(state = [], action) {
 
 
 const rootReducer = combineReducers({
-  fullData, defaultData
+  defaultData, userName, userData
 });
 
 export default rootReducer;

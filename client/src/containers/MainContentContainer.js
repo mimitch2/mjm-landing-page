@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 function mapStateToProps(state) {
   return {
     defaultData: state.defaultData,
-    fullData: state.fullData
   };
 }
   

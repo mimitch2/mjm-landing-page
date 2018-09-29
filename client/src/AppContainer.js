@@ -1,22 +1,27 @@
 
 import App from "./App";
 import { connect } from "react-redux";
-// import {/* loadMyMovieList */} from "./actions";
+import { setUserName, setUserData } from "./actions";
 
 function mapStateToProps(state) {
   return {
-    fullData: state.fullData,
-    defaultData: state.defaultData
+    userName: state.userName,
+    defaultData: state.defaultData,
+    userData: state.userData
   };
 }
   
-// function mapDispatchToProps(dispatch) {
-//   return {
-//     /* loadMyMovieList */: () => {
-//       const action = /* loadMyMovieList() */;
-//     dispatch(action);
-//     },
-//   };
-// }
+function mapDispatchToProps(dispatch) {
+  return {
+    setUserName: (name) => {
+      const action = setUserName(name);
+      dispatch(action);
+    },
+    setUserData: (data) => {
+      const action = setUserData(data);
+      dispatch(action);
+    },
+  };
+}
 
-export default connect(mapStateToProps,null)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

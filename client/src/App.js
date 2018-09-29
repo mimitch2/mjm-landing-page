@@ -20,6 +20,14 @@ class App extends Component {
   }
 
   componentDidMount = () => {
+    if (this.state.authenticated) {
+      fetch("/api/secret").then((res) => {
+        return res.text();
+      }).then((data) => {
+        this.getUserData(data)
+        this.props.setUserName(data)
+      });
+    }
     history.listen((location, action) => {
       console.log(location, action)
     })
@@ -27,7 +35,7 @@ class App extends Component {
 
   handleSignUp = (credentials) => {
     const { username, password, confirmPassword } = credentials;
-    const { userData } = this.state
+    const { defaultData } = this.props
     if (!username.trim() || !password.trim() ) {
       this.setState({
         signUpSignInError: "Must Provide All Fields"
@@ -36,22 +44,36 @@ class App extends Component {
       fetch("/api/users", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({...credentials, data: userData})
+        body: JSON.stringify(credentials)
       }).then((res) => {
         if (res.status === 422) {
           return res.json().then((text) => {
             this.setState({signUpSignInError: text.error})
           })
         } else {
+          this.props.setUserName(username)
           return res.json().then((data) => { 
-            
             const { token } = data;
             localStorage.setItem("token", token);
             this.setState({
-              authenticated: token
+              authenticated: token,
             });
-            window.location = "/"
+            history.push("/")
           });
+        }
+      }).then(() => {
+        if (this.state.authenticated) {
+          fetch("/api/data",{
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({...defaultData, userName: credentials.username})
+          }).then((res) => {
+            return res.json().then((data) => {
+              this.props.setUserData(data)
+           
+            
+            })
+          })
         }
       })
     }
@@ -71,21 +93,35 @@ class App extends Component {
         body: JSON.stringify(credentials)
       }).then((res) => {
         if (res.status === 422) {
-          return res.json().then((text) => {//need to do this for other errors
+          return res.json().then((text) => {
             this.setState({signUpSignInError: text.error})
           })
         } else {
+          // history.push("/")
+          this.props.setUserName(username)
+          this.getUserData(username)
           return res.json().then((data) => { 
             const { token } = data;
             localStorage.setItem("token", token);
             this.setState({
               authenticated: token
             });
-            window.location = "/"
           });
+     
         }
       })
     }
+  }
+
+
+  getUserData (username) {
+    console.log(username)
+    fetch(`api/data/${username}`).then(resp => {
+      return resp.json()
+    }).then(data =>{
+      this.props.setUserData(data)
+      this.setState({userData: this.props.userData})
+    })
   }
 
   handleSignOut = () => {
@@ -96,26 +132,30 @@ class App extends Component {
     });
   }
 
-  render () {       
+ 
+
+  render () { 
+    console.log(this.props)
     return (
-      <BrowserRouter>
+      <BrowserRouter history={ history }>
         <div className="App">
           <TopNavbar 
             showNavItems={this.state.authenticated} 
             onSignOut={this.handleSignOut} />
-          <div>
-            <Switch>
-              <Route exact path="/" render={() => 
-                <MainContent loggedIn={this.state.authenticated} />} />
-              <Route exact path="/signin" render={ () => 
-                <SignUpSignIn 
-                  error={this.state.signUpSignInError} 
-                  onSignUp={this.handleSignUp} 
-                  onSignIn={this.handleSignIn}
-                />} />
-              <Route render={() => <h1>NOT FOUND!</h1>} />
-            </Switch>
-          </div>
+          <Switch>
+            <Route exact path="/" render={() => 
+              <MainContent loggedIn={this.state.authenticated} 
+                userData={this.state.userData}/>} />
+                    
+            <Route exact path="/signin" render={ () => 
+              <SignUpSignIn 
+                error={this.state.signUpSignInError} 
+                onSignUp={this.handleSignUp} 
+                onSignIn={this.handleSignIn}
+              />} />
+            <Route render={() => <h1 style={{marginTop: "80px"}}>NOT FOUND!</h1>} />
+
+          </Switch>
         </div>
       </BrowserRouter>
     );

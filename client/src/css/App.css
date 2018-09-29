@@ -21,6 +21,60 @@
 
 
 
+.components.invisible {
+  /* visibility: hidden; */
+  opacity: 0;
+  transition: .3s ease-in-out;
+  transform: scale(.7)
+
+}
+
+.settings.invisible {
+  /* visibility: hidden; */
+  opacity: 0;
+  transition: .3s ease-in-out;
+  transform: scale(.7)
+}
+
+.components {
+  /* visibility: inherit; */
+  opacity: 1;
+  transition: .3s ease-in-out;
+  transform: scale(1)
+}
+
+.settings {
+  /* visibility: inherit; */
+  opacity: 1;
+  transition: .3s ease-in-out;
+  transform: scale(1)
+}
+
+.fa-user-cog:hover {
+  color: rgb(240, 240, 240);
+}
+
+.fa-sync {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg)
+  }
+  to {
+    transform: rotate(360deg)
+  }
+}
+
+
+
+
+
+
+
+
+
 
 /************** media queries **************/
 
