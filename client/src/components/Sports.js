@@ -12,7 +12,7 @@ const styles ={
 }
 
 const Sports = (props) => {
-  const { include, teams } = props.data
+  const { teams } = props.data
   return (
     <div className="sports">
       {teams.map((team, i) => 

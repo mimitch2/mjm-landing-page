@@ -34,7 +34,7 @@ class App extends Component {
   }
 
   handleSignUp = (credentials) => {
-    const { username, password, confirmPassword } = credentials;
+    const { username, password } = credentials;
     const { defaultData } = this.props
     if (!username.trim() || !password.trim() ) {
       this.setState({
@@ -58,7 +58,7 @@ class App extends Component {
             this.setState({
               authenticated: token,
             });
-            history.push("/")
+            window.location = "/"
           });
         }
       }).then(() => {
@@ -97,7 +97,7 @@ class App extends Component {
             this.setState({signUpSignInError: text.error})
           })
         } else {
-          // history.push("/")
+          window.location = "/"
           this.props.setUserName(username)
           this.getUserData(username)
           return res.json().then((data) => { 
@@ -115,7 +115,6 @@ class App extends Component {
 
 
   getUserData (username) {
-    console.log(username)
     fetch(`api/data/${username}`).then(resp => {
       return resp.json()
     }).then(data =>{
@@ -125,19 +124,21 @@ class App extends Component {
   }
 
   handleSignOut = () => {
+    console.log("signout")
     localStorage.removeItem("token");
     this.setState({
       authenticated: "",
-      signUpSignInError: ""
+      signUpSignInError: "",
     });
+    this.props.setUserData({})
+    this.props.setUserName("")
   }
 
  
 
   render () { 
-    console.log(this.props)
     return (
-      <BrowserRouter history={ history }>
+      <BrowserRouter>
         <div className="App">
           <TopNavbar 
             showNavItems={this.state.authenticated} 

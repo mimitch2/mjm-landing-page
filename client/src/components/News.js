@@ -62,26 +62,21 @@ class News extends Component {
     this.state = {
       news: null
     }
-    // this.newsApi = this.newsApi.bind(this)
   }
 
-  async componentDidMount() {
-
-    const newsSources = this.props.data.sources.join()
-    // console.log(this.props.data, typeof(newsSources))
-
-    const resp = await fetch(`https://newsapi.org/v2/top-headlines?sources=${newsSources}&apiKey=cac7992187f24fc493e8b132bee398bb`)
-    const news = await resp.json()
-
-    this.setState({
-      news: news,
-    })
-      
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.data !== this.props.data || prevProps.userName !== this.props.userName){
+      const newsSources = this.props.data.sources.join()
+      fetch(`https://newsapi.org/v2/top-headlines?sources=${newsSources}&apiKey=cac7992187f24fc493e8b132bee398bb`).then((res) => {
+        return res.json()
+      }).then((news) => {
+        this.setState({
+          news: news,
+        })     
+      })}
   }
-
 
   render() {
- 
     if (this.state.news) {
       const { articles } = this.state.news
       return (

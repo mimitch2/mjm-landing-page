@@ -30,14 +30,11 @@ const styles = {
 class MainContent extends Component {
   constructor(props) {
     super(props)
-    // console.log(props.userData)
     this.state = {
-      // data: this.props.userData,
       news:{},
       showSettings: false,
       settings: ""
     }
-    
   }
 
   componentDidUpdate = (prevProps) => {
@@ -59,10 +56,8 @@ class MainContent extends Component {
   }
 
   render() {
-    console.log(this.props)
     const { weather, sports, news } = this.props.userData
     return (
-    
       <div className="main-content" style={styles.root} >
         {/* <Fade in={!this.state.showSettings} appear={true}> */}
         <div className="components" id="components" style={styles.components}>
