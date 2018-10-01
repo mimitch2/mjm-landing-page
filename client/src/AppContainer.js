@@ -20,7 +20,7 @@ function mapDispatchToProps(dispatch) {
     setUserData: (data) => {
       const action = setUserData(data);
       dispatch(action);
-    },
+    }
   };
 }
 

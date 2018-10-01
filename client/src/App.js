@@ -124,7 +124,6 @@ class App extends Component {
   }
 
   handleSignOut = () => {
-    console.log("signout")
     localStorage.removeItem("token");
     this.setState({
       authenticated: "",
@@ -132,6 +131,7 @@ class App extends Component {
     });
     this.props.setUserData({})
     this.props.setUserName("")
+    window.location = "/"
   }
 
  

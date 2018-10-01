@@ -12,7 +12,7 @@ const styles = {
   heading: {
     fontSize: 26,
     fontWeight: 300,
-    background: "black",
+    background: "#222",
     color: "grey",
     display: "flex",
     justifyContent: "space-between",
@@ -44,7 +44,7 @@ class Card extends Component {
   }
 
   componentDidMount = () => {
-    const height = document.getElementById('card').getBoundingClientRect().height
+    // const height = document.getElementById('card').getBoundingClientRect().height
     // console.log(height)
   }
 

@@ -1,13 +1,11 @@
-import MainContent from "../components/MainContent";
+import SportsSettings from "../components/SportsSettings";
 import { connect } from "react-redux";
 // import {/* loadMyMovieList */} from "./actions";
 
 function mapStateToProps(state) {
   return {
-    defaultData: state.defaultData,
-    // userData: state.userData,
-    // userName: state.userName,
-
+    userData: state.userData,
+    userName: state.userName,
   };
 }
   
@@ -20,4 +18,4 @@ function mapStateToProps(state) {
 //   };
 // }
 
-export default connect(mapStateToProps,null)(MainContent);
+export default connect(mapStateToProps,null)(SportsSettings);

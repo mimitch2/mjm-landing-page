@@ -19,13 +19,31 @@
   --calcHeight-meas: calc(100vh - 141px);
 }
 
+a {
+  color: var(--orange-color);
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+  color: var(--orange-color);
+}
+
+
+
+.sign-in-link:hover {
+color: rgb(240, 240, 240);
+text-decoration: none;
+}
+
+
 
 
 .components.invisible {
   /* visibility: hidden; */
   opacity: 0;
   transition: .3s ease-in-out;
-  transform: scale(.7)
+  transform: scale(.9)
 
 }
 
@@ -33,7 +51,7 @@
   /* visibility: hidden; */
   opacity: 0;
   transition: .3s ease-in-out;
-  transform: scale(.7)
+  transform: scale(.9)
 }
 
 .components {
@@ -56,6 +74,22 @@
 
 .fa-sync {
   animation: spin 1s linear infinite;
+}
+
+ .checkbox.bounce {
+  animation: bounce .2s ease-in-out
+}
+
+@keyframes bounce {
+  0% {
+    transform: scale(1)
+  }
+  70% {
+    transform: scale(1.1)
+  }
+  100% {
+    transform: scale(1.1)
+  }
 }
 
 @keyframes spin {

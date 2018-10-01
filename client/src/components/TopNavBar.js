@@ -3,17 +3,18 @@ import PropTypes from "prop-types";
 import { Navbar, Nav, NavItem } from "react-bootstrap";
 import Secret from './Secret'
 import { Link } from "react-router-dom";
+import '../css/App.css'
 
 const TopNavbar = (props) => {
   return (
     <Navbar inverse fixedTop >
-      <Navbar.Collapse >
-        {!props.showNavItems &&
+      {/* <Navbar.Collapse > */}
+      {!props.showNavItems &&
         <Nav pullRight>
-          <Link to="/signin" ><p style={{color: "#9d9d9d", marginTop: "15px", marginRight: "15px"}}>Sign In</p></Link>
+          <Link to="/signin" ><p className ="sign-in-link" style={{color: "#9d9d9d", marginTop: "15px", marginRight: "15px"}}>Sign In</p></Link>
         </Nav>
-        }
-        {props.showNavItems &&
+      }
+      {props.showNavItems &&
           <div>
             <Nav pullRight>
               <NavItem onClick={props.onSignOut}>Sign Out</NavItem>
@@ -23,8 +24,8 @@ const TopNavbar = (props) => {
               <Secret /> 
             </Nav>
           </div>
-        }
-      </Navbar.Collapse>
+      }
+      {/* </Navbar.Collapse> */}
     </Navbar>
   );
 };

@@ -55,7 +55,6 @@ export function setUserData(data) {
 }
   
 export function setUserName(name) {
-  console.log("setName")
   return {
     type: "SET_USER_NAME",
     value: name
