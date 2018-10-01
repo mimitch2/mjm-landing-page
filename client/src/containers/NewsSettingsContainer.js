@@ -1,6 +1,6 @@
 import NewsSettings from "../components/NewsSettings";
 import { connect } from "react-redux";
-// import {/* loadMyMovieList */} from "./actions";
+import { loadUserData } from "../actions";
 
 function mapStateToProps(state) {
   return {
@@ -9,13 +9,13 @@ function mapStateToProps(state) {
   };
 }
   
-// function mapDispatchToProps(dispatch) {
-//   return {
-//     /* loadMyMovieList */: () => {
-//       const action = /* loadMyMovieList() */;
-//       dispatch(action);
-//     },
-//   };
-// }
+function mapDispatchToProps(dispatch) {
+  return {
+    loadUserData: (username) => {
+      const action = loadUserData(username);
+      dispatch(action);
+    }
+  }
+}
 
-export default connect(mapStateToProps,null)(NewsSettings);
+export default connect(mapStateToProps,mapDispatchToProps)(NewsSettings);

@@ -1,6 +1,28 @@
 import React, { Component } from 'react'
-import { FormGroup, ControlLabel, FormControl } from "react-bootstrap";
+// import { FormGroup, ControlLabel, FormControl } from "react-bootstrap";
+import '../css/App.css'
 
+const styles = {
+
+  leftList: {
+    fontSize: "18px",
+    fontWeight: 300,
+    height: "300px",
+    maxHeight: "300px",
+    overflowY: "auto"
+  },
+  listItem: {
+    display: "flex",
+    justifyContent: "space-between",
+    padding: "3px 10px 3px 10px"
+  },
+  RightListItem: {
+    display: "flex",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    padding: "3px 10px 3px 10px"
+  }
+}
 
 class  MultiSelect extends Component {
   constructor(props) {
@@ -16,27 +38,40 @@ class  MultiSelect extends Component {
     }
   }
 
-
-
   render() {
     const {sources} = this.props
     // console.log(sources)
     if (sources) {
       return (
-        <div >
-          <FormGroup controlId="formControlsSelectMultiple">
-            <ControlLabel>News Sources</ControlLabel>
-            <FormControl componentClass="select" multiple>
-              {/* <option value="select">select (multiple)</option> */}
-              {sources.map((source, i) => {
-                return (
-                  <option key={i} value="other">{source.name}<i className="fas fa-plus-square" style={{color: "green"}}></i></option>
-                    
-                )
-              })}
-         
-            </FormControl>
-          </FormGroup>
+        <div className="select-main">
+          <div  style={styles.leftList}>
+            {sources.map((source, i) => {
+              return (
+                <div key={i} >
+                  {this.props.type === "add" &&
+                <div style={styles.listItem}>
+                  <div style={{display: "flex", justifyContent: "flex-start"}}>
+                    <img src={`https://icon-locator.herokuapp.com/icon?url=${source.url}&size=70..120..200`} alt="" height="24px" style={{margin: "0px 4px 0px 4px"}}/>
+                    <div>{source.name}</div>
+                  </div>
+                  <i className="fas fa-plus-circle" style={{color: "green", cursor: "pointer"}}
+                    onClick={() => this.props.add(source)}
+                  ></i>
+                </div>
+                 || 
+                 <div style={styles.RightListItem}>
+                 
+                   <i className="fas fa-minus-circle" style={{color: "red", marginRight:"4px", cursor: "pointer"}}
+                     onClick={() => this.props.remove(source)}
+                   ></i>
+                   <img src={`https://icon-locator.herokuapp.com/icon?url=${source.url}&size=70..120..200`} alt="" width="24px" style={{margin: "0px 4px 0px 4px"}}/>
+                   <div>{source.name}</div>
+                 </div>
+                  }
+                </div>
+              )
+            })}
+          </div>
         </div>
       )
     } else {

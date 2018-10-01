@@ -1,14 +1,14 @@
 
-// export function loadFullData() {
-//   return function (dispatch) {
-//     fetch("https://mjm-cocktail-app.herokuapp.com/getAllData").then( (response) => {
-//       return response.json();
-//     }).then(
-//       (result) => {
-//         dispatch(fullDataLoaded(result));
-//       });
-//   };
-// }
+export function loadUserData(username) {
+  console.log("load")
+  return function (dispatch) {
+    fetch(`api/data/${username}`).then(resp => {
+      return resp.json()
+    }).then((result) => {
+      dispatch(setUserData(result));
+    });
+  };
+}
       
 // export function fullDataLoaded(result) {
 //   return {

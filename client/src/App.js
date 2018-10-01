@@ -33,6 +33,12 @@ class App extends Component {
     })
   }
 
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.userData !== this.props.userData) {
+      this.setState({userData: this.props.userData}) 
+    }
+  }
+
   handleSignUp = (credentials) => {
     const { username, password } = credentials;
     const { defaultData } = this.props
@@ -115,12 +121,7 @@ class App extends Component {
 
 
   getUserData (username) {
-    fetch(`api/data/${username}`).then(resp => {
-      return resp.json()
-    }).then(data =>{
-      this.props.setUserData(data)
-      this.setState({userData: this.props.userData})
-    })
+    this.props.loadUserData(username)
   }
 
   handleSignOut = () => {
@@ -134,7 +135,6 @@ class App extends Component {
     window.location = "/"
   }
 
- 
 
   render () { 
     return (
@@ -146,7 +146,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" render={() => 
               <MainContent loggedIn={this.state.authenticated} 
-                userData={this.state.userData}/>} />
+                data={this.state.userData}/>} />
                     
             <Route exact path="/signin" render={ () => 
               <SignUpSignIn 

@@ -33,11 +33,12 @@ class FormExample extends React.Component {
         <form>
           <FormGroup
             bsSize="sm"
-            controlId="formBasicText"
+            // controlId="formBasicText"
             // validationState={this.getValidationState()}
           >
             <ControlLabel>Search</ControlLabel>
             <FormControl
+              style={{borderRadius: "0px"}}
               type="text"
               value={this.state.value}
               placeholder="Search new sources..."

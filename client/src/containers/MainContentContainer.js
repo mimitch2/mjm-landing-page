@@ -5,8 +5,8 @@ import { connect } from "react-redux";
 function mapStateToProps(state) {
   return {
     defaultData: state.defaultData,
-    // userData: state.userData,
-    // userName: state.userName,
+    userData: state.userData,
+    userName: state.userName,
 
   };
 }

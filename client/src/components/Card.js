@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 const styles = {
   card: {
-    background: "lightgrey",
+    background: "#e8e6de",
     // padding: "10px",
     // borderRadius: "3px",
     boxShadow: "1px 1px 6px rgba(0, 0, 0, .3)",
@@ -47,11 +47,6 @@ class Card extends Component {
     // const height = document.getElementById('card').getBoundingClientRect().height
     // console.log(height)
   }
-
-
-
-
-
 
   render() {
     const { component, gridColumn, gridRow, height, heading} = this.props

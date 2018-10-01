@@ -72,10 +72,13 @@ class News extends Component {
     if (prevProps.data !== this.props.data || prevProps.userName !== this.props.userName){
       this.getData()
     }
+    
   }
 
   getData = () => {
-    const newsSources = this.props.data.sources.join()
+    const newsSources = this.props.data.sources.map(src =>{
+      return src.id
+    }).join()
     fetch(`https://newsapi.org/v2/top-headlines?sources=${newsSources}&apiKey=cac7992187f24fc493e8b132bee398bb`).then((res) => {
       return res.json()
     }).then((news) => {
