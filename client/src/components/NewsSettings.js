@@ -20,7 +20,8 @@ const styles = {
   },
   checkIcons: {
     fontSize: "20px",
-    cursor: "pointer"
+    cursor: "pointer",
+
   },
   buttons: {
     marginTop: "30px",
@@ -32,6 +33,7 @@ const styles = {
     margin: "0px 12px 0px 12px",
     fontSize: "40px",
     cursor: "pointer",
+    height: "60px"
   },
   controlsLeft: {
     width: "45%"
@@ -49,7 +51,8 @@ const styles = {
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-between",
-    marginBottom: "20px"
+    marginBottom: "20px",
+    height: "60px"
   }
 }
 
@@ -81,7 +84,17 @@ class NewsSettings extends Component {
 
   componentDidUpdate = (prevProps) => {
     if (prevProps.userData !== this.props.userData) {
-      this.setState({userSources: this.props.userData.news.sources})
+      this.setState({
+        userSources: this.props.userData.news.sources,
+      })
+      setTimeout(() => {
+        const tempArr = this.state.sourcesList.filter(src => { //refactor to own fucn
+          const userIds = this.state.userSources.map(usrSrc => usrSrc.id)
+          return !userIds.includes(src.id)
+        })
+        this.setState({filteredList: tempArr})
+      }, 200);
+   
     }
   }
 
@@ -107,16 +120,22 @@ class NewsSettings extends Component {
       categories: categoryArr,
       checkboxChecked: categoryArr
     })
-
   }
+
+  
 
   hanndleAdd = (item) => {
     const userSources = [...this.state.userSources, item]
+    const sortedUserSources = userSources.sort((a, b) => {
+      if(a.id < b.id) return -1;
+      if(a.id > b.id) return 1;
+      return 0;
+    })
     const tempArr = this.state.filteredList.filter(itm => {
       return itm.name !== item.name
     })
     this.setState({
-      userSources: userSources,
+      userSources: sortedUserSources,
       filteredList: tempArr
     })
   }
@@ -124,7 +143,9 @@ class NewsSettings extends Component {
   hanndleRemove = (item) => {
     const newsSources = [...this.state.filteredList, item]
     const sortedList = newsSources.sort((a, b) => {
-      return a.id - b.id;
+      if(a.id < b.id) return -1;
+      if(a.id > b.id) return 1;
+      return 0;
     })
     const userSources = this.state.userSources.filter(itm => {
       return itm.name !== item.name
@@ -190,16 +211,20 @@ class NewsSettings extends Component {
   }
 
   filterSources = () => {
-   
-    const { searchInput } =  this.state
-
-    if (searchInput || this.state.checkboxChecked.length < this.state.categories.length) {
-      const filteredSources = this.state.sourcesList.filter(src => {
-        return src.name.toLowerCase().includes(searchInput.toLowerCase()) && this.state.checkboxChecked.indexOf(src.category) !== -1
+    const { searchInput, sourcesList, checkboxChecked, userSources, categories } =  this.state
+    if (searchInput || checkboxChecked.length < categories.length) {
+      const filteredSources = sourcesList.filter(src => {
+        const userIds = userSources.map(usrSrc => usrSrc.id)
+        return src.name.toLowerCase().includes(searchInput.toLowerCase()) && checkboxChecked.indexOf(src.category) !== -1 && !userIds.includes(src.id)
       })
+
       this.setState({filteredList: filteredSources})
     } else {
-      this.setState({filteredList: this.state.sourcesList})
+      const noUserSources = sourcesList.filter(src => { // refactor to own func along with one above
+        const userIds = userSources.map(usrSrc => usrSrc.id)
+        return !userIds.includes(src.id)
+      })
+      this.setState({filteredList: noUserSources})
     }
   }
 
@@ -228,7 +253,7 @@ class NewsSettings extends Component {
   }
 
   render() {
-    console.log(this.state.filteredList, this.state.checkboxChecked)
+    // console.log(this.state.filteredList, this.state.checkboxChecked)
     return (
       <div className="settings invisible" id="news-settings" style={styles.settings}>
         <div className="settings-name">{this.props.type}</div>
