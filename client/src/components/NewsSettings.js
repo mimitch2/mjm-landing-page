@@ -62,7 +62,8 @@ class NewsSettings extends Component {
       categories: [],
       language: [],
       checkboxChecked: [],
-      userSources: []
+      userSources: [],
+      searchInput: ""
     }
   }
 
@@ -107,40 +108,6 @@ class NewsSettings extends Component {
       checkboxChecked: categoryArr
     })
 
-  }
-
-  handleCheckBox = (event) => {
-    const tempArr = [...this.state.checkboxChecked]
-    const target = event.target
-    const name = target.id
-    
-    const el = document.getElementById(name)
-
-    this.buttonBounce(el, 40)
-
-    setTimeout(() => {
-      if (this.state.checkboxChecked.indexOf(name) === -1){
-        this.setState({
-          checkboxChecked: [...tempArr, name]
-        })
-      } else {
-        const filtered = tempArr.filter(cat => name !== cat)
-        this.setState({
-          checkboxChecked: filtered
-        })
-      } 
-    }, 50);
- 
-
-    // const filteredSources = this.state.sourcesList.filter(src => {
-    //   return src.category.toLowerCase() === name
-    // })
-    // if () {
-    //   this.setState({filteredList: filteredSources})
-    // } else {
-    //   this.setState({filteredList: this.state.filteredList})
-    // }
-   
   }
 
   hanndleAdd = (item) => {
@@ -217,18 +184,51 @@ class NewsSettings extends Component {
     }, time);
   }
 
-  filterSources = (input) => {
-    const filteredSources = this.state.sourcesList.filter(src => {
-      return src.name.toLowerCase().includes(input.toLowerCase())
-    })
-    if (input) {
+  takeInput = (input) => {
+    this.setState({searchInput: input})
+    this.filterSources()
+  }
+
+  filterSources = () => {
+   
+    const { searchInput } =  this.state
+
+    if (searchInput || this.state.checkboxChecked.length < this.state.categories.length) {
+      const filteredSources = this.state.sourcesList.filter(src => {
+        return src.name.toLowerCase().includes(searchInput.toLowerCase()) && this.state.checkboxChecked.indexOf(src.category) !== -1
+      })
       this.setState({filteredList: filteredSources})
     } else {
-      this.setState({filteredList: this.state.filteredList})
+      this.setState({filteredList: this.state.sourcesList})
     }
   }
 
+  handleCheckBox = (event) => {
+    const target = event.target
+    const name = target.id
+    const el = document.getElementById(name)
+
+    this.buttonBounce(el, 40)
+
+    setTimeout(() => {
+      const tempArr = [...this.state.checkboxChecked]
+      if (this.state.checkboxChecked.indexOf(name) === -1){
+        this.setState({
+          checkboxChecked: [...tempArr, name]
+        })
+      } else {
+        const filtered = tempArr.filter(cat => name !== cat)
+        this.setState({
+          checkboxChecked: filtered
+        })
+      } 
+      this.filterSources()
+    }, 50);
+
+  }
+
   render() {
+    console.log(this.state.filteredList, this.state.checkboxChecked)
     return (
       <div className="settings invisible" id="news-settings" style={styles.settings}>
         <div className="settings-name">{this.props.type}</div>
@@ -236,7 +236,7 @@ class NewsSettings extends Component {
         <div style={styles.settingsWrapper}>
 
           <div className="control-left" style={styles.controlsLeft}>
-            <BasicInput filterSources={this.filterSources}/>
+            <BasicInput sendInput={this.takeInput}/>
             <div style={styles.checkBoxes.title}>Filter by category</div>
             <div className="checkboxes" style={styles.checkBoxes}>
               {this.state.categories.map(cat =>{
@@ -278,7 +278,7 @@ class NewsSettings extends Component {
               style={{...styles.bottomIcons, color: "red"}}
               onClick={() => this.handleSubmit(this.props.type, "cancel")}
             ></i>
-            <i className="fas fa-question" style={{fontSize: "20px"}}></i>
+            {/* <i className="fas fa-question" style={{fontSize: "20px"}}></i> */}
             <i className="fas fa-check-circle" 
               id="submit"
               style={{...styles.bottomIcons, color: "green"}}

@@ -24,7 +24,10 @@ class FormExample extends React.Component {
 
   handleChange(e) {
     this.setState({ value: e.target.value });
-    this.props.filterSources(this.state.value)
+    setTimeout(() => {
+      this.props.sendInput(this.state.value)
+    }, 40);
+   
   }
 
   render() {
@@ -36,8 +39,18 @@ class FormExample extends React.Component {
             // controlId="formBasicText"
             // validationState={this.getValidationState()}
           >
-            <ControlLabel>Search</ControlLabel>
+            {/* <ControlLabel>Search</ControlLabel> */}
+            {/* <FieldGroup
+              style={{borderRadius: "0px"}}
+              id="formControlsText"
+              type="text"
+              label="Search"
+              placeholder="Search news sources..."
+              onChange={this.handleChange}
+              onKeyDown={(e) => e.keyCode === 13 ? e.preventDefault(): null}
+            /> */}
             <FormControl
+              id="formControlsText"
               style={{borderRadius: "0px"}}
               type="text"
               value={this.state.value}
@@ -45,7 +58,7 @@ class FormExample extends React.Component {
               onChange={this.handleChange}
               onKeyDown={(e) => e.keyCode === 13 ? e.preventDefault(): null}
             />
-            <FormControl.Feedback />
+            {/* <FormControl.Feedback /> */}
           </FormGroup>
         </form>
       </div>

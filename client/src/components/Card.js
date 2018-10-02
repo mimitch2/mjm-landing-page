@@ -56,6 +56,13 @@ class Card extends Component {
         style={{...styles.card, gridColumn: gridColumn, gridRow: gridRow, height: height}}>
         <div className="card-heading" style={styles.heading}>
           { heading } 
+          <div className="options">
+            {this.props.options &&
+          
+          <div>{this.props.options}</div>
+          
+            }
+          </div>
           <i className="fal fa-user-cog" onClick={() => this.props.settingsClick(heading)} style={styles.icon}></i>
         </div>
         <div className="card-content" style={{...styles.content, height: height - 57, maxHeight: height - 57}}>

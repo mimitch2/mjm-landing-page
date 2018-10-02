@@ -14,6 +14,7 @@ const styles = {
   listItem: {
     display: "flex",
     justifyContent: "space-between",
+    alignItems: "center",
     padding: "3px 10px 3px 10px"
   },
   RightListItem: {
@@ -53,10 +54,10 @@ class  MultiSelect extends Component {
                   <div style={{display: "flex", justifyContent: "flex-start"}}>
                     <img src={`https://icon-locator.herokuapp.com/icon?url=${source.url}&size=70..120..200`} alt="" height="24px" style={{margin: "0px 4px 0px 4px"}}/>
                     <div>{source.name}</div>
+                    <div style={{marginLeft: "3px", textTransform: "capitalize", fontStyle: "italic", color: "grey"}}>{`  - ${source.category}`}</div>
                   </div>
                   <i className="fas fa-plus-circle" style={{color: "green", cursor: "pointer"}}
-                    onClick={() => this.props.add(source)}
-                  ></i>
+                    onClick={() => this.props.add(source)}></i>
                 </div>
                  || 
                  <div style={styles.RightListItem}>
