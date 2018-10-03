@@ -1,12 +1,26 @@
 
 export function loadUserData(username) {
-  console.log("load")
-  return function (dispatch) {
+  return  function (dispatch) {
     fetch(`api/data/${username}`).then(resp => {
       return resp.json()
     }).then((result) => {
       dispatch(setUserData(result));
       dispatch(userDataLoaded(true));
+    })
+  };
+}
+
+export function updateUserData(data, username) {
+  return  function (dispatch) {
+    fetch(`api/data/${username}`,{
+      method: "PUT",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(data)
+    }).then(resp => {
+      return resp.json()
+    }).then((result) => {
+      dispatch(setUserData(result));
+      // dispatch(userDataLoaded(true));
     })
   };
 }
@@ -17,6 +31,19 @@ export function userDataLoaded(result) {
     value: result
   };
 }
+
+export function fetchNews(newsSources) {
+  return function (dispatch) {
+    fetch(`https://newsapi.org/v2/top-headlines?sources=${newsSources}&apiKey=cac7992187f24fc493e8b132bee398bb`).then(resp => {
+      return resp.json()
+    }).then((result) => {
+      // dispatch(setUserData(result));
+    })
+  };
+}
+
+
+
 
 
 // export function loadFavorites() {
@@ -52,7 +79,6 @@ export function setUserData(data) {
     type: "SET_USER_DATA",
     value: data
   };
-
 }
   
 export function setUserName(name) {

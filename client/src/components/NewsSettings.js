@@ -171,13 +171,15 @@ class NewsSettings extends Component {
       const newData = this.props.userData
       newData.news.sources = this.state.userSources
 
-      fetch(`api/data/${this.props.userName}`,{
-        method: "PUT",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(newData)
-      }).then(resp => {
-        return resp.json()
-      })
+      // fetch(`api/data/${this.props.userName}`,{
+      //   method: "PUT",
+      //   headers: {"Content-Type": "application/json"},
+      //   body: JSON.stringify(newData)
+      // }).then(resp => {
+      //   return resp.json()
+      // })
+
+      this.props.updateUserData(newData, this.props.userName)
 
       setTimeout(() => {
         this.props.loadUserData(this.props.userName)
@@ -220,7 +222,6 @@ class NewsSettings extends Component {
         const userIds = userSources.map(usrSrc => usrSrc.id)
         return src.name.toLowerCase().includes(searchInput.toLowerCase()) && checkboxChecked.indexOf(src.category) !== -1 && !userIds.includes(src.id)
       })
-
       this.setState({filteredList: filteredSources})
     } else {
       const noUserSources = sourcesList.filter(src => { // refactor to own func along with one above

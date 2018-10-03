@@ -33,13 +33,13 @@ outline: 1px solid slategrey;
 }
 
 a {
-  color: var(--green-color);
+  color: rgb(31, 16, 163);
   text-decoration: none;
 }
 
 a:visited {
   text-decoration: none;
-  color: var(--green-color);
+  color: rgb(31, 16, 163);
 }
 
 
@@ -48,8 +48,6 @@ a:visited {
 color: rgb(240, 240, 240);
 text-decoration: none;
 }
-
-
 
 
 .components.invisible {
@@ -82,12 +80,17 @@ text-decoration: none;
   color: rgb(240, 240, 240);
 }
 
-.fa-sync {
+.spin-sync {
   animation: spin 1s linear infinite;
 }
 
 .fa-question {
   animation: pulse 1.5s linear infinite;
+}
+
+.card-options-div.clicked {
+  opacity: .3;
+  /* background: rgba(0, 0, 0, .3) */
 }
 
 @keyframes pulse {

@@ -44,7 +44,7 @@ module.exports.create = function create(req, res) {
 //   });
 // };
 
-module.exports.update = function update(req, res) {
+module.exports.update = function update(req, res) { 
   const userName = req.params.userName;
   Data.findOne({userName}, function (err, foundObject) {
     if (err) {
@@ -55,7 +55,11 @@ module.exports.update = function update(req, res) {
         res.status(404).send()
       } else {
         if (req.body) {
-          foundObject.news = req.body.news
+          foundObject.weather = req.body.weather || foundObject.weather;
+          foundObject.sports = req.body.sports || foundObject.sports;
+          foundObject.news = req.body.news || foundObject.news;
+          foundObject.movies = req.body.movies || foundObject.movies;
+          foundObject.dailyPics = req.body.dailyPics || foundObject.dailyPics;
         }
         foundObject.save(function(err, updateObject) {
           if (err) {

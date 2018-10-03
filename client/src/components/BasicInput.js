@@ -51,7 +51,7 @@ class FormExample extends React.Component {
             /> */}
             <FormControl
               id="formControlsText"
-              style={{borderRadius: "0px"}}
+              style={{borderRadius: "30px"}}
               type="text"
               value={this.state.value}
               placeholder="Search new sources..."

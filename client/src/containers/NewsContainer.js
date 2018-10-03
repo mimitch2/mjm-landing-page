@@ -1,6 +1,6 @@
 import News from "../components/News";
 import { connect } from "react-redux";
-import { loadUserData } from "../actions";
+import { loadUserData, fetchNews } from "../actions";
 
 function mapStateToProps(state) {
   return {
@@ -15,6 +15,10 @@ function mapDispatchToProps(dispatch) {
   return {
     loadUserData: (username) => {
       const action = loadUserData(username);
+      dispatch(action);
+    },
+    fetchNews: (newsSources) => {
+      const action = fetchNews(newsSources);
       dispatch(action);
     }
   }
