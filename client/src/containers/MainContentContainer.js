@@ -7,6 +7,7 @@ function mapStateToProps(state) {
     defaultData: state.defaultData,
     userData: state.userData,
     userName: state.userName,
+    userDataLoaded: state.userDataLoaded
 
   };
 }

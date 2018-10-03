@@ -15,7 +15,8 @@ class App extends Component {
     this.state = {
       signUpSignInError: "",
       authenticated: localStorage.getItem("token") || "",
-      userData: this.props.defaultData //will swap out once we get infor from fetch calls
+      userData: this.props.defaultData, 
+      loaded: false
     }
   }
 
@@ -33,10 +34,16 @@ class App extends Component {
     })
   }
 
+  getUserData (username) {
+    this.props.loadUserData(username)
+  }
+
+
   componentDidUpdate = (prevProps) => {
-    if (prevProps.userData !== this.props.userData) {
+    if (prevProps.userDataLoaded !== this.props.userDataLoaded) {
       this.setState({userData: this.props.userData}) 
     }
+
   }
 
   handleSignUp = (credentials) => {
@@ -120,9 +127,6 @@ class App extends Component {
   }
 
 
-  getUserData (username) {
-    this.props.loadUserData(username)
-  }
 
   handleSignOut = () => {
     localStorage.removeItem("token");

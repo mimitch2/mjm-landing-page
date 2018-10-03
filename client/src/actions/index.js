@@ -6,16 +6,17 @@ export function loadUserData(username) {
       return resp.json()
     }).then((result) => {
       dispatch(setUserData(result));
-    });
+      dispatch(userDataLoaded(true));
+    })
   };
 }
       
-// export function fullDataLoaded(result) {
-//   return {
-//     type: "FULLDATA_LOADED",
-//     value: result
-//   };
-// }
+export function userDataLoaded(result) {
+  return {
+    type: "USERDATA_LOADED",
+    value: result
+  };
+}
 
 
 // export function loadFavorites() {

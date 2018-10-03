@@ -1,4 +1,4 @@
-import NewsSettings from "../components/NewsSettings";
+import News from "../components/News";
 import { connect } from "react-redux";
 import { loadUserData } from "../actions";
 
@@ -20,4 +20,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(NewsSettings);
+export default connect(mapStateToProps,mapDispatchToProps)(News);

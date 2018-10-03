@@ -82,8 +82,8 @@ class NewsSettings extends Component {
     this.getCategories()
   }
 
-  componentDidUpdate = (prevProps) => {
-    if (prevProps.userData !== this.props.userData) {
+  componentDidUpdate = (prevProps) => { 
+    if (prevProps.userDataLoaded !== this.props.userDataLoaded) {
       this.setState({
         userSources: this.props.userData.news.sources,
       })
@@ -106,7 +106,6 @@ class NewsSettings extends Component {
       }
     })
     this.setState({language: languageArr})
-
   }
 
   getCategories = () => {
@@ -122,9 +121,7 @@ class NewsSettings extends Component {
     })
   }
 
-  
-
-  hanndleAdd = (item) => {
+  handleAdd = (item) => {
     const userSources = [...this.state.userSources, item]
     const sortedUserSources = userSources.sort((a, b) => {
       if(a.id < b.id) return -1;
@@ -150,7 +147,6 @@ class NewsSettings extends Component {
     const userSources = this.state.userSources.filter(itm => {
       return itm.name !== item.name
     })
-    console.log(sortedList)
     this.setState({
       userSources: userSources,
       filteredList: sortedList
@@ -159,6 +155,7 @@ class NewsSettings extends Component {
 
   handleSubmit = (type, button) => { //need to set condition by which we have choices, but they have not changed
     const closeDelay = 150
+
     const el = document.getElementById(button)
 
     this.buttonBounce(el, 40)
@@ -282,7 +279,7 @@ class NewsSettings extends Component {
             </div>
             <div>News Sources</div>
             <MultiSelect sources={this.state.filteredList} 
-              add={this.hanndleAdd}
+              add={this.handleAdd}
               type="add"/>
           </div>
 
