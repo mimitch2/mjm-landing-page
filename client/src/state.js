@@ -54,7 +54,9 @@ export default {
 
   userName: "",
   userData: {},
-  userDataLoaded: false
+  userDataLoaded: false,
+  newsArticles: {},
+  newsArticlesLoaded: false
 
   // fullData: {
   //   weather: {

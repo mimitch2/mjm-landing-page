@@ -89,11 +89,12 @@ class News extends Component {
       }).join()
 
       if(options){
-       
+        this.props.loadNewsArticles(options)
+      }else {
+        this.props.loadNewsArticles(newsSources)
       }
-      const fetchNews =  await fetch(`https://newsapi.org/v2/top-headlines?pageSize=100&sources=${newsSources}&apiKey=cac7992187f24fc493e8b132bee398bb`)
-      const news = await fetchNews.json()
-      this.setState({news: news})
+
+      this.setState({news: this.props.newsArticles})
     } catch (error) {
       document.getElementById('news').innerHTML = error
       console.log(error);
@@ -101,21 +102,36 @@ class News extends Component {
       
   }
 
-  // async getData () {
-  //   const newsSources =  await this.props.userData.news.sources.map(src =>{
-  //     return src.id
-  //   }).join()
+  
+  // async getData (options) {
+  //   try {
+  //     const newsSources = await this.props.userData.news.sources.map(src =>{
+  //       return src.id
+  //     }).join()
 
-  //   const news = await this.props.fetchNews(newsSources)
-   
-  //   this.setState({news: news})
-   
+  //     // if(options){
+       
+  //     // }
+  //     const fetchNews =  this.props.loadNewsArticles(options)
+
+
+
+
+
+  //   } catch (error) {
+  //     document.getElementById('news').innerHTML = error
+  //     console.log(error);
+  //   }
+      
   // }
+      
   
   render() {
-    if (this.state.news) {
-      const { articles } = this.state.news
-      console.log(this.state.news)
+    
+    if (this.props.newsArticlesLoaded) {
+      
+      const { articles } = this.props.newsArticles
+      console.log(articles)
       return (
         <div className="news" id="news" style={styles.root}>
           {articles.map((article, i) => 

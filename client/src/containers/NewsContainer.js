@@ -1,13 +1,15 @@
 import News from "../components/News";
 import { connect } from "react-redux";
-import { loadUserData, fetchNews } from "../actions";
+import { loadUserData, loadNewsArticles } from "../actions";
 
 function mapStateToProps(state) {
   return {
     defaultData: state.defualtData,
     userData: state.userData,
     userName: state.userName,
-    userDataLoaded: state.userDataLoaded
+    userDataLoaded: state.userDataLoaded,
+    newsArticles: state.newsArticles,
+    newsArticlesLoaded: state.newsArticlesLoaded
   };
 }
   
@@ -17,8 +19,8 @@ function mapDispatchToProps(dispatch) {
       const action = loadUserData(username);
       dispatch(action);
     },
-    fetchNews: (newsSources) => {
-      const action = fetchNews(newsSources);
+    loadNewsArticles: (newsSources) => {
+      const action = loadNewsArticles(newsSources);
       dispatch(action);
     }
   }

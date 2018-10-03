@@ -34,6 +34,25 @@ function userDataLoaded (state = false, action) {
   return state;
 }
 
+function newsArticles(state = {}, action) {
+  if (action.type === "SET_NEWS_ARTICLES") {
+    return action.value
+  }
+  return state;
+}
+
+function newsArticlesLoaded(state = false, action) {
+  if (action.type === "NEWSARTICLES_LOADED") {
+    return action.value
+  }
+  return state;
+}
+
+
+
+
+
+
 // function favorites(state = [], action) {
 //   if (action.type === "FAVORITES_LOADED") {
 //     return action.value;
@@ -44,7 +63,7 @@ function userDataLoaded (state = false, action) {
 
 
 const rootReducer = combineReducers({
-  defaultData, userName, userData, userDataLoaded
+  defaultData, userName, userData, userDataLoaded, newsArticles, newsArticlesLoaded
 });
 
 export default rootReducer;

@@ -10,6 +10,21 @@ export function loadUserData(username) {
   };
 }
 
+export function setUserData(data) {
+  return {
+    type: "SET_USER_DATA",
+    value: data
+  };
+}
+  
+      
+export function userDataLoaded(result) {
+  return {
+    type: "USERDATA_LOADED",
+    value: result
+  };
+}
+
 export function updateUserData(data, username) {
   return  function (dispatch) {
     fetch(`api/data/${username}`,{
@@ -24,23 +39,36 @@ export function updateUserData(data, username) {
     })
   };
 }
-      
-export function userDataLoaded(result) {
-  return {
-    type: "USERDATA_LOADED",
-    value: result
-  };
-}
 
-export function fetchNews(newsSources) {
+
+export function loadNewsArticles(newsSources) {
+  console.log("load articles")
   return function (dispatch) {
     fetch(`https://newsapi.org/v2/top-headlines?sources=${newsSources}&apiKey=cac7992187f24fc493e8b132bee398bb`).then(resp => {
       return resp.json()
     }).then((result) => {
-      // dispatch(setUserData(result));
+      dispatch(setNewsArticles(result));
+      dispatch(newsArticlesLoaded(true));
     })
   };
 }
+
+export function setNewsArticles(articles) {
+  console.log("set articles")
+  return {
+    type: "SET_NEWS_ARTICLES",
+    value: articles
+  };
+}
+
+export function newsArticlesLoaded(result) {
+  return {
+    type: "NEWSARTICLES_LOADED",
+    value: result
+  };
+}
+
+
 
 
 
@@ -73,14 +101,7 @@ export function fetchNews(newsSources) {
 //   };
 // }
 
-export function setUserData(data) {
-  console.log("setdata")
-  return {
-    type: "SET_USER_DATA",
-    value: data
-  };
-}
-  
+
 export function setUserName(name) {
   return {
     type: "SET_USER_NAME",
