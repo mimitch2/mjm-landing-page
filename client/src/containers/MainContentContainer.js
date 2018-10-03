@@ -5,6 +5,10 @@ import { connect } from "react-redux";
 function mapStateToProps(state) {
   return {
     defaultData: state.defaultData,
+    userData: state.userData,
+    userName: state.userName,
+    userDataLoaded: state.userDataLoaded
+
   };
 }
   

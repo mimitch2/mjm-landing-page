@@ -1,13 +1,14 @@
 
 import App from "./App";
 import { connect } from "react-redux";
-import { setUserName, setUserData } from "./actions";
+import { setUserName, setUserData, loadUserData } from "./actions";
 
 function mapStateToProps(state) {
   return {
     userName: state.userName,
     defaultData: state.defaultData,
-    userData: state.userData
+    userData: state.userData,
+    userDataLoaded: state.userDataLoaded
   };
 }
   
@@ -19,6 +20,10 @@ function mapDispatchToProps(dispatch) {
     },
     setUserData: (data) => {
       const action = setUserData(data);
+      dispatch(action);
+    },
+    loadUserData: (username) => {
+      const action = loadUserData(username);
       dispatch(action);
     },
   };

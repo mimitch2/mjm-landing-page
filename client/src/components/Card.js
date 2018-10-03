@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 const styles = {
   card: {
-    background: "lightgrey",
+    background: "#e8e6de",
     // padding: "10px",
     // borderRadius: "3px",
     boxShadow: "1px 1px 6px rgba(0, 0, 0, .3)",
@@ -12,7 +12,7 @@ const styles = {
   heading: {
     fontSize: 26,
     fontWeight: 300,
-    background: "black",
+    background: "#222",
     color: "grey",
     display: "flex",
     justifyContent: "space-between",
@@ -44,14 +44,9 @@ class Card extends Component {
   }
 
   componentDidMount = () => {
-    const height = document.getElementById('card').getBoundingClientRect().height
+    // const height = document.getElementById('card').getBoundingClientRect().height
     // console.log(height)
   }
-
-
-
-
-
 
   render() {
     const { component, gridColumn, gridRow, height, heading} = this.props
@@ -61,6 +56,13 @@ class Card extends Component {
         style={{...styles.card, gridColumn: gridColumn, gridRow: gridRow, height: height}}>
         <div className="card-heading" style={styles.heading}>
           { heading } 
+          <div className="options">
+            {this.props.options &&
+          
+          <div>{this.props.options}</div>
+          
+            }
+          </div>
           <i className="fal fa-user-cog" onClick={() => this.props.settingsClick(heading)} style={styles.icon}></i>
         </div>
         <div className="card-content" style={{...styles.content, height: height - 57, maxHeight: height - 57}}>

@@ -27,6 +27,13 @@ function userData(state = {}, action) {
   return state;
 }
 
+function userDataLoaded (state = false, action) {
+  if (action.type === "USERDATA_LOADED") {
+    return action.value
+  }
+  return state;
+}
+
 // function favorites(state = [], action) {
 //   if (action.type === "FAVORITES_LOADED") {
 //     return action.value;
@@ -37,7 +44,7 @@ function userData(state = {}, action) {
 
 
 const rootReducer = combineReducers({
-  defaultData, userName, userData
+  defaultData, userName, userData, userDataLoaded
 });
 
 export default rootReducer;

@@ -15,7 +15,8 @@ class App extends Component {
     this.state = {
       signUpSignInError: "",
       authenticated: localStorage.getItem("token") || "",
-      userData: this.props.defaultData //will swap out once we get infor from fetch calls
+      userData: this.props.defaultData, 
+      loaded: false
     }
   }
 
@@ -31,6 +32,18 @@ class App extends Component {
     history.listen((location, action) => {
       console.log(location, action)
     })
+  }
+
+  getUserData (username) {
+    this.props.loadUserData(username)
+  }
+
+
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.userDataLoaded !== this.props.userDataLoaded) {
+      this.setState({userData: this.props.userData}) 
+    }
+
   }
 
   handleSignUp = (credentials) => {
@@ -114,17 +127,8 @@ class App extends Component {
   }
 
 
-  getUserData (username) {
-    fetch(`api/data/${username}`).then(resp => {
-      return resp.json()
-    }).then(data =>{
-      this.props.setUserData(data)
-      this.setState({userData: this.props.userData})
-    })
-  }
 
   handleSignOut = () => {
-    console.log("signout")
     localStorage.removeItem("token");
     this.setState({
       authenticated: "",
@@ -132,9 +136,9 @@ class App extends Component {
     });
     this.props.setUserData({})
     this.props.setUserName("")
+    window.location = "/"
   }
 
- 
 
   render () { 
     return (
@@ -146,7 +150,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" render={() => 
               <MainContent loggedIn={this.state.authenticated} 
-                userData={this.state.userData}/>} />
+                data={this.state.userData}/>} />
                     
             <Route exact path="/signin" render={ () => 
               <SignUpSignIn 

@@ -1,21 +1,22 @@
 
-// export function loadFullData() {
-//   return function (dispatch) {
-//     fetch("https://mjm-cocktail-app.herokuapp.com/getAllData").then( (response) => {
-//       return response.json();
-//     }).then(
-//       (result) => {
-//         dispatch(fullDataLoaded(result));
-//       });
-//   };
-// }
+export function loadUserData(username) {
+  console.log("load")
+  return function (dispatch) {
+    fetch(`api/data/${username}`).then(resp => {
+      return resp.json()
+    }).then((result) => {
+      dispatch(setUserData(result));
+      dispatch(userDataLoaded(true));
+    })
+  };
+}
       
-// export function fullDataLoaded(result) {
-//   return {
-//     type: "FULLDATA_LOADED",
-//     value: result
-//   };
-// }
+export function userDataLoaded(result) {
+  return {
+    type: "USERDATA_LOADED",
+    value: result
+  };
+}
 
 
 // export function loadFavorites() {
@@ -55,7 +56,6 @@ export function setUserData(data) {
 }
   
 export function setUserName(name) {
-  console.log("setName")
   return {
     type: "SET_USER_NAME",
     value: name

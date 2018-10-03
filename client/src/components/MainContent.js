@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { Fade } from "react-bootstrap";
 import Card from './Card'
 import Weather from './Weather'
 import Sports from './Sports'
-import News from './News'
-import NewsSettings from './NewsSettings'
+import News from '../containers/NewsContainer'
+import NewsSettings from '../containers/NewsSettingsContainer'
+import SportsSettings from '../containers/SportsSettingsContainer'
+import WeatherSettings from './WeatherSettings'
 import '../css/App.css'
 
 const styles = {
@@ -33,19 +34,27 @@ class MainContent extends Component {
     this.state = {
       news:{},
       showSettings: false,
-      settings: ""
+      settings: "",
+      data: {}
     }
   }
 
-  componentDidUpdate = (prevProps) => {
-    if (this.props.loggedIn !== prevProps.loggedIn) {
-      this.setState({data: this.props.userData})
-    }
-  }
+  // componentDidUpdate = (prevProps) => {
+  //   if (prevProps.loggedIn  !==  this.props.loggedIn && this.props.loggedIn) {
+  //     this.setState({data: this.props.userData})
+  //   }
+  //   //  else if (prevProps.loggedIn  !==  this.props.loggedIn && !this.props.loggedIn) {
+  //   //   this.setState({data: this.props.defaultData})
+  //   // }
+  //   if (prevProps.data.news.sources !== this.props.data.news.sources) {
+  //     this.setState({data: this.props.data})
+  //   }
+  // }
 
   handleClick = (type) => {
+
     const components =  document.getElementById('components')
-    const settings =  document.getElementById('settings')
+    const settings =  document.getElementById(`${type.toLowerCase()}-settings`)
     components.classList.toggle("invisible")
     settings.classList.toggle("invisible")
 
@@ -56,38 +65,37 @@ class MainContent extends Component {
   }
 
   render() {
-    const { weather, sports, news } = this.props.userData
-    return (
-      <div className="main-content" style={styles.root} >
-        {/* <Fade in={!this.state.showSettings} appear={true}> */}
-        <div className="components" id="components" style={styles.components}>
-          <Card component={<Weather data={weather}/>} heading="WEATHER"
-            gridColumn="span 1" gridRow="span 1" height= {375} 
-            settingsClick={this.handleClick}/>
-          <Card component={<Sports data={sports}/>} heading="SPORTS"
-            gridColumn="span 1" gridRow="span 1" height= {375}
-            settingsClick={this.handleClick}/>
-          <Card component={<News data={news}/>} heading="NEWS"
-            gridColumn="span 2" gridRow="span 2" height= {375}
-            settingsClick={this.handleClick}/>
-        </div>
-        <div className="settings-wrapper" style={styles.settingsWrapper}>
-          <NewsSettings type={this.state.settings} settingsClick={this.handleClick}/>
-        </div>
-        {/* </Fade> */}
-        
-        {/* <Fade in={this.state.showSettings}> */}
+    if (this.props.data) {
       
-        {/* </Fade> */}
-  
-
-      </div>
-    )
+      const { weather, sports, news } = this.props.data
+      return (
+        <div className="main-content" style={styles.root} >
+          <div className="components" id="components" style={styles.components}>
+            <Card component={<Weather data={weather}/>} heading="WEATHER"
+              gridColumn="span 1" gridRow="span 1" height= {375} 
+              settingsClick={this.handleClick}/>
+            <Card component={<Sports data={sports}/>} heading="SPORTS"
+              gridColumn="span 1" gridRow="span 1" height= {375}
+              settingsClick={this.handleClick}/>
+            <Card component={<News data={news}/>} heading="NEWS"
+              gridColumn="span 2" gridRow="span 2" height= {375}
+              settingsClick={this.handleClick}/>
+          </div>
+          <div className="settings-wrapper" style={styles.settingsWrapper}>
+            <NewsSettings type={this.state.settings} settingsClick={this.handleClick}/>
+            <SportsSettings type={this.state.settings} settingsClick={this.handleClick} />
+            <WeatherSettings type={this.state.settings} settingsClick={this.handleClick} />
+          </div>
+        </div>
+      )
+    } else {
+      return <div>...Loading</div>
+    }
   }
 }
 
 MainContent.propTypes = {
-  data: PropTypes.array,
+  data: PropTypes.object,
 }
 
 export default MainContent;

@@ -11,8 +11,6 @@ const styles ={
   }
 }
 
-
-
 const Weather = (props) => {
   const { cities } = props.data
   return (
