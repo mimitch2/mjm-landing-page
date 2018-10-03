@@ -18,12 +18,14 @@ function create(req, res) {
     compare(password, user.password, function (err, isMatch) {
       // If there is an error call done with our error
       if (err) {
-        return res.send("Error occured");
+        // return res.send("Error occured");
+        return res.status(422).json({ error: "Error occured" });
       }
       // If the passwords do not match call done with a `null` argument, signifying no error
       // and `false` signifying that the signin failed
       if (!isMatch) {
-        return res.send("Invalid password");
+        // return res.send("Invalid password");
+        return res.status(422).json({ error: "Invalid password" });
       }
       console.log("The username was found and the passwords matched",username);
       // If we have no errors and the passwords match

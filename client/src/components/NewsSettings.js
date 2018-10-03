@@ -63,7 +63,7 @@ class NewsSettings extends Component {
       sourcesList: null,
       filteredList: null,
       categories: [],
-      language: [],
+      // language: [],
       checkboxChecked: [],
       userSources: [],
       searchInput: ""
@@ -74,39 +74,45 @@ class NewsSettings extends Component {
   async componentDidMount () {
     const sourcesResp = await fetch("https://newsapi.org/v2/sources?apiKey=cac7992187f24fc493e8b132bee398bb")
     const sources = await sourcesResp.json()
+    const sourcesArr = await sources.sources
     this.setState({
-      sourcesList: sources.sources,
-      filteredList: sources.sources
+      sourcesList: sourcesArr,
+      filteredList: sourcesArr,
+      userSources: this.props.userData.news.sources
     })
-    this.getLanguage()
     this.getCategories()
+    const tempArr = await sourcesArr.filter(src => { //refactor to own fucn
+      const userIds = this.state.userSources.map(usrSrc => usrSrc.id)
+      return !userIds.includes(src.id)
+    })
+    this.setState({filteredList: tempArr})
   }
 
   componentDidUpdate = (prevProps) => { 
-    if (prevProps.userDataLoaded !== this.props.userDataLoaded) {
+    if (prevProps.userData!== this.props.userData) {
       this.setState({
         userSources: this.props.userData.news.sources,
       })
-      setTimeout(() => {
-        const tempArr = this.state.sourcesList.filter(src => { //refactor to own fucn
-          const userIds = this.state.userSources.map(usrSrc => usrSrc.id)
-          return !userIds.includes(src.id)
-        })
-        this.setState({filteredList: tempArr})
-      }, 200);
+      // setTimeout(() => {
+      //   const tempArr = this.state.sourcesList.filter(src => { //refactor to own fucn
+      //     const userIds = this.state.userSources.map(usrSrc => usrSrc.id)
+      //     return !userIds.includes(src.id)
+      //   })
+      //   this.setState({filteredList: tempArr})
+      // }, 200);
    
     }
   }
 
-  getLanguage = () => {
-    const languageArr = []
-    this.state.sourcesList.forEach(src => {
-      if (languageArr.indexOf(src.language) === -1) {
-        languageArr.push(src.language)
-      }
-    })
-    this.setState({language: languageArr})
-  }
+  // getLanguage = () => {
+  //   const languageArr = []
+  //   this.state.sourcesList.forEach(src => {
+  //     if (languageArr.indexOf(src.language) === -1) {
+  //       languageArr.push(src.language)
+  //     }
+  //   })
+  //   this.setState({language: languageArr})
+  // }
 
   getCategories = () => {
     const categoryArr = []

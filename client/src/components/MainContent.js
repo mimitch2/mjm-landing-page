@@ -24,6 +24,16 @@ const styles = {
     gridTemplateRows: 375,
     padding: "30px",
     marginTop: "60px",
+  },
+  loading: {
+    marginTop: "90px",
+    height: "90vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  icon: {
+    fontSize: "40px",
   }
 
 }
@@ -65,9 +75,8 @@ class MainContent extends Component {
   }
 
   render() {
-    if (this.props.data) {
-      
-      const { weather, sports, news } = this.props.data
+    if (this.props.userDataLoaded) {
+      const { weather, sports, news } = this.props.userData
       return (
         <div className="main-content" style={styles.root} >
           <div className="components" id="components" style={styles.components}>
@@ -89,7 +98,11 @@ class MainContent extends Component {
         </div>
       )
     } else {
-      return <div>...Loading</div>
+      return(  
+        <div className="loading" style={styles.loading}>
+          <i className="fal fa-sync" style={styles.icon}></i>
+        </div>
+      )
     }
   }
 }
