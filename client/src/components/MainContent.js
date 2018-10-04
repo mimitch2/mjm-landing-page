@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Card from './Card'
+import Card from '../containers/CardContainer'
 import Weather from './Weather'
 import Sports from './Sports'
 import News from '../containers/NewsContainer'
@@ -21,9 +21,19 @@ const styles = {
     display: "grid",
     gridGap: "20px",
     gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-    gridTemplateRows: 375,
+    gridTemplateRows: 150,
     padding: "30px",
     marginTop: "60px",
+  },
+  loading: {
+    marginTop: "90px",
+    height: "90vh",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  icon: {
+    fontSize: "40px",
   }
 
 }
@@ -65,31 +75,49 @@ class MainContent extends Component {
   }
 
   render() {
-    if (this.props.data) {
-      
-      const { weather, sports, news } = this.props.data
+    if (this.props.userDataLoaded && this.props.userName) {
+      const { weather, sports, news } = this.props.userData
       return (
         <div className="main-content" style={styles.root} >
+
           <div className="components" id="components" style={styles.components}>
-            <Card component={<Weather data={weather}/>} heading="WEATHER"
-              gridColumn="span 1" gridRow="span 1" height= {375} 
-              settingsClick={this.handleClick}/>
-            <Card component={<Sports data={sports}/>} heading="SPORTS"
-              gridColumn="span 1" gridRow="span 1" height= {375}
-              settingsClick={this.handleClick}/>
-            <Card component={<News data={news}/>} heading="NEWS"
-              gridColumn="span 2" gridRow="span 2" height= {375}
-              settingsClick={this.handleClick}/>
+            <Card  heading="NEWS" options={news.sources}
+              gridColumn="span 2" gridRow="span 4" height= {600}
+              settingsClick={this.handleClick}>
+
+              <News />
+
+            </Card>
+            <Card  heading="WEATHER" //!!!!!!!!!!!!!!!
+              gridColumn="span 1" gridRow="span 1" height= {150} 
+              settingsClick={this.handleClick}>
+
+              <Weather data={weather} />
+
+            </Card>
+            <Card heading="SPORTS" //!!!!!!!!!!!!!!!
+              gridColumn="span 1" gridRow="span 1" height= {150}
+              settingsClick={this.handleClick}>
+
+              <Sports data={sports} />
+
+            </Card>
           </div>
+
           <div className="settings-wrapper" style={styles.settingsWrapper}>
             <NewsSettings type={this.state.settings} settingsClick={this.handleClick}/>
             <SportsSettings type={this.state.settings} settingsClick={this.handleClick} />
             <WeatherSettings type={this.state.settings} settingsClick={this.handleClick} />
           </div>
+
         </div>
       )
     } else {
-      return <div>...Loading</div>
+      return(  
+        <div className="loading" style={styles.loading}>
+          <i className="fal fa-sync spin-sync" style={styles.icon}></i>
+        </div>
+      )
     }
   }
 }

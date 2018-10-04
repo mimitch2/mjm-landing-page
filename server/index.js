@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const cors = require('cors')
 const mongoose = require("mongoose");
 const userRoutes = require("./routes/UserRoutes");
+const userDataRoutes = require("./routes/UserDataRoutes");
 const sessionRoutes = require("./routes/SessionRoutes");
 const authenticationRoutes = require("./routes/AuthenticationRoutes");
 // const path = require('path');
@@ -50,8 +51,8 @@ function startWebServer(){
 
   app.use(express.static("public"));
   app.use(bodyParser.json());
-  // app.use(FooRoutes);
   app.use(userRoutes);
+  app.use(userDataRoutes);
   app.use(sessionRoutes);
   app.use(authenticationRoutes);
 
@@ -59,7 +60,7 @@ function startWebServer(){
     res.send("You got the data. You are authenticated");
   });
   app.get("/api/secret", function (req, res) {
-    res.send(`The current user is ${req.user.username}`);
+    res.send(`${req.user.username}`);
   });
 
   //heroku injects the port number into the PORT env value

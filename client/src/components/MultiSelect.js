@@ -49,23 +49,23 @@ class  MultiSelect extends Component {
             {sources.map((source, i) => {
               return (
                 <div key={i} >
-                  {this.props.type === "add" &&
+                  {(this.props.type === "add" &&
                 <div style={styles.listItem}>
                   <div style={{display: "flex", justifyContent: "flex-start"}}>
-                    <img src={`https://icon-locator.herokuapp.com/icon?url=${source.url}&size=70..120..200`} alt="" height="24px" style={{margin: "0px 4px 0px 4px"}}/>
+                    <img src={`https://icon-locator.herokuapp.com/icon?url=${source.url}&size=70..120..200`} alt="" height="24px" style={{margin: "0px 4px 0px 4px", borderRadius: "50%"}}/>
                     <div>{source.name}</div>
                     <div style={{marginLeft: "3px", textTransform: "capitalize", fontStyle: "italic", color: "grey"}}>{`  - ${source.category}`}</div>
                   </div>
                   <i className="fas fa-plus-circle" style={{color: "green", cursor: "pointer"}}
                     onClick={() => this.props.add(source)}></i>
-                </div>
+                </div>)
                  || 
                  <div style={styles.RightListItem}>
                  
                    <i className="fas fa-minus-circle" style={{color: "red", marginRight:"4px", cursor: "pointer"}}
                      onClick={() => this.props.remove(source)}
                    ></i>
-                   <img src={`https://icon-locator.herokuapp.com/icon?url=${source.url}&size=70..120..200`} alt="" width="24px" style={{margin: "0px 4px 0px 4px"}}/>
+                   <img src={`https://icon-locator.herokuapp.com/icon?url=${source.url}&size=70..120..200`} alt="" width="24px" style={{margin: "0px 4px 0px 4px", borderRadius: "50%"}}/>
                    <div>{source.name}</div>
                  </div>
                   }

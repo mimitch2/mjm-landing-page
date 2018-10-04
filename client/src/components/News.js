@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-
+import Moment from 'react-moment';
+// import 'moment-timezone';
 
 const styles ={
   root: {
@@ -36,6 +37,13 @@ const styles ={
     fontSize: "14px",
     color: "red"
   },
+  time: {
+    display: "flex",
+    justifyContent: "flex-start",
+    paddingTop: "4px",
+    fontSize: "14px",
+    color: "black"
+  },
   image: {
     width: "100%",
     // height: "30%",
@@ -69,31 +77,39 @@ class News extends Component {
   }
 
   componentDidUpdate = (prevProps) => {
-    if (prevProps.data !== this.props.data || prevProps.userName !== this.props.userName){
+    if (prevProps.userData !== this.props.userData || prevProps.userName !== this.props.userName){
       this.getData()
     }
-    
+    if (prevProps.newsArticles !== this.props.newsArticles) {
+      this.setState({news: this.props.newsArticles})
+    }
+
   }
 
-  getData = () => {
-    const newsSources = this.props.data.sources.map(src =>{
-      return src.id
-    }).join()
-    fetch(`https://newsapi.org/v2/top-headlines?sources=${newsSources}&apiKey=cac7992187f24fc493e8b132bee398bb`).then((res) => {
-      return res.json()
-    }).then((news) => {
-      this.setState({
-        news: news,
-      })     
-    })
+  async getData (options) {
+    try {
+      const newsSources = await this.props.userData.news.sources.map(src =>{
+        return src.id
+      }).join()
+
+      options ? this.props.loadNewsArticles(options) : this.props.loadNewsArticles(newsSources)
+   
+    } catch (error) {
+      document.getElementById('news').innerHTML = error
+      console.log(error);
+    }  
   }
-  
+
+
+
   render() {
-    if (this.state.news) {
-      const { articles } = this.state.news
+    if (this.props.newsArticlesLoaded) {
+      const { articles } = this.props.newsArticles
+      console.log(articles)
+
       return (
-        <div className="news" style={styles.root}>
-          {articles.map((article, i) => 
+        <div className="news" id="news" style={styles.root}>
+          {this.props.newsArticles.status === "ok" && articles.map((article, i) => 
             <div style={styles.content} key={i}>
               <div className="img-source" style={styles.imgSource}>
                 <a href={article.urlToImage} target="_blank" 
@@ -101,22 +117,30 @@ class News extends Component {
                   <img src={article.urlToImage} style={styles.image} 
                     alt="" className="pic"/>
                 </a>
-                <div className="source" style={styles.sourceName}>{article.source.name}</div>
+                <div className="source" style={styles.sourceName}>{article.source.name}
+                </div>
+                <Moment format="MM/DD/YYYY hh:mma" style={styles.time}>          
+                  {article.publishedAt} 
+                </Moment>
               </div>
               <div className="news-text" style={styles.newsText}>
                 <a href={article.url} target="_blank" rel='noopener noreferrer'> 
-                  <p className="article-title" style={styles.title}>{article.title}</p>
+                  <p className="article-title" style={styles.title}>
+                    {article.title}
+                  </p>
                 </a>
-                <div className="article-body" style={styles.article}>{article.content}</div>
+                <div className="article-body" style={styles.article}>
+                  {article.content}
+                </div>
               </div>
             </div>
-          )}
+          ) || <div>Nothing here</div> }
         </div>
       )
     } else {
       return (
         <div className="loading" style={styles.loading}>
-          <i className="fal fa-sync" style={styles.icon}></i>
+          <i className="fal fa-sync spin-sync" style={styles.icon}></i>
         </div>
       )
     }

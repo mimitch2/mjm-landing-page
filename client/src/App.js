@@ -15,7 +15,7 @@ class App extends Component {
     this.state = {
       signUpSignInError: "",
       authenticated: localStorage.getItem("token") || "",
-      userData: this.props.defaultData, 
+      userData: {},
       loaded: false
     }
   }
@@ -127,7 +127,6 @@ class App extends Component {
   }
 
 
-
   handleSignOut = () => {
     localStorage.removeItem("token");
     this.setState({
@@ -150,7 +149,8 @@ class App extends Component {
           <Switch>
             <Route exact path="/" render={() => 
               <MainContent loggedIn={this.state.authenticated} 
-                data={this.state.userData}/>} />
+                // data={this.state.userData}
+              />} />
                     
             <Route exact path="/signin" render={ () => 
               <SignUpSignIn 

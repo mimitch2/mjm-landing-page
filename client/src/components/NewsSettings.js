@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import BasicInput from './BasicInput'
 // import Button from './Button'
 import MultiSelect from './MultiSelect'
+import {sortAlpha} from './Common'
 import '../css/App.css'
 
 const styles = {
@@ -63,7 +64,7 @@ class NewsSettings extends Component {
       sourcesList: null,
       filteredList: null,
       categories: [],
-      language: [],
+      // language: [],
       checkboxChecked: [],
       userSources: [],
       searchInput: ""
@@ -74,39 +75,53 @@ class NewsSettings extends Component {
   async componentDidMount () {
     const sourcesResp = await fetch("https://newsapi.org/v2/sources?apiKey=cac7992187f24fc493e8b132bee398bb")
     const sources = await sourcesResp.json()
+    const sourcesArr = await sources.sources
+    
+    if (sourcesArr) { //********* FIX need to set state for when  */
+      this.setState({
+        sourcesList: sourcesArr,
+        filteredList: sourcesArr,
+        userSources: this.props.userData.news.sources
+      })
+      this.getCategories()
+      const tempArr = await sourcesArr.filter(src => { 
+        const userIds = this.state.userSources.map(usrSrc => usrSrc.id)
+        return !userIds.includes(src.id)
+      })
+      this.setState({filteredList: tempArr})
+    }
+    
+  }
+
+  loadDefaults = () => {
     this.setState({
-      sourcesList: sources.sources,
-      filteredList: sources.sources
+      sourcesList: this.props.defaultData.news.sources,
+      filteredList: this.props.defaultData.news.sources,
+      userSources: this.props.userData.news.sources
     })
-    this.getLanguage()
-    this.getCategories()
   }
 
   componentDidUpdate = (prevProps) => { 
-    if (prevProps.userDataLoaded !== this.props.userDataLoaded) {
+    if (prevProps.userData!== this.props.userData) {
       this.setState({
         userSources: this.props.userData.news.sources,
       })
-      setTimeout(() => {
-        const tempArr = this.state.sourcesList.filter(src => { //refactor to own fucn
-          const userIds = this.state.userSources.map(usrSrc => usrSrc.id)
-          return !userIds.includes(src.id)
-        })
-        this.setState({filteredList: tempArr})
-      }, 200);
-   
+    }
+
+    if (prevProps.defaultData !== this.props.defaultData) {
+      this.loadDefaults()
     }
   }
 
-  getLanguage = () => {
-    const languageArr = []
-    this.state.sourcesList.forEach(src => {
-      if (languageArr.indexOf(src.language) === -1) {
-        languageArr.push(src.language)
-      }
-    })
-    this.setState({language: languageArr})
-  }
+  // getLanguage = () => {
+  //   const languageArr = []
+  //   this.state.sourcesList.forEach(src => {
+  //     if (languageArr.indexOf(src.language) === -1) {
+  //       languageArr.push(src.language)
+  //     }
+  //   })
+  //   this.setState({language: languageArr})
+  // }
 
   getCategories = () => {
     const categoryArr = []
@@ -123,11 +138,7 @@ class NewsSettings extends Component {
 
   handleAdd = (item) => {
     const userSources = [...this.state.userSources, item]
-    const sortedUserSources = userSources.sort((a, b) => {
-      if(a.id < b.id) return -1;
-      if(a.id > b.id) return 1;
-      return 0;
-    })
+    const sortedUserSources = sortAlpha(userSources)
     const tempArr = this.state.filteredList.filter(itm => {
       return itm.name !== item.name
     })
@@ -139,11 +150,7 @@ class NewsSettings extends Component {
 
   hanndleRemove = (item) => {
     const newsSources = [...this.state.filteredList, item]
-    const sortedList = newsSources.sort((a, b) => {
-      if(a.id < b.id) return -1;
-      if(a.id > b.id) return 1;
-      return 0;
-    })
+    const sortedList = sortAlpha(newsSources)
     const userSources = this.state.userSources.filter(itm => {
       return itm.name !== item.name
     })
@@ -165,13 +172,7 @@ class NewsSettings extends Component {
       const newData = this.props.userData
       newData.news.sources = this.state.userSources
 
-      fetch(`api/data/${this.props.userName}`,{
-        method: "PUT",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(newData)
-      }).then(resp => {
-        return resp.json()
-      })
+      this.props.updateUserData(newData, this.props.userName)
 
       setTimeout(() => {
         this.props.loadUserData(this.props.userName)
@@ -214,10 +215,9 @@ class NewsSettings extends Component {
         const userIds = userSources.map(usrSrc => usrSrc.id)
         return src.name.toLowerCase().includes(searchInput.toLowerCase()) && checkboxChecked.indexOf(src.category) !== -1 && !userIds.includes(src.id)
       })
-
       this.setState({filteredList: filteredSources})
     } else {
-      const noUserSources = sourcesList.filter(src => { // refactor to own func along with one above
+      const noUserSources = sourcesList.filter(src => { 
         const userIds = userSources.map(usrSrc => usrSrc.id)
         return !userIds.includes(src.id)
       })
@@ -250,7 +250,6 @@ class NewsSettings extends Component {
   }
 
   render() {
-    // console.log(this.state.filteredList, this.state.checkboxChecked)
     return (
       <div className="settings invisible" id="news-settings" style={styles.settings}>
         <div className="settings-name">{this.props.type}</div>
@@ -264,9 +263,9 @@ class NewsSettings extends Component {
               {this.state.categories.map(cat =>{
                 return (
                   <div key={cat}>
-                    { this.state.checkboxChecked.indexOf(cat) > -1 &&
+                    { (this.state.checkboxChecked.indexOf(cat) > -1 &&
                    <i className="fas fa-check-circle checkbox" id={cat} 
-                     onClick={this.handleCheckBox} style={{...styles.checkIcons, color: "green"}}></i>
+                     onClick={this.handleCheckBox} style={{...styles.checkIcons, color: "green"}}></i>)
                   || <i className="far fa-circle checkbox" id ={cat} 
                     onClick={this.handleCheckBox} style={styles.checkIcons}></i> 
                     }
