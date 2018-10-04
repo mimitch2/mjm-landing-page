@@ -1,13 +1,23 @@
+export function setUserName(name) {
+  return {
+    type: "SET_USER_NAME",
+    value: name
+  };
+
+}
 
 export function loadUserData(username) {
-  return  function (dispatch) {
-    fetch(`api/data/${username}`).then(resp => {
-      return resp.json()
-    }).then((result) => {
-      dispatch(setUserData(result));
+  return  async function (dispatch) {
+    try {
+      const fetchData = await fetch(`api/data/${username}`)
+      const userData = await fetchData.json()
+      dispatch(setUserData(userData));
       dispatch(userDataLoaded(true));
-    })
-  };
+      return userData
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
 
 export function setUserData(data) {
@@ -17,7 +27,6 @@ export function setUserData(data) {
   };
 }
   
-      
 export function userDataLoaded(result) {
   return {
     type: "USERDATA_LOADED",
@@ -26,35 +35,39 @@ export function userDataLoaded(result) {
 }
 
 export function updateUserData(data, username) {
-  return  function (dispatch) {
-    fetch(`api/data/${username}`,{
-      method: "PUT",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(data)
-    }).then(resp => {
-      return resp.json()
-    }).then((result) => {
-      dispatch(setUserData(result));
+  return async function (dispatch, res) {
+    try {
+      const putUserData = await fetch(`api/data/${username}`,{
+        method: "PUT",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data)
+      })
+      const name = await putUserData.json()
+      dispatch(setUserData(name));
+      return name
       // dispatch(userDataLoaded(true));
-    })
-  };
+    } catch (error) {
+      error.send("Something went wrong loading news articles, please try again")
+      console.log(error)
+    }
+  }
 }
 
-
 export function loadNewsArticles(newsSources) {
-  console.log("load articles")
-  return function (dispatch) {
-    fetch(`https://newsapi.org/v2/top-headlines?sources=${newsSources}&apiKey=cac7992187f24fc493e8b132bee398bb`).then(resp => {
-      return resp.json()
-    }).then((result) => {
-      dispatch(setNewsArticles(result));
+  return async function (dispatch) {
+    try {
+      const getNews = await fetch(`https://newsapi.org/v2/top-headlines?pageSize=100&sources=${newsSources}&apiKey=cac7992187f24fc493e8b132bee398bb`)
+      const news = await getNews.json()
+      dispatch(setNewsArticles(news));
       dispatch(newsArticlesLoaded(true));
-    })
-  };
+      return news
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
 
 export function setNewsArticles(articles) {
-  console.log("set articles")
   return {
     type: "SET_NEWS_ARTICLES",
     value: articles
@@ -74,22 +87,6 @@ export function newsArticlesLoaded(result) {
 
 
 
-// export function loadFavorites() {
-//   return function (dispatch) {
-//     fetch("https://mjm-cocktail-app.herokuapp.com/favorites").then( (response) => {
-//       return response.json();
-//     }).then((favorites) => {
-//       dispatch(favoritesLoaded(favorites));
-//     });
-//   };
-// }
-      
-// export function favoritesLoaded(favorites) {
-//   return {
-//     type: "FAVORITES_LOADED",
-//     value: favorites
-//   };
-// }
 
 // export function showUser(id) {
 //   return function (dispatch) {
@@ -102,13 +99,7 @@ export function newsArticlesLoaded(result) {
 // }
 
 
-export function setUserName(name) {
-  return {
-    type: "SET_USER_NAME",
-    value: name
-  };
 
-}
 
 
       

@@ -76,7 +76,7 @@ text-decoration: none;
   transform: scale(1)
 }
 
-.fa-user-cog:hover {
+.reload:hover, .fa-user-cog:hover {
   color: rgb(240, 240, 240);
 }
 
@@ -91,6 +91,10 @@ text-decoration: none;
 .card-options-div.clicked {
   opacity: .3;
   /* background: rgba(0, 0, 0, .3) */
+}
+
+.spin-once {
+  animation: spin .5s linear;
 }
 
 @keyframes pulse {

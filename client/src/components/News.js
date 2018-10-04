@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Moment from 'react-moment';
+// import 'moment-timezone';
 
 const styles ={
   root: {
@@ -67,7 +68,7 @@ class News extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      news: null
+      news: {}
     }
   }
 
@@ -79,7 +80,9 @@ class News extends Component {
     if (prevProps.userData !== this.props.userData || prevProps.userName !== this.props.userName){
       this.getData()
     }
-    
+    if (prevProps.newsArticles !== this.props.newsArticles) {
+      this.setState({news: this.props.newsArticles})
+    }
   }
 
   async getData (options) {
@@ -88,50 +91,20 @@ class News extends Component {
         return src.id
       }).join()
 
-      if(options){
-        this.props.loadNewsArticles(options)
-      }else {
-        this.props.loadNewsArticles(newsSources)
-      }
-
-      this.setState({news: this.props.newsArticles})
+      options ? this.props.loadNewsArticles(options) : this.props.loadNewsArticles(newsSources)
+   
     } catch (error) {
       document.getElementById('news').innerHTML = error
       console.log(error);
-    }
-      
+    }  
   }
 
-  
-  // async getData (options) {
-  //   try {
-  //     const newsSources = await this.props.userData.news.sources.map(src =>{
-  //       return src.id
-  //     }).join()
-
-  //     // if(options){
-       
-  //     // }
-  //     const fetchNews =  this.props.loadNewsArticles(options)
 
 
-
-
-
-  //   } catch (error) {
-  //     document.getElementById('news').innerHTML = error
-  //     console.log(error);
-  //   }
-      
-  // }
-      
-  
   render() {
     
     if (this.props.newsArticlesLoaded) {
-      
-      const { articles } = this.props.newsArticles
-      console.log(articles)
+      const { articles } = this.state.news
       return (
         <div className="news" id="news" style={styles.root}>
           {articles.map((article, i) => 
@@ -142,14 +115,21 @@ class News extends Component {
                   <img src={article.urlToImage} style={styles.image} 
                     alt="" className="pic"/>
                 </a>
-                <div className="source" style={styles.sourceName}>{article.source.name}</div>
-                <Moment format="MM/DD/YYYY hh:mma" style={styles.time}>{article.publishedAt}</Moment>
+                <div className="source" style={styles.sourceName}>{article.source.name}
+                </div>
+                <Moment format="MM/DD/YYYY hh:mma" style={styles.time}>          
+                  {article.publishedAt} 
+                </Moment>
               </div>
               <div className="news-text" style={styles.newsText}>
                 <a href={article.url} target="_blank" rel='noopener noreferrer'> 
-                  <p className="article-title" style={styles.title}>{article.title}</p>
+                  <p className="article-title" style={styles.title}>
+                    {article.title}
+                  </p>
                 </a>
-                <div className="article-body" style={styles.article}>{article.content}</div>
+                <div className="article-body" style={styles.article}>
+                  {article.content}
+                </div>
               </div>
             </div>
           )}

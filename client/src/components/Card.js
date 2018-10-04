@@ -8,8 +8,6 @@ const styles = {
     // borderRadius: "3px",
     // boxShadow: "1px 1px 1px rgba(0, 0, 0, .3)",
     borderRadius: "4px",
-
-
   },
   heading: {
     fontSize: 26,
@@ -19,16 +17,17 @@ const styles = {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingLeft: 8,
+    padding: "0px 6px 0px 8px",
     borderTopLeftRadius: "4px",
     borderTopRightRadius: "4px"
 
     
   },
   icon: {
-    paddingRight: 8,
+    // padding: "0px 8px 0px 8px",
     cursor: "pointer",
-    fontSize: "18px"
+    fontSize: "18px",
+
   },
   content: {
     // display: "flex",
@@ -79,18 +78,38 @@ class Card extends Component {
     opt.classList.toggle('clicked')
   }
 
+  reload = ( e ) => {
+    const id = e.target.id
+    const el = document.getElementById(id)
+    
+    if (id === "reload-news") {
+      this.reloadNews()
+    }
+
+    el.classList.toggle('spin-once')
+    setTimeout(() => {
+      el.classList.toggle('spin-once')
+    }, 720);
+  }
+
+  reloadNews = () => {
+    const newsSources = this.props.userData.news.sources.map(src =>{
+      return src.id
+    }).join()
+    this.props.loadNewsArticles(newsSources)
+  }
+
   
 
   render() {
-    // console.log(this.props)
-    const { component, gridColumn, gridRow, height, heading} = this.props
+    const { gridColumn, gridRow, height, heading } = this.props
     return (
     
       <div className="card" id="card"  
         style={{...styles.card, gridColumn: gridColumn, gridRow: gridRow, height: height}}>
         <div className="card-heading" style={styles.heading}>
           { heading } 
-          {this.props.options && 
+          {(this.props.options && 
             <div style={styles.dataDiv}>
               { this.props.options.map(src => 
                 <div className="card-options-div" key={src.id} 
@@ -100,14 +119,12 @@ class Card extends Component {
                   <img style={styles.dataImg} src={ this.returnImgSource(heading, src.url) } alt=""/> 
                 </div>
               )}
-            </div>
+            </div>)
             || null
           }
-          <div style={{display: 'flex', alignItems: "center"}}>
-            <i className="fal fa-sync" style={{marginRight: "8px", fontSize: "14px", cursor: "pointer"}}
-              // onClick={() => this.props.sync(this.props.heading)}
-            
-            ></i>
+          <div style={{display: 'flex', alignItems: "center", justifyContent: "space-around", width: "55px"}}>
+            <i className="fal fa-sync reload" id={`reload-${heading.toLowerCase()}`} style={{fontSize: "14px", cursor: "pointer"}}
+              onClick={this.reload}></i>
             <i className="fal fa-user-cog" onClick={() => this.props.settingsClick(heading)} style={styles.icon}></i>
           </div>
         </div>

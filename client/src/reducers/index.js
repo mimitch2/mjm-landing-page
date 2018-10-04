@@ -1,17 +1,9 @@
 import {combineReducers} from "redux";
 
-// function fullData(state = [], action) {
-//   if (action.type === "FULLDATA_LOADED") {
-//     return action.value;
-//   }
-//   return state;
-// }
 
 function defaultData(state = []) {
   return state;
 }
-
-
 
 function userName(state = "", action) {
   if (action.type === "SET_USER_NAME") {

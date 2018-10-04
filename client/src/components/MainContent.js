@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Card from './Card'
+import Card from '../containers/CardContainer'
 import Weather from './Weather'
 import Sports from './Sports'
 import News from '../containers/NewsContainer'

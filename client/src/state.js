@@ -1,6 +1,6 @@
 
 export default {
-  defaultData: { //replace this with prefs from DB, will have to insert/delete keys based on user input
+  defaultData: { 
     weather: {
       include: true,
       cities: ["London", "Los Angelas, CA"],
@@ -57,30 +57,6 @@ export default {
   userDataLoaded: false,
   newsArticles: {},
   newsArticlesLoaded: false
-
-  // fullData: {
-  //   weather: {
-  //     include: true,
-  //     cities: ["Austin, TX", "San Jose, CA"],
-  //   },
-  //   sports: {
-  //     include: true,
-  //     teams: ["San Jose Sharks", "San Francisco 49ers"],
-  //   },
-  //   news:{
-  //     include: true,
-  //     categories: ["Politics", "Entertainment", "World"],
-  //     sources: ["bbc-news", "nbc-news", "nhl-news"]
-  //   },
-  //   movies: {
-  //     include: true,
-  //     location: "Austin, TX"
-  //   },
-  //   dailyPics: {
-  //     include: true,
-  //     pics: ["NASA", "Foxes", "Doggos"]
-  //   }
-  // }
     
 };
   

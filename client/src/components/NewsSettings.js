@@ -93,14 +93,6 @@ class NewsSettings extends Component {
       this.setState({
         userSources: this.props.userData.news.sources,
       })
-      // setTimeout(() => {
-      //   const tempArr = this.state.sourcesList.filter(src => { //refactor to own fucn
-      //     const userIds = this.state.userSources.map(usrSrc => usrSrc.id)
-      //     return !userIds.includes(src.id)
-      //   })
-      //   this.setState({filteredList: tempArr})
-      // }, 200);
-   
     }
   }
 
@@ -170,14 +162,6 @@ class NewsSettings extends Component {
 
       const newData = this.props.userData
       newData.news.sources = this.state.userSources
-
-      // fetch(`api/data/${this.props.userName}`,{
-      //   method: "PUT",
-      //   headers: {"Content-Type": "application/json"},
-      //   body: JSON.stringify(newData)
-      // }).then(resp => {
-      //   return resp.json()
-      // })
 
       this.props.updateUserData(newData, this.props.userName)
 
@@ -271,9 +255,9 @@ class NewsSettings extends Component {
               {this.state.categories.map(cat =>{
                 return (
                   <div key={cat}>
-                    { this.state.checkboxChecked.indexOf(cat) > -1 &&
+                    { (this.state.checkboxChecked.indexOf(cat) > -1 &&
                    <i className="fas fa-check-circle checkbox" id={cat} 
-                     onClick={this.handleCheckBox} style={{...styles.checkIcons, color: "green"}}></i>
+                     onClick={this.handleCheckBox} style={{...styles.checkIcons, color: "green"}}></i>)
                   || <i className="far fa-circle checkbox" id ={cat} 
                     onClick={this.handleCheckBox} style={styles.checkIcons}></i> 
                     }
