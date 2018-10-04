@@ -44,7 +44,10 @@ const styles = {
   },
   dataImg: {
     margin: "0px 8px 0px 8px",
-    height: "24px"
+    height: "30px",
+    width: "30px",
+    border: "2px white solid",
+    borderRadius: "50%",
   },
   options: {
     cursor: "pointer",
@@ -57,9 +60,13 @@ class Card extends Component {
   constructor(props) {
     super(props)
     this.state = {
-   
+      newsSources: this.props.userData.news.sources.map(src =>{
+        return src.id
+      }).join(),
+      tempNewsSources: this.props.userData.news.sources.map(src =>{
+        return src.id
+      }).join()
     }
-    
   }
 
   componentDidMount = () => {
@@ -78,33 +85,55 @@ class Card extends Component {
     opt.classList.toggle('clicked')
   }
 
-  reload = ( e ) => {
+  reload = ( src, e ) => {
     const id = e.target.id
     const el = document.getElementById(id)
     
-    if (id === "reload-news") {
-      this.reloadNews()
+    if (id.includes('reload-news')) {
+      if (id.includes('img')) {
+        this.reloadNews(src)
+      } else {
+        this.props.loadNewsArticles(this.state.tempNewsSources) //********* FIX */
+      }
     }
 
-    el.classList.toggle('spin-once')
-    setTimeout(() => {
+    if (!id.includes('img')) {
       el.classList.toggle('spin-once')
-    }, 720);
+      setTimeout(() => {
+        el.classList.toggle('spin-once')
+      }, 720);
+    }
+   
   }
 
-  reloadNews = () => {
-    const newsSources = this.props.userData.news.sources.map(src =>{
-      return src.id
-    }).join()
-    this.props.loadNewsArticles(newsSources)
+  reloadNews = ( src ) => {
+    const { newsSources, tempNewsSources } = this.state
+    // if (src) {
+    const filteredSources = tempNewsSources.split(',').filter(fSrc => fSrc !== src).join() 
+    if (tempNewsSources.includes(src)) {
+      this.setState({tempNewsSources: filteredSources})
+      this.props.loadNewsArticles(filteredSources)
+    } else {
+      if (tempNewsSources) {
+        const updatedSources = [...filteredSources.split(','), src].join() //*********** FIX */
+        this.setState({tempNewsSources: updatedSources})
+        this.props.loadNewsArticles(updatedSources)
+      } else {
+        this.setState({tempNewsSources: src})
+        setTimeout(() => {
+          this.props.loadNewsArticles(src)
+          console.log(src)
+        }, 50);
+          
+      }
+    }
+    // } 
   }
-
-  
 
   render() {
+    // console.log(this.state.tempNewsSources)
     const { gridColumn, gridRow, height, heading } = this.props
     return (
-    
       <div className="card" id="card"  
         style={{...styles.card, gridColumn: gridColumn, gridRow: gridRow, height: height}}>
         <div className="card-heading" style={styles.heading}>
@@ -116,15 +145,21 @@ class Card extends Component {
                   id={src.id}
                   style={styles.options} 
                   onClick={ () => this.handleOptionClick(src.id) }>
-                  <img style={styles.dataImg} src={ this.returnImgSource(heading, src.url) } alt=""/> 
+                  <img style={styles.dataImg} 
+                    src={ this.returnImgSource(heading, src.url) } 
+                    onClick={ (e) => this.reload(src.id, e)}
+                    id={ `reload-${heading.toLowerCase()}-img` }
+                    alt=""/> 
                 </div>
               )}
             </div>)
             || null
           }
           <div style={{display: 'flex', alignItems: "center", justifyContent: "space-around", width: "55px"}}>
-            <i className="fal fa-sync reload" id={`reload-${heading.toLowerCase()}`} style={{fontSize: "14px", cursor: "pointer"}}
-              onClick={this.reload}></i>
+            <i className="fal fa-sync reload" 
+              id={`reload-${heading.toLowerCase()}`} 
+              style={{fontSize: "14px", cursor: "pointer"}}
+              onClick={ (e) => this.reload(null, e)}></i>
             <i className="fal fa-user-cog" onClick={() => this.props.settingsClick(heading)} style={styles.icon}></i>
           </div>
         </div>

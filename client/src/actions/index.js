@@ -56,13 +56,13 @@ export function updateUserData(data, username) {
 export function loadNewsArticles(newsSources) {
   return async function (dispatch) {
     try {
-      const getNews = await fetch(`https://newsapi.org/v2/top-headlines?pageSize=100&sources=${newsSources}&apiKey=cac7992187f24fc493e8b132bee398bb`)
+      const getNews = await fetch(`https://newsapi.org/v2/top-headlines?pageSize=60&sources=${newsSources}&apiKey=cac7992187f24fc493e8b132bee398bb`)
       const news = await getNews.json()
       dispatch(setNewsArticles(news));
       dispatch(newsArticlesLoaded(true));
       return news
     } catch (error) {
-      console.log(error)
+      console.log(`load new error = ${error}`)
     }
   }
 }

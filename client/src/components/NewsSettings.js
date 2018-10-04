@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import BasicInput from './BasicInput'
 // import Button from './Button'
 import MultiSelect from './MultiSelect'
+import {sortAlpha} from './Common'
 import '../css/App.css'
 
 const styles = {
@@ -75,17 +76,29 @@ class NewsSettings extends Component {
     const sourcesResp = await fetch("https://newsapi.org/v2/sources?apiKey=cac7992187f24fc493e8b132bee398bb")
     const sources = await sourcesResp.json()
     const sourcesArr = await sources.sources
+    
+    if (sourcesArr) { //********* FIX need to set state for when  */
+      this.setState({
+        sourcesList: sourcesArr,
+        filteredList: sourcesArr,
+        userSources: this.props.userData.news.sources
+      })
+      this.getCategories()
+      const tempArr = await sourcesArr.filter(src => { 
+        const userIds = this.state.userSources.map(usrSrc => usrSrc.id)
+        return !userIds.includes(src.id)
+      })
+      this.setState({filteredList: tempArr})
+    }
+    
+  }
+
+  loadDefaults = () => {
     this.setState({
-      sourcesList: sourcesArr,
-      filteredList: sourcesArr,
+      sourcesList: this.props.defaultData.news.sources,
+      filteredList: this.props.defaultData.news.sources,
       userSources: this.props.userData.news.sources
     })
-    this.getCategories()
-    const tempArr = await sourcesArr.filter(src => { //refactor to own fucn
-      const userIds = this.state.userSources.map(usrSrc => usrSrc.id)
-      return !userIds.includes(src.id)
-    })
-    this.setState({filteredList: tempArr})
   }
 
   componentDidUpdate = (prevProps) => { 
@@ -93,6 +106,10 @@ class NewsSettings extends Component {
       this.setState({
         userSources: this.props.userData.news.sources,
       })
+    }
+
+    if (prevProps.defaultData !== this.props.defaultData) {
+      this.loadDefaults()
     }
   }
 
@@ -121,11 +138,7 @@ class NewsSettings extends Component {
 
   handleAdd = (item) => {
     const userSources = [...this.state.userSources, item]
-    const sortedUserSources = userSources.sort((a, b) => {
-      if(a.id < b.id) return -1;
-      if(a.id > b.id) return 1;
-      return 0;
-    })
+    const sortedUserSources = sortAlpha(userSources)
     const tempArr = this.state.filteredList.filter(itm => {
       return itm.name !== item.name
     })
@@ -137,11 +150,7 @@ class NewsSettings extends Component {
 
   hanndleRemove = (item) => {
     const newsSources = [...this.state.filteredList, item]
-    const sortedList = newsSources.sort((a, b) => {
-      if(a.id < b.id) return -1;
-      if(a.id > b.id) return 1;
-      return 0;
-    })
+    const sortedList = sortAlpha(newsSources)
     const userSources = this.state.userSources.filter(itm => {
       return itm.name !== item.name
     })
@@ -208,7 +217,7 @@ class NewsSettings extends Component {
       })
       this.setState({filteredList: filteredSources})
     } else {
-      const noUserSources = sourcesList.filter(src => { // refactor to own func along with one above
+      const noUserSources = sourcesList.filter(src => { 
         const userIds = userSources.map(usrSrc => usrSrc.id)
         return !userIds.includes(src.id)
       })
@@ -241,7 +250,6 @@ class NewsSettings extends Component {
   }
 
   render() {
-    // console.log(this.state.filteredList, this.state.checkboxChecked)
     return (
       <div className="settings invisible" id="news-settings" style={styles.settings}>
         <div className="settings-name">{this.props.type}</div>

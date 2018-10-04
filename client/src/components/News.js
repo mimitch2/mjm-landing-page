@@ -68,7 +68,7 @@ class News extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      news: {}
+      news: null
     }
   }
 
@@ -83,6 +83,7 @@ class News extends Component {
     if (prevProps.newsArticles !== this.props.newsArticles) {
       this.setState({news: this.props.newsArticles})
     }
+
   }
 
   async getData (options) {
@@ -102,12 +103,13 @@ class News extends Component {
 
 
   render() {
-    
     if (this.props.newsArticlesLoaded) {
-      const { articles } = this.state.news
+      const { articles } = this.props.newsArticles
+      console.log(articles)
+
       return (
         <div className="news" id="news" style={styles.root}>
-          {articles.map((article, i) => 
+          {this.props.newsArticles.status === "ok" && articles.map((article, i) => 
             <div style={styles.content} key={i}>
               <div className="img-source" style={styles.imgSource}>
                 <a href={article.urlToImage} target="_blank" 
@@ -132,7 +134,7 @@ class News extends Component {
                 </div>
               </div>
             </div>
-          )}
+          ) || <div>Nothing here</div> }
         </div>
       )
     } else {

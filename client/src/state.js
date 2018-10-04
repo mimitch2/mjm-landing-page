@@ -11,7 +11,7 @@ export default {
     },
     news:{
       include: true,
-      categories: ["Politics", "Entertainment", "World"],
+      categories: ["general", "entertainment"],
       sources:  [
         {
           "id": "australian-financial-review",
