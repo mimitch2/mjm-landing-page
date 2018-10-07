@@ -1,13 +1,14 @@
-import SportsSettings from "../components/SportsSettings";
+import WeatherSettings from "../components/WeatherSettings";
 import { connect } from "react-redux";
-import { loadUserData, updateUserData } from "../actions";
+import { loadUserData, updateUserData, loadWeather } from "../actions";
 
 function mapStateToProps(state) {
   return {
+    defaultData: state.defualtData,
     userData: state.userData,
     userName: state.userName,
     userDataLoaded: state.userDataLoaded,
-    teamsList: state.teamsList
+    newsArticles: state.newsArticles
   };
 }
   
@@ -21,7 +22,11 @@ function mapDispatchToProps(dispatch) {
       const action = updateUserData(data, username);
       dispatch(action);
     },
+    loadWeather: (cities) => {
+      const action = loadWeather(cities);
+      dispatch(action);
+    },
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SportsSettings);
+export default connect(mapStateToProps,mapDispatchToProps)(WeatherSettings);

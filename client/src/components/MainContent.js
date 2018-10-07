@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Card from '../containers/CardContainer'
-import Weather from './Weather'
-import Sports from './Sports'
+import Weather from '../containers/WeatherContainer'
+import Sports from '../containers/SportsContainer'
 import News from '../containers/NewsContainer'
 import NewsSettings from '../containers/NewsSettingsContainer'
 import SportsSettings from '../containers/SportsSettingsContainer'
-import WeatherSettings from './WeatherSettings'
+import WeatherSettings from '../containers/WeatherSettingsContainer'
 import '../css/App.css'
 
 const styles = {
@@ -76,7 +76,7 @@ class MainContent extends Component {
 
   render() {
     if (this.props.userDataLoaded && this.props.userName) {
-      const { weather, sports, news } = this.props.userData
+      const { news } = this.props.userData
       return (
         <div className="main-content" style={styles.root} >
 
@@ -89,17 +89,17 @@ class MainContent extends Component {
 
             </Card>
             <Card  heading="WEATHER" //!!!!!!!!!!!!!!!
-              gridColumn="span 1" gridRow="span 1" height= {150} 
+              gridColumn="span 1" gridRow="span 2" height= {300} 
               settingsClick={this.handleClick}>
 
-              <Weather data={weather} />
+              <Weather />
 
             </Card>
             <Card heading="SPORTS" //!!!!!!!!!!!!!!!
               gridColumn="span 1" gridRow="span 1" height= {150}
               settingsClick={this.handleClick}>
 
-              <Sports data={sports} />
+              <Sports />
 
             </Card>
           </div>

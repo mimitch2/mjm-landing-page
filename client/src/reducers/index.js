@@ -1,5 +1,12 @@
 import {combineReducers} from "redux";
 
+function teamsList(state = {}) {
+  return state;
+}
+
+function citiesList(state = []) {
+  return state;
+}
 
 function defaultData(state = []) {
   return state;
@@ -40,6 +47,13 @@ function newsArticlesLoaded(state = false, action) {
   return state;
 }
 
+function currentWeather(state = [], action) {
+  if (action.type === "SET_WEATHER") {
+    return [...state, action.value]
+  }
+  return state;
+}
+
 
 
 
@@ -55,7 +69,7 @@ function newsArticlesLoaded(state = false, action) {
 
 
 const rootReducer = combineReducers({
-  defaultData, userName, userData, userDataLoaded, newsArticles, newsArticlesLoaded
+  defaultData, userName, userData, userDataLoaded, newsArticles, newsArticlesLoaded, currentWeather, teamsList, citiesList
 });
 
 export default rootReducer;

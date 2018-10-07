@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const styles = {
   card: {
     background: "#8AB2C2",
-    // padding: "10px",
-    // borderRadius: "3px",
-    // boxShadow: "1px 1px 1px rgba(0, 0, 0, .3)",
     borderRadius: "4px",
   },
   heading: {
@@ -107,7 +105,7 @@ class Card extends Component {
   }
 
   reloadNews = ( src ) => {
-    const { newsSources, tempNewsSources } = this.state
+    const {  tempNewsSources } = this.state
     // if (src) {
     const filteredSources = tempNewsSources.split(',').filter(fSrc => fSrc !== src).join() 
     if (tempNewsSources.includes(src)) {
@@ -135,7 +133,7 @@ class Card extends Component {
     const { gridColumn, gridRow, height, heading } = this.props
     return (
       <div className="card" id="card"  
-        style={{...styles.card, gridColumn: gridColumn, gridRow: gridRow, height: height}}>
+        style={{...styles.card, gridColumn: gridColumn, gridRow: gridRow, height: "auto", maxHeight: height}}>
         <div className="card-heading" style={styles.heading}>
           { heading } 
           {(this.props.options && 
@@ -145,11 +143,18 @@ class Card extends Component {
                   id={src.id}
                   style={styles.options} 
                   onClick={ () => this.handleOptionClick(src.id) }>
-                  <img style={styles.dataImg} 
-                    src={ this.returnImgSource(heading, src.url) } 
-                    onClick={ (e) => this.reload(src.id, e)}
-                    id={ `reload-${heading.toLowerCase()}-img` }
-                    alt=""/> 
+                  <OverlayTrigger placement="top" 
+                    overlay={
+                      <Tooltip id="tooltip">
+                        {`${src.name}-click to not see`}
+                      </Tooltip>
+                    }>
+                    <img style={styles.dataImg} 
+                      src={ this.returnImgSource(heading, src.url) } 
+                      onClick={ (e) => this.reload(src.id, e)}
+                      id={ `reload-${heading.toLowerCase()}-img` }
+                      alt=""/> 
+                  </OverlayTrigger>
                 </div>
               )}
             </div>)

@@ -105,7 +105,6 @@ class News extends Component {
   render() {
     if (this.props.newsArticlesLoaded) {
       const { articles } = this.props.newsArticles
-      console.log(articles)
 
       return (
         <div className="news" id="news" style={styles.root}>

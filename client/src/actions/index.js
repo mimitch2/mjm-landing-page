@@ -81,6 +81,31 @@ export function newsArticlesLoaded(result) {
   };
 }
 
+export function loadWeather(city) {
+  return async function (dispatch) {
+    try {
+      const getWeather = await fetch(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/fa792c1f87ce72cb121f485b11488cd4/${city.lat},${city.long}`)
+      const weather = await getWeather.json()
+      weather.id = city.id
+      weather.name = city.name
+      dispatch(setWeather(weather));
+      // dispatch(newsArticlesLoaded(true));
+      return weather
+   
+    } catch (error) {
+      console.log(`load new error = ${error}`)
+    }
+  }
+}
+
+
+export function setWeather(weather) {
+  return {
+    type: "SET_WEATHER",
+    value: weather
+  };
+}
+
 
 
 

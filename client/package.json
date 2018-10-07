@@ -3,8 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "cities.json": "^1.1.2",
+    "convert-excel-to-json": "^1.4.1",
+    "excel-as-json": "^2.0.2",
     "history": "^4.7.2",
     "moment": "^2.22.2",
+    "node-fetch": "^2.2.0",
     "prop-types": "^15.6.2",
     "react": "^16.5.2",
     "react-bootstrap": "^0.32.4",

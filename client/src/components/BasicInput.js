@@ -14,13 +14,13 @@ class FormExample extends React.Component {
     };
   }
 
-  getValidationState() {
-    const length = this.state.value.length;
-    if (length > 2) return 'success';
-    else if (length < 2) return 'warning';
-    else if (length > 0) return 'error';
-    return null;
-  }
+  // getValidationState() {
+  //   const length = this.state.value.length;
+  //   if (length > 2) return 'success';
+  //   else if (length < 2) return 'warning';
+  //   else if (length > 0) return 'error';
+  //   return null;
+  // }
 
   handleChange(e) {
     this.setState({ value: e.target.value });
@@ -54,7 +54,7 @@ class FormExample extends React.Component {
               style={{borderRadius: "30px"}}
               type="text"
               value={this.state.value}
-              placeholder="Search new sources..."
+              placeholder={this.props.placeholder}
               onChange={this.handleChange}
               onKeyDown={(e) => e.keyCode === 13 ? e.preventDefault(): null}
             />
