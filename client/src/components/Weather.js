@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
-
+import Moment from 'react-moment';
 
 const styles ={
   content: {
@@ -19,6 +19,14 @@ const styles ={
     display: "flex",
     justifyContent: "flex-start",
     textAlign: "left"
+  },
+  time: {
+    marginLeft: "2px",
+    fontSize: "12px",
+    color: "grey",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "felx-end"
   }
 }
 
@@ -38,7 +46,9 @@ class Weather extends Component {
 
   componentDidUpdate = (prevProps) => {
     if (prevProps.userData !== this.props.userData || prevProps.userName !== this.props.userName){
-      this.getData()
+      this.props.userData.weather.cities.forEach(city =>{
+        this.getData(city) 
+      })
     }
     if (prevProps.currentWeather !== this.props.currentWeather) {
       this.setState({weather: this.props.currentWeather})
@@ -57,15 +67,13 @@ class Weather extends Component {
       // document.getElementById('weather').innerHTML = error
       console.log(error);
     }  
-
   }
-
-
 
 
 
   render() {
     const { cities } = this.props.userData.weather   
+    console.log(this.props.currentWeather)
     if (this.props.userData.weather.cities) {
       return (
         <div className="weather">
@@ -78,7 +86,11 @@ class Weather extends Component {
                 <div style={styles.content} key={i}>
                   <div className="city-name item" style={styles.cityItem}>
                     <div style={styles.lineItem}>
-                      {`${city.name} - ${Math.floor(temp[0].currently.temperature)}º`}
+                      {`${city.name} - ${Math.floor(temp[0].currently.temperature)}º - `}
+                      <Moment unix format ="MM/DD HH:mma" 
+                        style={styles.time}>          
+                        {temp[0].currently.time}
+                      </Moment>
                     </div>
                     <div style={styles.lineItem}>
                       {temp[0].daily.summary}

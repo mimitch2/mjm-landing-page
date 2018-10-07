@@ -49,15 +49,11 @@ function newsArticlesLoaded(state = false, action) {
 
 function currentWeather(state = [], action) {
   if (action.type === "SET_WEATHER") {
-    return [...state, action.value]
-  }
+    const fltrState = state.filter(item => item.id !== action.value.id)
+    return [...fltrState, action.value]
+  } 
   return state;
 }
-
-
-
-
-
 
 // function favorites(state = [], action) {
 //   if (action.type === "FAVORITES_LOADED") {
@@ -65,8 +61,6 @@ function currentWeather(state = [], action) {
 //   }
 //   return state;
 // }
-
-
 
 const rootReducer = combineReducers({
   defaultData, userName, userData, userDataLoaded, newsArticles, newsArticlesLoaded, currentWeather, teamsList, citiesList

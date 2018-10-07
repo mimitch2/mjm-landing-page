@@ -3,7 +3,6 @@ export function setUserName(name) {
     type: "SET_USER_NAME",
     value: name
   };
-
 }
 
 export function loadUserData(username) {
@@ -84,18 +83,21 @@ export function newsArticlesLoaded(result) {
 export function loadWeather(city) {
   return async function (dispatch) {
     try {
-      const getWeather = await fetch(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/fa792c1f87ce72cb121f485b11488cd4/${city.lat},${city.long}`)
-      const weather = await getWeather.json()
-      weather.id = city.id
-      weather.name = city.name
-      dispatch(setWeather(weather));
-      // dispatch(newsArticlesLoaded(true));
-      return weather
-   
+      if (city) {
+        const getWeather = await fetch(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/fa792c1f87ce72cb121f485b11488cd4/${city.lat},${city.long}`)
+        const weather = await getWeather.json()
+        const temp = weather
+        temp.id = city.id
+        temp.name = city.name
+        // console.log(temp)
+        dispatch(setWeather(temp));
+        return temp
+      }
     } catch (error) {
-      console.log(`load new error = ${error}`)
+      console.log(error)
     }
   }
+
 }
 
 
@@ -105,13 +107,6 @@ export function setWeather(weather) {
     value: weather
   };
 }
-
-
-
-
-
-
-
 
 // export function showUser(id) {
 //   return function (dispatch) {

@@ -196,7 +196,6 @@ class SporstSettings extends Component {
   }
 
   render() {
-    console.log(this.state.filteredList)
     if (this.state.filteredList) {
       return (
         <div className="settings invisible" id="sports-settings" style={styles.settings}>
@@ -224,7 +223,6 @@ class SporstSettings extends Component {
               <div style={styles.list}>
                 {this.state.filteredList.map((team, i) => {
                   return (
-                    // <div key={i} >
                     <div style={styles.listItem} key={i}>
                       <div >
                         <img src={team.strTeamBadge} width="24px" height="24px" alt="" style={{margin:"0px 4px 0px 4px"}} />
@@ -233,10 +231,7 @@ class SporstSettings extends Component {
                       <i className="fas fa-plus-circle" style={{color: "green", cursor: "pointer"}}
                         onClick={() => this.addTeam(team)}>
                       </i>
-                   
-                    
                     </div>
-                    // </div>
                   )
                 })}
               </div>
@@ -255,7 +250,6 @@ class SporstSettings extends Component {
                         {`${team.strTeam} - ${team.strLeague}`}
                       </div>
                     </div>
-    
                   </div>
                 )
               })}

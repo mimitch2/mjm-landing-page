@@ -86,12 +86,12 @@ class WeatherSettings extends Component {
 
   addCity = (city) => {
     const tempCities = [...this.state.userCities, city]
-    const sortedUserSources = sortAlpha(tempCities)
+    // const sortedUserSources = sortAlpha(tempCities)
     const tempArr = this.state.filteredList.filter(item => {
       return item.id !== city.id
     })
     this.setState({
-      userCities: sortedUserSources,
+      userCities: tempCities,
       filteredList: tempArr
     })
   }
@@ -115,11 +115,15 @@ class WeatherSettings extends Component {
 
     if ( button === "submit") {
       const newData = this.props.userData
-      newData.weather.cities = [...this.state.userCities]
+      newData.weather.cities = this.state.userCities
       this.props.updateUserData(newData, this.props.userName)
+   
       setTimeout(() => {
+        this.props.userData.weather.cities.forEach(city =>{
+          this.props.loadWeather(city)
+        })
         this.props.loadUserData(this.props.userName)
-      }, closeDelay);
+      }, 1000);
 
     }
 

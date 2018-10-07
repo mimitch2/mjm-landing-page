@@ -63,14 +63,10 @@ class Card extends Component {
       }).join(),
       tempNewsSources: this.props.userData.news.sources.map(src =>{
         return src.id
-      }).join()
+      }).join(),
     }
   }
 
-  componentDidMount = () => {
-    // const height = document.getElementById('card').getBoundingClientRect().height
-    // console.log(height)
-  }
 
   returnImgSource = (type, urlInsert) => {
     if (type === "NEWS") {
@@ -91,8 +87,20 @@ class Card extends Component {
       if (id.includes('img')) {
         this.reloadNews(src)
       } else {
-        this.props.loadNewsArticles(this.state.tempNewsSources) //********* FIX */
+        this.props.loadNewsArticles(this.state.tempNewsSources) 
       }
+    }
+
+    if (id.includes('reload-weather')) {
+      
+      this.props.updateUserData(this.props.userData.weather.cities, this.props.userData.userName)
+
+      setTimeout(() => {
+        this.props.userData.weather.cities.forEach(city =>{
+          this.reloadWeather(city) 
+        })
+      }, 300);
+
     }
 
     if (!id.includes('img')) {
@@ -101,19 +109,29 @@ class Card extends Component {
         el.classList.toggle('spin-once')
       }, 720);
     }
-   
+  }
+
+  async reloadWeather (city) {
+    try {
+      const weather = await this.props.loadWeather(city)
+      if (weather) {
+        const tempArr = [...this.state.weather, weather]
+        this.setState({weather: tempArr})
+      }
+    } catch (error) {
+      console.log(error);
+    }  
   }
 
   reloadNews = ( src ) => {
     const {  tempNewsSources } = this.state
-    // if (src) {
     const filteredSources = tempNewsSources.split(',').filter(fSrc => fSrc !== src).join() 
     if (tempNewsSources.includes(src)) {
       this.setState({tempNewsSources: filteredSources})
       this.props.loadNewsArticles(filteredSources)
     } else {
       if (tempNewsSources) {
-        const updatedSources = [...filteredSources.split(','), src].join() //*********** FIX */
+        const updatedSources = [...filteredSources.split(','), src].join() 
         this.setState({tempNewsSources: updatedSources})
         this.props.loadNewsArticles(updatedSources)
       } else {
@@ -129,7 +147,7 @@ class Card extends Component {
   }
 
   render() {
-    // console.log(this.state.tempNewsSources)
+    // console.log(this.props.currentWeather)
     const { gridColumn, gridRow, height, heading } = this.props
     return (
       <div className="card" id="card"  
