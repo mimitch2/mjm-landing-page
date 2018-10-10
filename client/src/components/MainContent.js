@@ -13,7 +13,7 @@ const styles = {
   root: {
     overflowX: "hidden",
     position: "relative",
-    // height: "100vh",
+    height: "100vh",
     // background: "rgba(255, 255, 255, 0)"
   },
   components: {
@@ -96,7 +96,7 @@ class MainContent extends Component {
 
             </Card>
             <Card heading="SPORTS" //!!!!!!!!!!!!!!!
-              gridColumn="span 1" gridRow="span 1" height= {150}
+              gridColumn="span 1" gridRow="span 1" height= {300}
               settingsClick={this.handleClick}>
 
               <Sports />

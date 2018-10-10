@@ -40,7 +40,12 @@ const styles = {
     width: "45%"
   },
   rightList: {
-    marginTop: "95px",
+    fontSize: "18px",
+    fontWeight: 300,
+    height: "300px",
+    maxHeight: "300px",
+    overflowY: "auto",
+    marginTop: "103px",
     width: "45%"
   },
   rightListItem: {
@@ -155,7 +160,6 @@ class SporstSettings extends Component {
       this.props.updateUserData(newData, this.props.userName)
       setTimeout(() => {
         this.props.loadUserData(this.props.userName)
-        // window.location="/"
       }, closeDelay);
 
     }
@@ -220,7 +224,7 @@ class SporstSettings extends Component {
               </div>
 
               <div>Available Teams</div>
-              <div style={styles.list}>
+              <div className="select-scroll" style={styles.list}>
                 {this.state.filteredList.map((team, i) => {
                   return (
                     <div style={styles.listItem} key={i}>

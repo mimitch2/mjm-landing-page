@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
 import Moment from 'react-moment';
+import Skycons from 'skycons-component'
 
 const styles ={
   content: {
@@ -13,7 +14,15 @@ const styles ={
   cityItem: {
     display: "flex",
     flexDirection: "column",
-    borderBottom: "2px solid grey"
+    borderBottom: "1px solid grey",
+    height: "130px",
+    padding: "16px 0 0 12px"
+  },
+  itemLoading: {
+    height: "130px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
   },
   lineItem: {
     display: "flex",
@@ -69,11 +78,9 @@ class Weather extends Component {
     }  
   }
 
-
-
   render() {
     const { cities } = this.props.userData.weather   
-    console.log(this.props.currentWeather)
+    // console.log(this.props.currentWeather)
     if (this.props.userData.weather.cities) {
       return (
         <div className="weather">
@@ -86,12 +93,28 @@ class Weather extends Component {
                 <div style={styles.content} key={i}>
                   <div className="city-name item" style={styles.cityItem}>
                     <div style={styles.lineItem}>
-                      {`${city.name} - ${Math.floor(temp[0].currently.temperature)}º - `}
-                      <Moment unix format ="MM/DD HH:mma" 
-                        style={styles.time}>          
-                        {temp[0].currently.time}
-                      </Moment>
+                      <div style={{fontSize: "20px", fontWeight: "500"}}>      { `${city.name}, ${city.region}` }
+                      </div>
+                      <div style={{fontSize: "18px", fontWeight: "300"}}>
+                        {` - ${Math.floor(temp[0].currently.temperature)}º`}
+                      </div> 
+                     
                     </div>
+                    <div 
+                      style={{margin: "-30px 0px 0px 200px",
+                        transform: "translate(-30px, "
+                      }}>
+                      <Skycons 
+                      // animate={true}
+      	               iconColor='rgb(70 70 70)'
+      	               style={{width: 50, height: 50}}
+                        icon={temp[0].currently.icon} 
+                      />
+                    </div>
+                    <Moment unix format ="MM/DD hh:mma" 
+                      style={styles.time}>          
+                      {temp[0].currently.time}
+                    </Moment>
                     <div style={styles.lineItem}>
                       {temp[0].daily.summary}
                     </div>
@@ -100,7 +123,7 @@ class Weather extends Component {
                 </div>
               )
             } else {
-              return <div key={i}><i className="fal fa-sync spin-sync"></i></div>
+              return <div key={i} style={styles.itemLoading}><i className="fal fa-sync spin-sync"></i></div>
             }
           }
           )}

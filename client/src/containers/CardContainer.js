@@ -1,6 +1,6 @@
 import Card from "../components/Card";
 import { connect } from "react-redux";
-import { loadNewsArticles, loadWeather, updateUserData, setWeather } from "../actions";
+import { loadNewsArticles, loadWeather, updateUserData } from "../actions";
 
 function mapStateToProps(state) {
   return {

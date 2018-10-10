@@ -56,6 +56,12 @@ const styles = {
     alignItems: "center",
     padding: "3px 10px 3px 10px"
   },
+  buttons: {
+    marginTop: "30px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
   bottomIcons: {
     margin: "0px 12px 0px 12px",
     fontSize: "40px",
@@ -180,7 +186,7 @@ class WeatherSettings extends Component {
             <BasicInput sendInput={this.filterSources}
               placeholder="Search cities..." />
    
-            <div style={styles.list}>
+            <div className ="select-scroll" style={styles.list}>
               {this.state.filteredList.map((city, i) => {
                 return (
                   <div key={i} >

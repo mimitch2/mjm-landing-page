@@ -5,7 +5,8 @@ import { OverlayTrigger, Tooltip } from "react-bootstrap";
 const styles = {
   card: {
     background: "#8AB2C2",
-    borderRadius: "4px",
+    borderRadius: "6px",
+    boxShadow: "1px 1px 4px rgba(0, 0, 0, .3)"
   },
   heading: {
     fontSize: 26,
@@ -16,8 +17,8 @@ const styles = {
     justifyContent: "space-between",
     alignItems: "center",
     padding: "0px 6px 0px 8px",
-    borderTopLeftRadius: "4px",
-    borderTopRightRadius: "4px"
+    borderTopLeftRadius: "6px",
+    borderTopRightRadius: "6px"
 
     
   },

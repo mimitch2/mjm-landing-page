@@ -47,7 +47,7 @@ function newsArticlesLoaded(state = false, action) {
   return state;
 }
 
-function currentWeather(state = [], action) {
+function currentWeather(state = [], action) { // FIX *** not sure why this state doesn't update when removing a city
   if (action.type === "SET_WEATHER") {
     const fltrState = state.filter(item => item.id !== action.value.id)
     return [...fltrState, action.value]

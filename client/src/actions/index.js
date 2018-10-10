@@ -44,7 +44,6 @@ export function updateUserData(data, username) {
       const name = await putUserData.json()
       dispatch(setUserData(name));
       return name
-      // dispatch(userDataLoaded(true));
     } catch (error) {
       error.send("Something went wrong loading news articles, please try again")
       console.log(error)
@@ -80,6 +79,8 @@ export function newsArticlesLoaded(result) {
   };
 }
 
+//https://cors-anywhere.herokuapp.com/
+
 export function loadWeather(city) {
   return async function (dispatch) {
     try {
@@ -89,7 +90,6 @@ export function loadWeather(city) {
         const temp = weather
         temp.id = city.id
         temp.name = city.name
-        // console.log(temp)
         dispatch(setWeather(temp));
         return temp
       }
