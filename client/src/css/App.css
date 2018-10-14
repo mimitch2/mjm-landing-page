@@ -90,7 +90,30 @@ text-decoration: none;
 
 .card-options-div.clicked {
   opacity: .3;
-  /* background: rgba(0, 0, 0, .3) */
+}
+
+.card-content::-webkit-scrollbar {
+  width: 19px;
+  background-color: #8AB2C2;
+}
+
+.card-content::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: rgb(74, 74, 74);
+  border: 5px solid #8AB2C2;
+}
+
+
+.select-scroll::-webkit-scrollbar {
+  width: 19px;
+  background-color: white;
+  /* padding: 10px; */
+}
+
+.select-scroll::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: rgb(74, 74, 74);
+  border: 5px solid white;
 }
 
 .spin-once {

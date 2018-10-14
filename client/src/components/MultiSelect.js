@@ -45,7 +45,7 @@ class  MultiSelect extends Component {
     if (sources) {
       return (
         <div className="select-main">
-          <div  style={styles.leftList}>
+          <div  className="select-scroll" style={styles.leftList}>
             {sources.map((source, i) => {
               return (
                 <div key={i} >

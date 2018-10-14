@@ -105,11 +105,10 @@ class News extends Component {
   render() {
     if (this.props.newsArticlesLoaded) {
       const { articles } = this.props.newsArticles
-      console.log(articles)
 
       return (
         <div className="news" id="news" style={styles.root}>
-          {this.props.newsArticles.status === "ok" && articles.map((article, i) => 
+          {this.props.newsArticles.status === "ok" && (articles.map((article, i) => 
             <div style={styles.content} key={i}>
               <div className="img-source" style={styles.imgSource}>
                 <a href={article.urlToImage} target="_blank" 
@@ -134,7 +133,7 @@ class News extends Component {
                 </div>
               </div>
             </div>
-          ) || <div>Nothing here</div> }
+          ) || <div>Nothing here</div>) }
         </div>
       )
     } else {

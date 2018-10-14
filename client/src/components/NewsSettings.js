@@ -176,7 +176,6 @@ class NewsSettings extends Component {
 
       setTimeout(() => {
         this.props.loadUserData(this.props.userName)
-        window.location="/"
       }, closeDelay);
 
     }
@@ -196,7 +195,7 @@ class NewsSettings extends Component {
 
   buttonBounce = (el, time) => {
     el.style.transition = ".06s"
-    el.style.transform = "scale(.9)"
+    el.style.transform = "scale(.95)"
     setTimeout(() => {
       el.style.transition = ".1s"
       el.style.transform = "scale(1)"
@@ -257,7 +256,8 @@ class NewsSettings extends Component {
         <div style={styles.settingsWrapper}>
 
           <div className="control-left" style={styles.controlsLeft}>
-            <BasicInput sendInput={this.takeInput}/>
+            <BasicInput sendInput={this.takeInput}
+              placeholder="Search news sources..."/>
             <div style={styles.checkBoxes.title}>Filter by category</div>
             <div className="checkboxes" style={styles.checkBoxes}>
               {this.state.categories.map(cat =>{

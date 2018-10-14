@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 const styles = {
   card: {
     background: "#8AB2C2",
-    // padding: "10px",
-    // borderRadius: "3px",
-    // boxShadow: "1px 1px 1px rgba(0, 0, 0, .3)",
-    borderRadius: "4px",
+    borderRadius: "6px",
+    boxShadow: "1px 1px 4px rgba(0, 0, 0, .3)"
   },
   heading: {
     fontSize: 26,
@@ -18,10 +17,12 @@ const styles = {
     justifyContent: "space-between",
     alignItems: "center",
     padding: "0px 6px 0px 8px",
-    borderTopLeftRadius: "4px",
-    borderTopRightRadius: "4px"
-
-    
+    borderTopLeftRadius: "6px",
+    borderTopRightRadius: "6px"
+  },
+  headingIcon: {
+    fontSize: "24px",
+    marginRight: "10px"
   },
   icon: {
     // padding: "0px 8px 0px 8px",
@@ -65,14 +66,10 @@ class Card extends Component {
       }).join(),
       tempNewsSources: this.props.userData.news.sources.map(src =>{
         return src.id
-      }).join()
+      }).join(),
     }
   }
 
-  componentDidMount = () => {
-    // const height = document.getElementById('card').getBoundingClientRect().height
-    // console.log(height)
-  }
 
   returnImgSource = (type, urlInsert) => {
     if (type === "NEWS") {
@@ -93,8 +90,20 @@ class Card extends Component {
       if (id.includes('img')) {
         this.reloadNews(src)
       } else {
-        this.props.loadNewsArticles(this.state.tempNewsSources) //********* FIX */
+        this.props.loadNewsArticles(this.state.tempNewsSources) 
       }
+    }
+
+    if (id.includes('reload-weather')) {
+      
+      this.props.updateUserData(this.props.userData.weather.cities, this.props.userData.userName)
+
+      setTimeout(() => {
+        this.props.userData.weather.cities.forEach(city =>{
+          this.reloadWeather(city) 
+        })
+      }, 300);
+
     }
 
     if (!id.includes('img')) {
@@ -103,19 +112,29 @@ class Card extends Component {
         el.classList.toggle('spin-once')
       }, 720);
     }
-   
+  }
+
+  async reloadWeather (city) {
+    try {
+      const weather = await this.props.loadWeather(city)
+      if (weather) {
+        const tempArr = [...this.state.weather, weather]
+        this.setState({weather: tempArr})
+      }
+    } catch (error) {
+      console.log(error);
+    }  
   }
 
   reloadNews = ( src ) => {
-    const { newsSources, tempNewsSources } = this.state
-    // if (src) {
+    const {  tempNewsSources } = this.state
     const filteredSources = tempNewsSources.split(',').filter(fSrc => fSrc !== src).join() 
     if (tempNewsSources.includes(src)) {
       this.setState({tempNewsSources: filteredSources})
       this.props.loadNewsArticles(filteredSources)
     } else {
       if (tempNewsSources) {
-        const updatedSources = [...filteredSources.split(','), src].join() //*********** FIX */
+        const updatedSources = [...filteredSources.split(','), src].join() 
         this.setState({tempNewsSources: updatedSources})
         this.props.loadNewsArticles(updatedSources)
       } else {
@@ -131,13 +150,20 @@ class Card extends Component {
   }
 
   render() {
-    // console.log(this.state.tempNewsSources)
+    // console.log(this.props.currentWeather)
     const { gridColumn, gridRow, height, heading } = this.props
     return (
       <div className="card" id="card"  
-        style={{...styles.card, gridColumn: gridColumn, gridRow: gridRow, height: height}}>
+        style={{...styles.card, gridColumn: gridColumn, gridRow: gridRow, height: "auto", maxHeight: height}}>
         <div className="card-heading" style={styles.heading}>
-          { heading } 
+          <div>
+            {(heading === "NEWS" && <i className="fal fa-newspaper" style={styles.headingIcon}></i>) ||
+             (heading === "SPORTS" && <i className="fas fa-football-ball" style={styles.headingIcon}></i>) ||
+             (heading === "WEATHER" && <i className="fas fa-bolt" style={styles.headingIcon}></i>) ||
+             (heading === "STOCKS" && <i className="far fa-chart-line" style={styles.headingIcon}></i>) ||
+             (heading === "MOVIES" && <i className="fas fa-film" style={styles.headingIcon}></i>)}
+            { heading } 
+          </div>
           {(this.props.options && 
             <div style={styles.dataDiv}>
               { this.props.options.map(src => 
@@ -145,11 +171,18 @@ class Card extends Component {
                   id={src.id}
                   style={styles.options} 
                   onClick={ () => this.handleOptionClick(src.id) }>
-                  <img style={styles.dataImg} 
-                    src={ this.returnImgSource(heading, src.url) } 
-                    onClick={ (e) => this.reload(src.id, e)}
-                    id={ `reload-${heading.toLowerCase()}-img` }
-                    alt=""/> 
+                  <OverlayTrigger placement="top" 
+                    overlay={
+                      <Tooltip id="tooltip">
+                        {`${src.name}-click to not see`}
+                      </Tooltip>
+                    }>
+                    <img style={styles.dataImg} 
+                      src={ this.returnImgSource(heading, src.url) } 
+                      onClick={ (e) => this.reload(src.id, e)}
+                      id={ `reload-${heading.toLowerCase()}-img` }
+                      alt=""/> 
+                  </OverlayTrigger>
                 </div>
               )}
             </div>)

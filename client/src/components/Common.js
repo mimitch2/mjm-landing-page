@@ -2,7 +2,7 @@
 
 // ************ SORT APLHABETICALLY ***************//
 
-export function sortAlpha (array) {
+export const sortAlpha = (array) => {
   array.sort((a, b) => {
     if(a.id < b.id) return -1;
     if(a.id > b.id) return 1;
@@ -10,3 +10,90 @@ export function sortAlpha (array) {
   })
   return array
 }
+
+// ************ FILTER ARRAY ON INPUT *****************//
+
+// export const filterInput = (searchInput, array) => {
+
+//   if (searchInput && array.length > 0) {
+//     array.filter(item => {
+//       return item.toLowerCase().includes(searchInput.toLowerCase()) 
+//     })
+//   }
+//   return array
+// }
+
+
+//Promises 
+
+const posts = [
+  { title: 'I love JavaScript', author: 'Wes Bos', id: 1 },
+  { title: 'CSS!', author: 'Chris Coyier', id: 2 },
+  { title: 'Dev tools tricks', author: 'Addy Osmani', id: 3 },
+];
+
+const authors = [
+  { name: 'Wes Bos', twitter: '@wesbos', bio: 'Canadian Developer' },
+  { name: 'Chris Coyier', twitter: '@chriscoyier', bio: 'CSS Tricks and CodePen' },
+  { name: 'Addy Osmani', twitter: '@addyosmani', bio: 'Googler' },
+];
+
+function getPostById(id) {
+  return new Promise((resolve, reject) => {
+    // find the post
+    setTimeout(() => {
+      const post = posts.find(post => post.id === id);
+      if(post) {
+        resolve(post);
+      } else {
+        reject(Error('Post not found!'));
+      }
+    },200);
+  });
+}
+
+function hydrateAuthor(post) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const authorDetails = authors.find(person => person.name === post.author);
+      if(authorDetails) {
+        post.author = authorDetails;
+        resolve(post);
+      } else {
+        reject(Error('Author not Found!'));
+      }
+    }, 200);
+  });
+}
+
+// getPostById(1)
+//   .then(post => {
+//     return hydrateAuthor(post);
+//   })
+//   .then(author => {
+//     console.log(author);
+//   })
+//   .catch(err => {
+//     console.error(err);
+//   })
+
+
+async function go() {
+  const p1 = fetch('https://api.github.com/users/wesbos');
+  const p2 = fetch('https://api.github.com/users/stolinski');
+  // Wait for both of them to come back
+  const res = await Promise.all([p1, p2]);
+  const dataPromises = res.map(r => r.json());
+  const [wes, scott] = await Promise.all(dataPromises);
+  console.log(wes, scott);
+}
+
+// go();
+
+async function getData(names) {
+  const promises = names.map(name => fetch(`https://api.github.com/users/${name}`).then(r => r.json()));
+  const people = await Promise.all(promises);
+  console.log(people);
+}
+
+// getData(['wesbos', 'stolinski', 'darcyclarke']);

@@ -1,5 +1,12 @@
 import {combineReducers} from "redux";
 
+function teamsList(state = {}) {
+  return state;
+}
+
+function citiesList(state = []) {
+  return state;
+}
 
 function defaultData(state = []) {
   return state;
@@ -40,22 +47,25 @@ function newsArticlesLoaded(state = false, action) {
   return state;
 }
 
+function currentWeather(state = [], action) { // FIX *** not sure why this state doesn't update when removing a city
+  if (action.type === "SET_WEATHER") {
+    const fltrState = state.filter(item => item.id !== action.value.id)
+    return [...fltrState, action.value]
+  } 
+  return state;
+}
 
-
-
-
-
-// function favorites(state = [], action) {
-//   if (action.type === "FAVORITES_LOADED") {
-//     return action.value;
+// function sportsData (state = {}, action) {
+//   if (action.type === "SET_SPORTS_DATA") {
+//     return {...state, ...action.value}
 //   }
-//   return state;
+//   return state
 // }
 
 
 
 const rootReducer = combineReducers({
-  defaultData, userName, userData, userDataLoaded, newsArticles, newsArticlesLoaded
+  defaultData, userName, userData, userDataLoaded, newsArticles, newsArticlesLoaded, currentWeather, teamsList, citiesList
 });
 
 export default rootReducer;
