@@ -15,7 +15,7 @@ const styles ={
     display: "flex",
     flexDirection: "column",
     borderBottom: "1px solid grey",
-    height: "130px",
+    minHeight: "130px",
     padding: "16px 0 0 12px"
   },
   itemLoading: {

@@ -21,7 +21,7 @@ export default {
     },
     news:{
       include: true,
-      categories: ["general", "entertainment"],
+      // categories: ["general", "entertainment"],
       sources:  [
         {
           "id": "australian-financial-review",
@@ -67,7 +67,9 @@ export default {
   userDataLoaded: false,
   newsArticles: {},
   newsArticlesLoaded: false,
-  currentWeather: []
+  currentWeather: [],
+  // sportsData: {},
+  // sportDataLoaded: false
     
 };
   

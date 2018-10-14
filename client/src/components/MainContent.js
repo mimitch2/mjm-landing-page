@@ -4,6 +4,7 @@ import Card from '../containers/CardContainer'
 import Weather from '../containers/WeatherContainer'
 import Sports from '../containers/SportsContainer'
 import News from '../containers/NewsContainer'
+import Stocks from './Stocks'
 import NewsSettings from '../containers/NewsSettingsContainer'
 import SportsSettings from '../containers/SportsSettingsContainer'
 import WeatherSettings from '../containers/WeatherSettingsContainer'
@@ -81,14 +82,14 @@ class MainContent extends Component {
         <div className="main-content" style={styles.root} >
 
           <div className="components" id="components" style={styles.components}>
-            <Card  heading="NEWS" options={news.sources}
+            <Card heading="NEWS" options={news.sources}
               gridColumn="span 2" gridRow="span 4" height= {600}
               settingsClick={this.handleClick}>
 
               <News />
 
             </Card>
-            <Card  heading="WEATHER" //!!!!!!!!!!!!!!!
+            <Card heading="WEATHER" //!!!!!!!!!!!!!!!
               gridColumn="span 1" gridRow="span 2" height= {300} 
               settingsClick={this.handleClick}>
 
@@ -96,12 +97,21 @@ class MainContent extends Component {
 
             </Card>
             <Card heading="SPORTS" //!!!!!!!!!!!!!!!
-              gridColumn="span 1" gridRow="span 1" height= {300}
+              gridColumn="span 1" gridRow="span 2" height= {300}
               settingsClick={this.handleClick}>
 
               <Sports />
 
             </Card>
+            <Card heading="STOCKS" //!!!!!!!!!!!!!!!
+              gridColumn="span 1" gridRow="span 2" height= {300}
+              settingsClick={this.handleClick}>
+
+              <Stocks />
+
+            </Card>
+
+
           </div>
 
           <div className="settings-wrapper" style={styles.settingsWrapper}>

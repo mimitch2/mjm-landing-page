@@ -19,8 +19,10 @@ const styles = {
     padding: "0px 6px 0px 8px",
     borderTopLeftRadius: "6px",
     borderTopRightRadius: "6px"
-
-    
+  },
+  headingIcon: {
+    fontSize: "24px",
+    marginRight: "10px"
   },
   icon: {
     // padding: "0px 8px 0px 8px",
@@ -154,7 +156,14 @@ class Card extends Component {
       <div className="card" id="card"  
         style={{...styles.card, gridColumn: gridColumn, gridRow: gridRow, height: "auto", maxHeight: height}}>
         <div className="card-heading" style={styles.heading}>
-          { heading } 
+          <div>
+            {(heading === "NEWS" && <i className="fal fa-newspaper" style={styles.headingIcon}></i>) ||
+             (heading === "SPORTS" && <i className="fas fa-football-ball" style={styles.headingIcon}></i>) ||
+             (heading === "WEATHER" && <i className="fas fa-bolt" style={styles.headingIcon}></i>) ||
+             (heading === "STOCKS" && <i className="far fa-chart-line" style={styles.headingIcon}></i>) ||
+             (heading === "MOVIES" && <i className="fas fa-film" style={styles.headingIcon}></i>)}
+            { heading } 
+          </div>
           {(this.props.options && 
             <div style={styles.dataDiv}>
               { this.props.options.map(src => 

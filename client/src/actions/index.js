@@ -1,3 +1,6 @@
+
+import keys from "../config.js"
+ 
 export function setUserName(name) {
   return {
     type: "SET_USER_NAME",
@@ -18,6 +21,7 @@ export function loadUserData(username) {
     }
   }
 }
+
 
 export function setUserData(data) {
   return {
@@ -54,7 +58,7 @@ export function updateUserData(data, username) {
 export function loadNewsArticles(newsSources) {
   return async function (dispatch) {
     try {
-      const getNews = await fetch(`https://newsapi.org/v2/top-headlines?pageSize=60&sources=${newsSources}&apiKey=cac7992187f24fc493e8b132bee398bb`)
+      const getNews = await fetch(`https://newsapi.org/v2/top-headlines?pageSize=60&sources=${newsSources}&apiKey=${keys.newsKey}`)
       const news = await getNews.json()
       dispatch(setNewsArticles(news));
       dispatch(newsArticlesLoaded(true));
@@ -85,7 +89,7 @@ export function loadWeather(city) {
   return async function (dispatch) {
     try {
       if (city) {
-        const getWeather = await fetch(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/fa792c1f87ce72cb121f485b11488cd4/${city.lat},${city.long}`)
+        const getWeather = await fetch(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${keys.weatherKey}/${city.lat},${city.long}`)
         const weather = await getWeather.json()
         const temp = weather
         temp.id = city.id
@@ -97,9 +101,7 @@ export function loadWeather(city) {
       console.log(error)
     }
   }
-
 }
-
 
 export function setWeather(weather) {
   return {
@@ -107,6 +109,78 @@ export function setWeather(weather) {
     value: weather
   };
 }
+
+// export function loadAllSports (league, teamcode) {
+//   return async function (dispatch) {
+//     loadSportsStats(league)
+//   }
+// }
+
+// export function loadSportsStats(league) {
+//   return async function (dispatch) {
+//     try {
+//       if (league) {
+//         const getStats = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/standings.json`,
+//           {
+//             type: "GET",
+//             headers: {
+//               "Authorization": "Basic " + btoa(keys.sportsKey)
+//             }
+//           })
+//         const response = await getStats.json()
+//         // dispatch(setSportsData(response));
+//         return response
+//       }
+//     } catch (error) {
+//       console.log(error)
+//     }
+//   }
+// }
+
+// export function loadSportsGames(league, teamcode) {
+//   return async function (dispatch) {
+//     try {
+//       if (league) {
+//         const getGames = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/games.json?team=${teamcode}`,
+//           {
+//             type: "GET",
+//             headers: {
+//               "Authorization": "Basic " + btoa(keys.sportsKey)
+//             }
+//           })
+//         const response = await getGames.json()
+//         response.team = teamcode
+//         const games  = await response
+//         // dispatch(setSportsData(response));
+//         return games
+//       }
+//     } catch (error) {
+//       console.log(error)
+//     }
+//   }
+// }
+
+// const counter = 0
+
+// export function setSportsData(sportsData) {
+//   // if (type === "games" && counter  === count){
+//   //   counter++
+//   return {
+//     type: "SET_SPORTS_DATA",
+//     value: sportsData
+//   };
+//   // } 
+// }
+
+// export function sportsDataLoaded(result) {
+//   return {
+//     type: "SPORTS_DATA_LOADED",
+//     value: result
+//   };
+// }
+
+
+
 
 // export function showUser(id) {
 //   return function (dispatch) {

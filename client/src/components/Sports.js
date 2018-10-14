@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import keys from "../config.js"
+// require('dotenv').config()
 
 const styles ={
   teamLine: {
@@ -13,19 +14,23 @@ const styles ={
   }
 }
 
-
+// const sportsKey = process.env.sportsKey
+// console.log(sportsKey)
 
 class Sports extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      loaded: false,
+      gamesLoaded: false,
+      statsLoaded: false,
+      standingsLoaded: false
     }
   }
-  // ***********  FIX need to write function that determines type of leage, then each team in leage then makes calls ******************//
+
   componentDidMount () {
+    console.log("mount")
     this.parseTeamInfo()
-    
+
  
   }
 
@@ -38,44 +43,78 @@ class Sports extends Component {
       } 
       teamObj[teamLeg] = [...teamObj[teamLeg], team.strTeamShort]
     })  
-    // this.buildDataObject(teamObj)
     for (const key in teamObj) {
       teamObj[key].forEach(team => {
         this.getGames(key, team)
         this.getStandings(key)
+        this.getStats(key, team)
+        
       }
       )
       
     }
   }
 
-  // getStandings = (league, team) => {
-  //   setTimeout(() => {
-  //     const standings = this.state[league].division.map(tm => {
-  //       const stand = tm.teamentry.filter(tm => {
-  //         const final = tm.filter(team => team.Abbreviation === team)
-     
-  //       })
-  //       return stand
-  //     })
-  //     console.log(standings)
-  //   }, 5000);
-    
-  //   // 
-      
-  //   // .find(tm =>{
-  //   // return tm.Abbreviation === team}))
-    
-  // }
+  returnWinLoss (league, tm) {
+    if (this.state.gamesLoaded && this.state.statsLoaded) {  
+      // debugger;      
+      // console.log(this.state[league])
+      const lg = this.state[league]
+      const standing = lg.standings.teams.filter(stand => {
+        return  stand.team.abbreviation === tm 
+      })
+  
+      const { divisionRank:rank } = standing[0]
+      const { standings:stats } = standing[0].stats
 
-  async getStandings(league) {
+      if (league === "NHL") {
+        return {w: stats.wins, l: stats.losses, otw: stats.overtimeWins, otl: stats.overtimeLosses, points: stats.points, rank: rank.rank, div: rank.divisionName, gb: stats.gamesBack}
+      } else if (league === "NFL") {
+        return {w: stats.wins, l: stats.losses, otw: stats.otWins, t: stats.ties, rank: rank.rank, div: rank.divisionName, gb: stats.gamesBack}
+      } else if (league === "NBA") {
+        return {w: stats.wins, l: stats.losses, rank: rank.rank, div: rank.divisionName, gb: stats.gamesBack}
+      } else if (league === "MLB") {
+        return {w: stats.wins, l: stats.losses, pct: stats.winPct, rank: rank.rank, div: rank.divisionName, gb: stats.gamesBack}
+      } 
+      return {}
+    }
+  }
+
+  async getStats (league, teamcode) {
     try {
-      
+      const getStats = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/team_stats_totals.json?team=${teamcode}`,
+        {
+          type: "GET",
+          headers: {
+            "Authorization": "Basic " + btoa(keys.sportsKey)
+          }
+        })
+      const stats = await getStats.json()
+      console.log(stats)
+
+      this.setState({
+        [league]: {...{[teamcode]: stats}, ...this.state[league]},
+      })
+
+      setTimeout(() => {
+        this.setState({
+          statsLoaded: true,
+        })
+      }, 100);
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async getStandings(league) { // FIX add variables for current season
+    this.setState({statsLoaded: false})
+    try {
       const getStandings = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/standings.json`,
         {
           type: "GET",
           headers: {
-            "Authorization": "Basic " + btoa(keys.sportsDB)
+            "Authorization": "Basic " + btoa(keys.sportsKey)
           }
         })
       const standings = await getStandings.json()
@@ -84,90 +123,77 @@ class Sports extends Component {
         [league]: {standings, ...this.state[league]},
       })
 
-      if (standings) {
-        // setTimeout(() => {
+      setTimeout(() => {
         this.setState({
-          loaded: true,
+          standingsLoaded: true,
         })
-        // }, 300);
-      }
+      }, 100);
+       
+      
     } catch (error) {
       console.log(error)
     }
   }
 
-
-
-  async getGames(league, teamcode) { // add variables for current season
+  async getGames(league, teamcode) { // FIX add variables for current season
+    this.setState({gamesLoaded: false})
     try {
       const getPast = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/games.json?team=${teamcode}`,
         {
           type: "GET",
           headers: {
-            "Authorization": "Basic " + btoa(keys.sportsDB)
+            "Authorization": "Basic " + btoa(keys.sportsKey)
           }
         })
       const resp = await getPast.json()
       resp.team = teamcode
       const games  = await resp
-      console.log(games)
-
-  
-      // const getStandings = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/standings.json`,
-      //   {
-      //     type: "GET",
-      //     headers: {
-      //       "Authorization": "Basic " + btoa(keys.sportsDB)
-      //     }
-      //   })
-      // const standings = await getStandings.json()
-
       this.setState({
         [league]: {...{[teamcode]: games}, ...this.state[league]},
       })
 
-      if (games) {
-        // setTimeout(() => {
+      setTimeout(() => {
         this.setState({
-          loaded: true,
+          gamesLoaded: true,
         })
-        // }, 300);
-      }
+      }, 100);
+      
+  
 
     } catch (error) {
       console.log(error)
     }
   }
 
-  //rkznb5zmqy8vwh9zegt3w2at
-  //DGsm2bbsUs
-
   render() {
+    const { gamesLoaded, statsLoaded } = this.state
+    console.log(gamesLoaded, statsLoaded)
     const { teams } = this.props.userData.sports
-    const { NHL, NFL, NBA, MLB } = this.state
-    if (this.props.userData.sports && this.state.loaded) {
+  
+    if (gamesLoaded && statsLoaded && teams)  {
+
       return (
         <div className="sports">
-          {teams.map((team, i) => 
-            <div style={styles.teamLine} key={i}>
-              <img src={team.strTeamBadge} width="30px" height ="30px" alt=""/>
-              <span className="team-name item" style={styles.item}>           
-                {team.strTeam}
-              </span>
+          {teams.map((team, i) => {
+            // console.log(this.returnWinLoss(team.strLeague, team.strTeamShort))
 
-              {teams.map((team, i) => { 
-                const flrStanding = this.state[team.strLeague]
-                // console.log(flrStanding)
-                return (
-                  <div key={i}>
-                    
-                    <div></div>
-                    
-                  </div>
-                )
-              })}
-            </div>
-          )}
+            return (
+              <div style={styles.teamLine} key={i}>
+                <img src={team.strTeamBadge} width="30px" height ="30px" alt=""/>
+                <span className="team-name item" style={styles.item}>           
+                  {team.strTeam}
+                </span>
+
+                {team.strLeague === "NHL" &&
+              <div key={i}> 
+                <div>
+                  {/* {teamData.w} */}
+                </div>
+              </div>
+                }
+              </div>
+            )
+          })}
         </div>
       )
     } else {
@@ -176,8 +202,8 @@ class Sports extends Component {
   }
 }
 
-Sports.propTypes = {
-  prop: PropTypes.array,
-}
+// Sports.propTypes = {
+//   prop: PropTypes.array,
+// }
 
 export default Sports;

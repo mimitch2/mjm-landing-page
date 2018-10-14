@@ -55,12 +55,14 @@ function currentWeather(state = [], action) { // FIX *** not sure why this state
   return state;
 }
 
-// function favorites(state = [], action) {
-//   if (action.type === "FAVORITES_LOADED") {
-//     return action.value;
+// function sportsData (state = {}, action) {
+//   if (action.type === "SET_SPORTS_DATA") {
+//     return {...state, ...action.value}
 //   }
-//   return state;
+//   return state
 // }
+
+
 
 const rootReducer = combineReducers({
   defaultData, userName, userData, userDataLoaded, newsArticles, newsArticlesLoaded, currentWeather, teamsList, citiesList
