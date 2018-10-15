@@ -24,7 +24,7 @@ export const sortAlpha = (array) => {
 // }
 
 
-//Promises 
+//Promises **************** OLD
 
 const posts = [
   { title: 'I love JavaScript', author: 'Wes Bos', id: 1 },
@@ -76,6 +76,9 @@ function hydrateAuthor(post) {
 //   .catch(err => {
 //     console.error(err);
 //   })
+
+
+// ASYNC AWAIT ****************************************************
 
 
 async function go() {
