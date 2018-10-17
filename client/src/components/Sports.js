@@ -14,6 +14,12 @@ const styles ={
   }
 }
 
+let counter = 0;
+const auth = {
+  type: "GET",
+  headers: {"Authorization": "Basic " + btoa(keys.sportsKey)}
+} 
+
 // const sportsKey = process.env.sportsKey
 // console.log(sportsKey)
 
@@ -26,10 +32,7 @@ class Sports extends Component {
   }
 
   componentDidMount () {
-    console.log("mount")
     this.parseTeamInfo()
-
- 
   }
 
   parseTeamInfo = () => {
@@ -42,59 +45,78 @@ class Sports extends Component {
       teamObj[teamLeg] = [...teamObj[teamLeg], team.strTeamShort]
     })  
 
-    // this.getData(teamObj)
-    console.log(teamObj)
-    for (const key in teamObj) {
-      teamObj[key].forEach(team => {
-        // this.getGames(key, team)
-        // this.getStandings(key)
-        this.getData(key, team)
-        
-      })
+    console.table(teamObj)
+
+
+    this.getStandings(teamObj)
+ 
+  }
+
+  async getStandings(teamObj) { // FIX add variables for current season
+    const newObj = {...teamObj}
+    try {
+      for (const league in teamObj) {
+        const getStandings = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/standings.json`, auth)
+        const result = await getStandings.json()
+        newObj[league].standings = result
+        // this.setState({
+        //   [league]: {standings, ...this.state[league]},
+        // })
+      }
+
+      console.table(newObj)
+    
+      // setTimeout(() => {
+      //   this.setState({
+      //     standingsLoaded: true,
+      //   })
+      // }, 100);
+      
+    } catch (error) {
+      console.log(error)
     }
   }
 
   returnWinLoss (league, tm) {
     // debugger;      
-    console.log(this.state[league])
-    // const lg = this.state[league]
-    // const standing = lg.standings.teams.filter(stand => {
-    //   return  stand.team.abbreviation === tm 
-    // })
+    // console.log(this.state[league])
+    const lg = this.state[league]
+    const standing = lg.standings.teams.filter(stand => {
+      return  stand.team.abbreviation === tm 
+    })
   
-    // const { divisionRank:rank } = standing[0]
-    // const { standings:stats } = standing[0].stats
+    const { divisionRank:rank } = standing[0]
+    const { standings:stats } = standing[0].stats
 
-    // if (league === "NHL") {
-    //   return {w: stats.wins, l: stats.losses, otw: stats.overtimeWins, otl: stats.overtimeLosses, points: stats.points, rank: rank.rank, div: rank.divisionName, gb: stats.gamesBack}
-    // } else if (league === "NFL") {
-    //   return {w: stats.wins, l: stats.losses, otw: stats.otWins, t: stats.ties, rank: rank.rank, div: rank.divisionName, gb: stats.gamesBack}
-    // } else if (league === "NBA") {
-    //   return {w: stats.wins, l: stats.losses, rank: rank.rank, div: rank.divisionName, gb: stats.gamesBack}
-    // } else if (league === "MLB") {
-    //   return {w: stats.wins, l: stats.losses, pct: stats.winPct, rank: rank.rank, div: rank.divisionName, gb: stats.gamesBack}
-    // } 
+    if (league === "NHL") {
+      return {w: stats.wins, l: stats.losses, otw: stats.overtimeWins, otl: stats.overtimeLosses, points: stats.points, rank: rank.rank, div: rank.divisionName, gb: stats.gamesBack}
+    } else if (league === "NFL") {
+      return {w: stats.wins, l: stats.losses, otw: stats.otWins, t: stats.ties, rank: rank.rank, div: rank.divisionName, gb: stats.gamesBack}
+    } else if (league === "NBA") {
+      return {w: stats.wins, l: stats.losses, rank: rank.rank, div: rank.divisionName, gb: stats.gamesBack}
+    } else if (league === "MLB") {
+      return {w: stats.wins, l: stats.losses, pct: stats.winPct, rank: rank.rank, div: rank.divisionName, gb: stats.gamesBack}
+    } 
     return {}
     
   }
 
+  // 1. send getData entire teamObj
+  // 2. determine how many legues, and how many teams in each league there are
+  // 3. inside getData, loop through leagues and call getStandings by passing the lesgues and the league count
+
   async getData (league, teamcode) {
-    // let getStats, getGames, getStandings
-    const auth = {
-      type: "GET",
-      headers: {"Authorization": "Basic " + btoa(keys.sportsKey)}
-    } 
+    
     try {
-      // if (teamcode) {
       const getStats = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/team_stats_totals.json?team=${teamcode}`, auth)
       const getGames = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/games.json?team=${teamcode}`, auth)
-      // } else {
-      const getStandings = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/standings.json`, auth)
-      // }
-
-      const res = await Promise.all([getStats, getStandings, getGames])
+      // const getStandings = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/standings.json`, auth)
+      
+      
+      const res = await Promise.all([getGames])
       const dataArr = res.map(r => r.json())
       const [stats, standings, games] = await Promise.all(dataArr)
+      // console.log(stats, standings, games)
       const tempState = {
         ...this.state[league],
         [teamcode]: {games: games, stats: stats}
@@ -102,12 +124,21 @@ class Sports extends Component {
       // tempState.standings = standings
       // tempState[teamcode].games = games
       // tempState[teamcode].stats = stats
-      this.setState({
-        [league]: {...tempState, standings}})
-
-      setTimeout(() => {
-        this.setState({loaded: true})
-      }, 300);
+      // this.setState({
+      //   [league]: {...tempState, standings}})
+      
+      if (standings) {
+        this.setState({
+          [league]: {...tempState, standings}
+        })
+        setTimeout(() => {
+          this.setState({
+            loaded: true
+          })
+        }, 200);
+       
+      }
+   
       // console.log(stats, standings, games)
 
 
@@ -132,44 +163,24 @@ class Sports extends Component {
     }
   }
 
-  // async getStandings(league) { // FIX add variables for current season
-  //   this.setState({statsLoaded: false})
+
+
+  // async getGamesAndStats(teamObj) { // FIX add variables for current season
   //   try {
-  //     const getStandings = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/standings.json`,
-  //       {
-  //         type: "GET",
-  //         headers: {
-  //           "Authorization": "Basic " + btoa(keys.sportsKey)
+
+  //     for (const league in object) {
+  //       for (const key in object) {
+  //         if (object.hasOwnProperty(key)) {
+  //           const element = object[key];
+            
   //         }
-  //       })
-  //     const standings = await getStandings.json()
+  //       }
+  //       const getStats = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/team_stats_totals.json?team=${teamcode}`, auth)
+  //       const getGames = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/games.json?team=${teamcode}`, auth)
+  //     }
+     
 
-  //     this.setState({
-  //       [league]: {standings, ...this.state[league]},
-  //     })
 
-  //     setTimeout(() => {
-  //       this.setState({
-  //         standingsLoaded: true,
-  //       })
-  //     }, 100);
-       
-      
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-
-  // async getGames(league, teamcode) { // FIX add variables for current season
-  //   this.setState({gamesLoaded: false})
-  //   try {
-  //     const getPast = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/games.json?team=${teamcode}`,
-  //       {
-  //         type: "GET",
-  //         headers: {
-  //           "Authorization": "Basic " + btoa(keys.sportsKey)
-  //         }
-  //       })
   //     const resp = await getPast.json()
   //     resp.team = teamcode
   //     const games  = await resp

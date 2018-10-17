@@ -89,13 +89,13 @@ class MainContent extends Component {
               <News />
 
             </Card>
-            <Card heading="WEATHER" //!!!!!!!!!!!!!!!
+            {/* <Card heading="WEATHER" //!!!!!!!!!!!!!!!
               gridColumn="span 1" gridRow="span 2" height= {300} 
               settingsClick={this.handleClick}>
 
               <Weather />
 
-            </Card>
+            </Card> */}
             <Card heading="SPORTS" //!!!!!!!!!!!!!!!
               gridColumn="span 1" gridRow="span 2" height= {300}
               settingsClick={this.handleClick}>

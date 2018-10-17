@@ -107,6 +107,7 @@ class SporstSettings extends Component {
   buildTeamArray = () => {
     const { nhl, nfl, nba, mlb } = this.props.teamsList
     const teamArr = [...nhl, ...nfl, ...nba, ...mlb]
+    // const filterteamArr = teamArr.filter(team => team)
     this.setState({
       sourcesList: this.sortAlpha(teamArr),
       filteredList: this.sortAlpha(teamArr),
@@ -168,6 +169,7 @@ class SporstSettings extends Component {
       setTimeout(() => {
         this.setState({userTeams: this.props.userData.sports.teams})
       }, closeDelay);
+      this.buildTeamArray()
     }
     
     setTimeout(() => {
