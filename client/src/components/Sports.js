@@ -14,14 +14,10 @@ const styles ={
   }
 }
 
-let counter = 0;
 const auth = {
   type: "GET",
   headers: {"Authorization": "Basic " + btoa(keys.sportsKey)}
 } 
-
-// const sportsKey = process.env.sportsKey
-// console.log(sportsKey)
 
 class Sports extends Component {
   constructor(props) {
@@ -40,38 +36,43 @@ class Sports extends Component {
     this.props.userData.sports.teams.forEach(team =>{
       const teamLeg = team.strLeague
       if (!(teamLeg in teamObj)) {
-        teamObj[teamLeg] = []
+        teamObj[teamLeg] = {}
       } 
-      teamObj[teamLeg] = [...teamObj[teamLeg], team.strTeamShort]
+      teamObj[teamLeg] = {[team.strTeamShort]:{}, ...teamObj[teamLeg]}
     })  
-
-    console.table(teamObj)
-
-
     this.getStandings(teamObj)
- 
   }
 
-  async getStandings(teamObj) { // FIX add variables for current season
-    const newObj = {...teamObj}
+  async getStandings(teamObj) { // FIX add variables for current seasons
     try {
       for (const league in teamObj) {
         const getStandings = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/standings.json`, auth)
         const result = await getStandings.json()
-        newObj[league].standings = result
-        // this.setState({
-        //   [league]: {standings, ...this.state[league]},
-        // })
+        teamObj[league].standings = result
       }
+      this.getGamesAndStats(teamObj)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
-      console.table(newObj)
-    
-      // setTimeout(() => {
-      //   this.setState({
-      //     standingsLoaded: true,
-      //   })
-      // }, 100);
-      
+  async getGamesAndStats(newObj) {
+
+    try {
+      for (const league in newObj) {
+        for (const teamcode in newObj[league]) {
+          if (teamcode !== "standings") {
+            const getStats = fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/team_stats_totals.json?team=${teamcode}`, auth)
+            const getGames = fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/games.json?team=${teamcode}`, auth)
+            const res = await Promise.all([getStats, getGames])
+            const dataArr = res.map(r => r.json())
+            const [stats, games] = await Promise.all(dataArr)
+            newObj[league][teamcode].stats = stats
+            newObj[league][teamcode].games = games
+          }
+        }
+      }
+      this.setState({...newObj, loaded: true})
     } catch (error) {
       console.log(error)
     }
@@ -105,63 +106,7 @@ class Sports extends Component {
   // 2. determine how many legues, and how many teams in each league there are
   // 3. inside getData, loop through leagues and call getStandings by passing the lesgues and the league count
 
-  async getData (league, teamcode) {
-    
-    try {
-      const getStats = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/team_stats_totals.json?team=${teamcode}`, auth)
-      const getGames = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/games.json?team=${teamcode}`, auth)
-      // const getStandings = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/standings.json`, auth)
-      
-      
-      const res = await Promise.all([getGames])
-      const dataArr = res.map(r => r.json())
-      const [stats, standings, games] = await Promise.all(dataArr)
-      // console.log(stats, standings, games)
-      const tempState = {
-        ...this.state[league],
-        [teamcode]: {games: games, stats: stats}
-      }
-      // tempState.standings = standings
-      // tempState[teamcode].games = games
-      // tempState[teamcode].stats = stats
-      // this.setState({
-      //   [league]: {...tempState, standings}})
-      
-      if (standings) {
-        this.setState({
-          [league]: {...tempState, standings}
-        })
-        setTimeout(() => {
-          this.setState({
-            loaded: true
-          })
-        }, 200);
-       
-      }
-   
-      // console.log(stats, standings, games)
 
-
-
-
-
-      // const stats = await getStats.json()
-      // console.log(stats)
-
-      // this.setState({
-      //   [league]: {...{[teamcode]: stats}, ...this.state[league]},
-      // })
-
-      // setTimeout(() => {
-      //   this.setState({
-      //     statsLoaded: true,
-      //   })
-      // }, 100);
-
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
 
 
