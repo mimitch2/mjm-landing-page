@@ -107,32 +107,34 @@ class SporstSettings extends Component {
   buildTeamArray = () => {
     const { nhl, nfl, nba, mlb } = this.props.teamsList
     const teamArr = [...nhl, ...nfl, ...nba, ...mlb]
-    // const filterteamArr = teamArr.filter(team => team)
+    const { teams } = this.props.userData.sports 
+
+    const filterTeamArr = teamArr.filter(team => {
+      const usrArr = teams.map(usrTeam => usrTeam.idTeam)
+      return  !usrArr.includes(team.idTeam)
+    })
     this.setState({
       sourcesList: this.sortAlpha(teamArr),
-      filteredList: this.sortAlpha(teamArr),
-      userTeams: this.sortAlpha(this.props.userData.sports.teams)
+      filteredList: this.sortAlpha(filterTeamArr),
+      userTeams: teams
     })
   }
-
 
   componentDidUpdate (prevProps) {
     if (prevProps.userData !== this.props.userData) {
       this.setState({
-        userTeams: this.sortAlpha(this.props.userData.sports.teams)
+        userTeams: this.props.userData.sports.teams
       })
     }
-
   }
 
   addTeam = (team) => {
-    const tempTeams = [...this.state.userTeams, team]
-    const sortedUserSources = this.sortAlpha(tempTeams)
+    const userTeams = [...this.state.userTeams, team]
     const tempArr = this.state.filteredList.filter(item => {
       return item.idTeam !== team.idTeam
     })
     this.setState({
-      userTeams: sortedUserSources,
+      userTeams: userTeams,
       filteredList: tempArr
     })
   }
@@ -175,7 +177,6 @@ class SporstSettings extends Component {
     setTimeout(() => {
       this.props.settingsClick(type)
     }, closeDelay);
-
   }
 
   filterSources = (input) => {

@@ -31,6 +31,15 @@ class Sports extends Component {
     this.parseTeamInfo()
   }
 
+  componentDidUpdate = (prevProps) => {
+    if (prevProps.userData !== this.props.userData) {
+      this.setState({
+        loaded: false
+      })
+      this.parseTeamInfo()
+    }
+  }
+
   parseTeamInfo = () => {
     const teamObj = {}
     this.props.userData.sports.teams.forEach(team =>{
@@ -57,7 +66,6 @@ class Sports extends Component {
   }
 
   async getGamesAndStats(newObj) {
-
     try {
       for (const league in newObj) {
         for (const teamcode in newObj[league]) {
@@ -72,15 +80,15 @@ class Sports extends Component {
           }
         }
       }
+
       this.setState({...newObj, loaded: true})
+
     } catch (error) {
       console.log(error)
     }
   }
 
   returnWinLoss (league, tm) {
-    // debugger;      
-    // console.log(this.state[league])
     const lg = this.state[league]
     const standing = lg.standings.teams.filter(stand => {
       return  stand.team.abbreviation === tm 
@@ -99,78 +107,43 @@ class Sports extends Component {
       return {w: stats.wins, l: stats.losses, pct: stats.winPct, rank: rank.rank, div: rank.divisionName, gb: stats.gamesBack}
     } 
     return {}
-    
   }
-
-  // 1. send getData entire teamObj
-  // 2. determine how many legues, and how many teams in each league there are
-  // 3. inside getData, loop through leagues and call getStandings by passing the lesgues and the league count
-
-
-
-
-
-  // async getGamesAndStats(teamObj) { // FIX add variables for current season
-  //   try {
-
-  //     for (const league in object) {
-  //       for (const key in object) {
-  //         if (object.hasOwnProperty(key)) {
-  //           const element = object[key];
-            
-  //         }
-  //       }
-  //       const getStats = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/team_stats_totals.json?team=${teamcode}`, auth)
-  //       const getGames = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/games.json?team=${teamcode}`, auth)
-  //     }
-     
-
-
-  //     const resp = await getPast.json()
-  //     resp.team = teamcode
-  //     const games  = await resp
-  //     this.setState({
-  //       [league]: {...{[teamcode]: games}, ...this.state[league]},
-  //     })
-
-  //     setTimeout(() => {
-  //       this.setState({
-  //         gamesLoaded: true,
-  //       })
-  //     }, 100);
-      
-  
-
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
 
   render() {
     const { loaded } = this.state
     const { teams } = this.props.userData.sports
-  
     if (loaded && teams)  {
-
       return (
         <div className="sports">
           {teams.map((team, i) => {
-            console.log(this.returnWinLoss(team.strLeague, team.strTeamShort))
-
+            const teamData = this.returnWinLoss(team.strLeague, team.strTeamShort)
             return (
               <div style={styles.teamLine} key={i}>
                 <img src={team.strTeamBadge} width="30px" height ="30px" alt=""/>
-                <span className="team-name item" style={styles.item}>           
+                <div className="team-name item" style={styles.item}>           
                   {team.strTeam}
-                </span>
-
-                {team.strLeague === "NHL" &&
-              <div key={i}> 
-                <div>
-                  {/* {teamData.w} */}
                 </div>
-              </div>
-                }
+               
+                <div key={i}> 
+                  {(team.strLeague === "NHL" &&
+                  <div>
+                    {`${teamData.w} - ${teamData.l}`}
+                  </div>)
+                  || (team.strLeague === "NFL" &&
+                  <div>
+                    {`${teamData.w} - ${teamData.l}`}
+                  </div>)
+                  || (team.strLeague === "NBA" &&
+                  <div>
+                    {`${teamData.w} - ${teamData.l}`}
+                  </div>)
+                  || (team.strLeague === "MLB" &&
+                  <div>
+                    {`${teamData.w} - ${teamData.l}`}
+                  </div>)
+                  }
+                </div>
+              
               </div>
             )
           })}
