@@ -92,7 +92,6 @@ class SporstSettings extends Component {
 
   componentDidMount = () => {
     this.buildTeamArray()
- 
   }
 
   sortAlpha = (array) => {
@@ -164,7 +163,6 @@ class SporstSettings extends Component {
       setTimeout(() => {
         this.props.loadUserData(this.props.userName)
       }, closeDelay);
-
     }
 
     if (button === "cancel") {
@@ -190,7 +188,6 @@ class SporstSettings extends Component {
     } else {
       this.setState({filteredList: this.sortAlpha(this.state.filteredList)})
     }
-   
   }
 
   buttonBounce = (el, time) => {
@@ -206,16 +203,11 @@ class SporstSettings extends Component {
     if (this.state.filteredList) {
       return (
         <div className="settings invisible" id="sports-settings" style={styles.settings}>
-
           <div className="settings-name">{this.props.type}</div>
-
           <div style={styles.settingsWrapper}>
-
             <div className="control-left" style={styles.controlsLeft}>
-
               <BasicInput sendInput={this.filterSources} 
                 placeholder="Search teams..."/>
-
               <div className="league-div" style={{display: "flex"}}>
                 {leagueIcons.map(ico => {
                   return (
@@ -225,7 +217,6 @@ class SporstSettings extends Component {
                   )
                 })}
               </div>
-
               <div>Available Teams</div>
               <div className="select-scroll" style={styles.list}>
                 {this.state.filteredList.map((team, i) => {
@@ -243,7 +234,6 @@ class SporstSettings extends Component {
                 })}
               </div>
             </div> 
-            
             <div style={styles.rightList}>
               {this.state.userTeams.map((team, i) => {
                 return (
@@ -274,7 +264,6 @@ class SporstSettings extends Component {
               onClick={(e) => this.handleSubmit(this.props.type, "submit", e)}></i>
           </div>
         </div>      
-        
       )
     } else {
       return null;

@@ -68,8 +68,8 @@ export default {
   newsArticles: {},
   newsArticlesLoaded: false,
   currentWeather: [],
-  // sportsData: {},
-  // sportDataLoaded: false
+  sportsData: {},
+  sportsDataLoaded: false
     
 };
   

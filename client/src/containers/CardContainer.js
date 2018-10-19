@@ -1,6 +1,6 @@
 import Card from "../components/Card";
 import { connect } from "react-redux";
-import { loadNewsArticles, loadWeather, updateUserData } from "../actions";
+import { loadNewsArticles, loadWeather, updateUserData, parseTeamInfo } from "../actions";
 
 function mapStateToProps(state) {
   return {
@@ -37,6 +37,10 @@ function mapDispatchToProps(dispatch) {
       const action = loadWeather(weather);
       dispatch(action);
     },
+    parseTeamInfo: (data) => {
+      const action = parseTeamInfo(data);
+      dispatch(action);
+    }
   }
 }
 

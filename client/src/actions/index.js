@@ -1,6 +1,12 @@
 
 import keys from "../config.js"
- 
+
+const auth = {
+  type: "GET",
+  headers: {"Authorization": "Basic " + btoa(keys.sportsKey)}
+} 
+
+
 export function setUserName(name) {
   return {
     type: "SET_USER_NAME",
@@ -21,7 +27,6 @@ export function loadUserData(username) {
     }
   }
 }
-
 
 export function setUserData(data) {
   return {
@@ -110,76 +115,78 @@ export function setWeather(weather) {
   };
 }
 
+
 // export function loadAllSports (league, teamcode) {
 //   return async function (dispatch) {
-//     loadSportsStats(league)
+//     loadSportsStandings(league)
 //   }
 // }
 
-// export function loadSportsStats(league) {
-//   return async function (dispatch) {
-//     try {
-//       if (league) {
-//         const getStats = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/standings.json`,
-//           {
-//             type: "GET",
-//             headers: {
-//               "Authorization": "Basic " + btoa(keys.sportsKey)
-//             }
-//           })
-//         const response = await getStats.json()
-//         // dispatch(setSportsData(response));
-//         return response
-//       }
-//     } catch (error) {
-//       console.log(error)
-//     }
-//   }
-// }
 
-// export function loadSportsGames(league, teamcode) {
-//   return async function (dispatch) {
-//     try {
-//       if (league) {
-//         const getGames = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/games.json?team=${teamcode}`,
-//           {
-//             type: "GET",
-//             headers: {
-//               "Authorization": "Basic " + btoa(keys.sportsKey)
-//             }
-//           })
-//         const response = await getGames.json()
-//         response.team = teamcode
-//         const games  = await response
-//         // dispatch(setSportsData(response));
-//         return games
-//       }
-//     } catch (error) {
-//       console.log(error)
-//     }
-//   }
-// }
-
-// const counter = 0
-
-// export function setSportsData(sportsData) {
-//   // if (type === "games" && counter  === count){
-//   //   counter++
-//   return {
-//     type: "SET_SPORTS_DATA",
-//     value: sportsData
-//   };
-//   // } 
-// }
-
-// export function sportsDataLoaded(result) {
-//   return {
-//     type: "SPORTS_DATA_LOADED",
-//     value: result
-//   };
-// }
+export function parseTeamInfo (data) {
+  return function (dispatch) {
+    const teamObj = {}
+    data.forEach(team =>{
+      const teamLeg = team.strLeague
+      if (!(teamLeg in teamObj)) {
+        teamObj[teamLeg] = {}
+      } 
+      teamObj[teamLeg] = {[team.strTeamShort]:{}, ...teamObj[teamLeg]}
+    }) 
+    dispatch(loadSportsData(teamObj))
+  }
+}
 
 
+export function loadSportsData (teamObj) {
+  return async function (dispatch) {
+    dispatch(sportsDataLoaded(false))
+    try {
+      for (const league in teamObj) {
+        const getStandings = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/standings.json`, auth)
+        const result = await getStandings.json()
+        teamObj[league].standings = result
+      }
+      const newObj =  teamObj
+      for (const league in newObj) {
+        for (const teamcode in newObj[league]) {
+          if (teamcode !== "standings") {
+            const getStats = fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/team_stats_totals.json?team=${teamcode}`, auth)
+            const getGames = fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/games.json?team=${teamcode}`, auth)
+            const res = await Promise.all([getStats, getGames])
+            const dataArr = res.map(r => r.json())
+            const [stats, games] = await Promise.all(dataArr)
+            newObj[league][teamcode].stats = stats
+            newObj[league][teamcode].games = games
+          }
+        }
+      }
+      dispatch(setSportsData(teamObj))
+      setTimeout(() => {
+        dispatch(sportsDataLoaded(true))
+      }, 300);
+   
+     
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+
+export function setSportsData(sportsData) {
+  return {
+    type: "SET_SPORTS_DATA",
+    value: sportsData
+  };
+}
+
+export function sportsDataLoaded(bool) {
+  return {
+    type: "SPORTS_DATA_LOADED",
+    value: bool
+  };
+}
 
 
 // export function showUser(id) {

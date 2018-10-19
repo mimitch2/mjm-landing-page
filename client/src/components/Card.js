@@ -54,7 +54,6 @@ const styles = {
     cursor: "pointer",
     zIndex: 100
   }
-
 }
 
 class Card extends Component {
@@ -69,7 +68,6 @@ class Card extends Component {
       }).join(),
     }
   }
-
 
   returnImgSource = (type, urlInsert) => {
     if (type === "NEWS") {
@@ -95,15 +93,13 @@ class Card extends Component {
     }
 
     if (id.includes('reload-weather')) {
-      
-      this.props.updateUserData(this.props.userData.weather.cities, this.props.userData.userName)
+      this.props.userData.weather.cities.forEach(city =>{
+        this.props.loadWeather(city) 
+      })
+    }
 
-      setTimeout(() => {
-        this.props.userData.weather.cities.forEach(city =>{
-          this.reloadWeather(city) 
-        })
-      }, 300);
-
+    if (id.includes('reload-sports')) {
+      this.props.parseTeamInfo(this.props.userData.sports.teams)
     }
 
     if (!id.includes('img')) {
@@ -112,18 +108,6 @@ class Card extends Component {
         el.classList.toggle('spin-once')
       }, 720);
     }
-  }
-
-  async reloadWeather (city) {
-    try {
-      const weather = await this.props.loadWeather(city)
-      if (weather) {
-        const tempArr = [...this.state.weather, weather]
-        this.setState({weather: tempArr})
-      }
-    } catch (error) {
-      console.log(error);
-    }  
   }
 
   reloadNews = ( src ) => {
@@ -141,16 +125,12 @@ class Card extends Component {
         this.setState({tempNewsSources: src})
         setTimeout(() => {
           this.props.loadNewsArticles(src)
-          console.log(src)
         }, 50);
-          
       }
     }
-    // } 
   }
 
   render() {
-    // console.log(this.props.currentWeather)
     const { gridColumn, gridRow, height, heading } = this.props
     return (
       <div className="card" id="card"  
@@ -167,7 +147,8 @@ class Card extends Component {
           {(this.props.options && 
             <div style={styles.dataDiv}>
               { this.props.options.map(src => 
-                <div className="card-options-div" key={src.id} 
+                <div className="card-options-div" 
+                  key={src.id} 
                   id={src.id}
                   style={styles.options} 
                   onClick={ () => this.handleOptionClick(src.id) }>
@@ -199,7 +180,6 @@ class Card extends Component {
         <div className="card-content" style={{...styles.content, height: height - 57, maxHeight: height - 57}}>
           {this.props.children}
         </div>
-    
       </div>
     )
   }

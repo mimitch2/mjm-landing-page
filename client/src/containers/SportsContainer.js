@@ -1,27 +1,29 @@
 import Sports from "../components/Sports";
 import { connect } from "react-redux";
-// import { loadUserData, loadNewsArticles } from "../actions";
+import { loadSportsData, parseTeamInfo } from "../actions";
 
 function mapStateToProps(state) {
   return {
-    defaultData: state.defualtData,
+    defaultData: state.defaultData,
     userData: state.userData,
     userName: state.userName,
     userDataLoaded: state.userDataLoaded,
+    sportsData: state.sportsData,
+    sportsDataLoaded: state.sportsDataLoaded
   };
 }
   
-// function mapDispatchToProps(dispatch) {
-//   return {
-//     loadUserData: (username) => {
-//       const action = loadUserData(username);
-//       dispatch(action);
-//     },
-//     loadNewsArticles: (newsSources) => {
-//       const action = loadNewsArticles(newsSources);
-//       dispatch(action);
-//     }
-//   }
-// }
+function mapDispatchToProps(dispatch) {
+  return {
+    loadSportsData: (teamObj) => {
+      const action = loadSportsData(teamObj);
+      dispatch(action);
+    },
+    parseTeamInfo: (data) => {
+      const action = parseTeamInfo(data);
+      dispatch(action);
+    }
+  }
+}
 
-export default connect(mapStateToProps,null)(Sports);
+export default connect(mapStateToProps, mapDispatchToProps)(Sports);

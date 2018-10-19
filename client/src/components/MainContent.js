@@ -63,7 +63,7 @@ class MainContent extends Component {
   // }
 
   handleClick = (type) => {
-
+    window.scrollTo(0, 0)
     const components =  document.getElementById('components')
     const settings =  document.getElementById(`${type.toLowerCase()}-settings`)
     components.classList.toggle("invisible")
@@ -82,20 +82,23 @@ class MainContent extends Component {
         <div className="main-content" style={styles.root} >
 
           <div className="components" id="components" style={styles.components}>
-            <Card heading="NEWS" options={news.sources}
+
+            <Card heading="NEWS" 
               gridColumn="span 2" gridRow="span 4" height= {600}
-              settingsClick={this.handleClick}>
+              settingsClick={this.handleClick}
+              options = {news.sources}
+            >
 
               <News />
 
             </Card>
-            {/* <Card heading="WEATHER" //!!!!!!!!!!!!!!!
+            <Card heading="WEATHER" //!!!!!!!!!!!!!!!
               gridColumn="span 1" gridRow="span 2" height= {300} 
               settingsClick={this.handleClick}>
 
               <Weather />
 
-            </Card> */}
+            </Card>
             <Card heading="SPORTS" //!!!!!!!!!!!!!!!
               gridColumn="span 1" gridRow="span 2" height= {300}
               settingsClick={this.handleClick}>
@@ -110,7 +113,6 @@ class MainContent extends Component {
               <Stocks />
 
             </Card>
-
 
           </div>
 

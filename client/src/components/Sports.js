@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
-import keys from "../config.js"
+// import keys from "../config.js"
 // require('dotenv').config()
 
 const styles ={
@@ -14,11 +14,6 @@ const styles ={
   }
 }
 
-const auth = {
-  type: "GET",
-  headers: {"Authorization": "Basic " + btoa(keys.sportsKey)}
-} 
-
 class Sports extends Component {
   constructor(props) {
     super(props)
@@ -27,64 +22,19 @@ class Sports extends Component {
     }
   }
 
-  componentDidMount () {
-    this.parseTeamInfo()
+  componentDidMount = () => {
+    this.props.parseTeamInfo(this.props.userData.sports.teams)
   }
 
-  componentDidUpdate = (prevProps) => {
+  componentDidUpdate = prevProps => {
     if (prevProps.userData !== this.props.userData) {
       this.setState({
         loaded: false
       })
-      this.parseTeamInfo()
+      this.props.parseTeamInfo(this.props.userData.sports.teams)
     }
-  }
-
-  parseTeamInfo = () => {
-    const teamObj = {}
-    this.props.userData.sports.teams.forEach(team =>{
-      const teamLeg = team.strLeague
-      if (!(teamLeg in teamObj)) {
-        teamObj[teamLeg] = {}
-      } 
-      teamObj[teamLeg] = {[team.strTeamShort]:{}, ...teamObj[teamLeg]}
-    })  
-    this.getStandings(teamObj)
-  }
-
-  async getStandings(teamObj) { // FIX add variables for current seasons
-    try {
-      for (const league in teamObj) {
-        const getStandings = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/standings.json`, auth)
-        const result = await getStandings.json()
-        teamObj[league].standings = result
-      }
-      this.getGamesAndStats(teamObj)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  async getGamesAndStats(newObj) {
-    try {
-      for (const league in newObj) {
-        for (const teamcode in newObj[league]) {
-          if (teamcode !== "standings") {
-            const getStats = fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/team_stats_totals.json?team=${teamcode}`, auth)
-            const getGames = fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/games.json?team=${teamcode}`, auth)
-            const res = await Promise.all([getStats, getGames])
-            const dataArr = res.map(r => r.json())
-            const [stats, games] = await Promise.all(dataArr)
-            newObj[league][teamcode].stats = stats
-            newObj[league][teamcode].games = games
-          }
-        }
-      }
-
-      this.setState({...newObj, loaded: true})
-
-    } catch (error) {
-      console.log(error)
+    if (prevProps.sportsData !== this.props.sportsData) {
+      this.setState({...this.props.sportsData, loaded: true})
     }
   }
 

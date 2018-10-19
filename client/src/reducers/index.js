@@ -55,17 +55,24 @@ function currentWeather(state = [], action) { // FIX *** not sure why this state
   return state;
 }
 
-// function sportsData (state = {}, action) {
-//   if (action.type === "SET_SPORTS_DATA") {
-//     return {...state, ...action.value}
-//   }
-//   return state
-// }
+function sportsData (state = {}, action) {
+  if (action.type === "SET_SPORTS_DATA") {
+    return {...state, ...action.value}
+  }
+  return state
+}
+
+function sportsDataLoaded (state = false, action) {
+  if (action.type === "SPORTS_DATA_LOADED") {
+    return {...state, ...action.value}
+  }
+  return state
+}
 
 
 
 const rootReducer = combineReducers({
-  defaultData, userName, userData, userDataLoaded, newsArticles, newsArticlesLoaded, currentWeather, teamsList, citiesList
+  defaultData, userName, userData, userDataLoaded, newsArticles, newsArticlesLoaded, currentWeather, teamsList, citiesList, sportsData, sportsDataLoaded
 });
 
 export default rootReducer;
