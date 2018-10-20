@@ -104,6 +104,16 @@ text-decoration: none;
 }
 
 
+th {
+  background: rgb(68, 68, 68);
+  color: rgb(175, 175, 175);
+  font-size: 14px;
+  font-weight: 400;
+  padding: 0px 10px 0px 10px;
+  text-align: center;
+}
+
+
 .select-scroll::-webkit-scrollbar {
   width: 19px;
   background-color: white;

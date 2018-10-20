@@ -21,7 +21,7 @@ const styles = {
     zIndex: "100",
     display: "grid",
     gridGap: "20px",
-    gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+    gridTemplateColumns: "repeat(auto-fill, minmax(400px, 1fr))",
     gridTemplateRows: 150,
     padding: "30px",
     marginTop: "60px",

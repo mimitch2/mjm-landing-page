@@ -2,13 +2,41 @@
 
 // ************ SORT APLHABETICALLY ***************//
 
-export const sortAlpha = (array) => {
+export const sortAlpha = (array) => {//FIX need to make it key agnostic
   array.sort((a, b) => {
     if(a.id < b.id) return -1;
     if(a.id > b.id) return 1;
     return 0;
   })
   return array
+}
+
+// ************ append proper ending to any number ***************//
+
+export const firstSecond = (num) => {
+  const strNum = num.toString()
+  if (strNum[strNum.length -1] === "1" && 
+      strNum !== "11"){
+    return "rst" 
+  } else if (strNum[strNum.length -1] === "2"  && 
+             strNum !== "12") {
+    return "nd"
+  } else if (strNum[strNum.length -1] === "3"  && 
+             strNum !== "13"){
+    return "rd"
+  }
+  return "th"
+}
+
+// ************ remove leading zero on floating point numbers ONLY for display as string ***************//
+
+export const removeLeadingZero = (num) => {
+  const numString = num.toString()
+  if (numString[0] === "0") {
+    const trimedString = numString.substring(1)
+    return trimedString
+  }
+  return num.toFixed(3)
 }
 
 // ************ FILTER ARRAY ON INPUT *****************//
