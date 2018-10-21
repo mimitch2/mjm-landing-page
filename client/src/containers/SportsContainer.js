@@ -9,7 +9,8 @@ function mapStateToProps(state) {
     userName: state.userName,
     userDataLoaded: state.userDataLoaded,
     sportsData: state.sportsData,
-    sportsDataLoaded: state.sportsDataLoaded
+    sportsDataLoaded: state.sportsDataLoaded,
+    teamsList: state.teamsList
   };
 }
   

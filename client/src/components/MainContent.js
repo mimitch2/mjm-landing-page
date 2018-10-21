@@ -83,7 +83,7 @@ class MainContent extends Component {
 
           <div className="components" id="components" style={styles.components}>
 
-            <Card heading="NEWS" 
+            {/* <Card heading="NEWS" 
               gridColumn="span 2" gridRow="span 4" height= {600}
               settingsClick={this.handleClick}
               options = {news.sources}
@@ -98,7 +98,7 @@ class MainContent extends Component {
 
               <Weather />
 
-            </Card>
+            </Card> */}
             <Card heading="SPORTS" //!!!!!!!!!!!!!!!
               gridColumn="span 1" gridRow="span 2" height= {300}
               settingsClick={this.handleClick}>
