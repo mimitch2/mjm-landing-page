@@ -1,6 +1,6 @@
 import Sports from "../components/Sports";
 import { connect } from "react-redux";
-import { loadSportsData, parseTeamInfo } from "../actions";
+import { loadSportsData, parseTeamInfo, sportsDataLoaded } from "../actions";
 
 function mapStateToProps(state) {
   return {
@@ -23,7 +23,11 @@ function mapDispatchToProps(dispatch) {
     parseTeamInfo: (data) => {
       const action = parseTeamInfo(data);
       dispatch(action);
-    }
+    },
+    // sportsDataLoaded: (bool) => {
+    //   const action = sportsDataLoaded(bool);
+    //   dispatch(action);
+    // },
   }
 }
 

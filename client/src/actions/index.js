@@ -140,7 +140,6 @@ export function parseTeamInfo (data) {
 
 export function loadSportsData (teamObj) {
   return async function (dispatch) {
-    dispatch(sportsDataLoaded(false))
     try {
       for (const league in teamObj) {
         const getStandings = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/standings.json`, auth)
@@ -164,7 +163,7 @@ export function loadSportsData (teamObj) {
       dispatch(setSportsData(teamObj))
       setTimeout(() => {
         dispatch(sportsDataLoaded(true))
-      }, 300);
+      }, 500);
    
      
     } catch (error) {

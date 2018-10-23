@@ -1,6 +1,6 @@
 import SportsSettings from "../components/SportsSettings";
 import { connect } from "react-redux";
-import { loadUserData, updateUserData } from "../actions";
+import { loadUserData, updateUserData, sportsDataLoaded } from "../actions";
 
 function mapStateToProps(state) {
   return {
@@ -19,6 +19,10 @@ function mapDispatchToProps(dispatch) {
     },
     updateUserData: (data, username) => {
       const action = updateUserData(data, username);
+      dispatch(action);
+    },
+    sportsDataLoaded: (bool) => {
+      const action = sportsDataLoaded(bool);
       dispatch(action);
     },
   }

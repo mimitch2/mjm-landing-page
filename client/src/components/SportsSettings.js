@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
 import BasicInput from './BasicInput'
+import '../css/App.css'
 
 const styles = {
   settings: {
@@ -112,6 +113,7 @@ class SporstSettings extends Component {
       const usrArr = teams.map(usrTeam => usrTeam.idTeam)
       return  !usrArr.includes(team.idTeam)
     })
+
     this.setState({
       sourcesList: this.sortAlpha(teamArr),
       filteredList: this.sortAlpha(filterTeamArr),
@@ -152,17 +154,21 @@ class SporstSettings extends Component {
 
 
   handleSubmit = (type, button, e ) => {
+   
     const closeDelay = 150
     const el = document.getElementById(e.target.id)
     this.buttonBounce(el, 40)
 
-    if ( button === "submit") {
+    if (button === "submit") {
+      this.props.sportsDataLoaded(false)
       const newData = this.props.userData
       newData.sports.teams = [...this.state.userTeams]
       this.props.updateUserData(newData, this.props.userName)
+
       setTimeout(() => {
         this.props.loadUserData(this.props.userName)
       }, closeDelay);
+      // this.buildTeamArray()
     }
 
     if (button === "cancel") {
@@ -200,6 +206,7 @@ class SporstSettings extends Component {
   }
 
   render() {
+    // console.log(this.props)
     if (this.state.filteredList) {
       return (
         <div className="settings invisible" id="sports-settings" style={styles.settings}>
@@ -254,12 +261,12 @@ class SporstSettings extends Component {
           </div>
           <div className="button-group" style={styles.buttons}>
             <i className="fas fa-times-circle"
-              id="weather-cancel" 
+              id="sports-cancel" 
               style={{...styles.bottomIcons, color: "red"}}
               onClick={(e) => this.handleSubmit(this.props.type, "cancel", e)}
             ></i>
             <i className="fas fa-check-circle" 
-              id="weather-submit"
+              id="sports-submit"
               style={{...styles.bottomIcons, color: "green"}}
               onClick={(e) => this.handleSubmit(this.props.type, "submit", e)}></i>
           </div>

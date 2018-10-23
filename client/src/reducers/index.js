@@ -64,7 +64,7 @@ function sportsData (state = {}, action) {
 
 function sportsDataLoaded (state = false, action) {
   if (action.type === "SPORTS_DATA_LOADED") {
-    return {...state, ...action.value}
+    return action.value
   }
   return state
 }

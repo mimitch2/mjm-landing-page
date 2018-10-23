@@ -6,6 +6,8 @@ import * as moment from 'moment'
 // import keys from "../config.js"
 // require('dotenv').config()
 import { firstSecond, removeLeadingZero } from "./Common"
+import '../css/App.css'
+
 
 const styles ={
   teamLine: {
@@ -51,18 +53,16 @@ class Sports extends Component {
 
   componentDidMount = () => {
     this.props.parseTeamInfo(this.props.userData.sports.teams)
-    
   }
 
   componentDidUpdate = prevProps => {
-    if (prevProps.userData !== this.props.userData) {
-      this.setState({
-        loaded: false
-      })
+    if (prevProps.userData.sports.teams !== this.props.userData.sports.teams) {
+
       this.props.parseTeamInfo(this.props.userData.sports.teams)
     }
     if (prevProps.sportsData !== this.props.sportsData) {
       this.setState({...this.props.sportsData, loaded: true})
+      // this.props.sportsDataLoaded(true)
     }
   }
 
@@ -88,8 +88,12 @@ class Sports extends Component {
   }
 
   returnTeamLogo = (league, team) => {
+    console.log(league, team)
     const logo = this.props.teamsList[league].find(tm => tm.strTeamShort === team)
-    return logo.strTeamBadge
+    if (logo) {
+      return logo.strTeamBadge
+    }
+    return null
   }
 
   returnWinLoss (league, tm) {
@@ -124,16 +128,20 @@ class Sports extends Component {
   }
 
   render() {
-    const { loaded } = this.state
-    const { teams } = this.props.userData.sports
-   
-    if (loaded && teams)  {
+    console.log(this.props)
+    const loaded  = this.props.sportsDataLoaded
+
+    // ********** FIX need to have a loaded state in redux that sets to flase on each userData update
+    if (loaded)  { 
+    
+      const { teams } = this.props.userData.sports
       return (
         <div className="sports">
           {teams.map((team, i) => {
-            const { games } = this.state[team.strLeague][team.strTeamShort].games
+            const games = this.props.sportsData[team.strLeague][team.strTeamShort].games.games
             const teamData = this.returnWinLoss(team.strLeague, team.strTeamShort)
             const gameList = this.findGamesByDate(games)
+            console.log(gameList)
             // const homeLogo = 
 
             const nameRank = (
@@ -177,9 +185,8 @@ class Sports extends Component {
                       </table>
                       <div>
 
-                        {/* ************ LAST GAME ************ */}
 
-                        <span style={{fontSize: "14px", marginRight: "5px", fontWeight: "400"}}>Last Game</span>
+                        {/* <span style={{fontSize: "14px", marginRight: "5px", fontWeight: "400"}}>Last Game</span>
                         <Moment format="ddd, MMM Do h:mma" style={{fontSize: "12px"}}>
                           {gameList.prevGame.schedule.startTime}
                         </Moment>
@@ -192,7 +199,7 @@ class Sports extends Component {
                               <th>3rd</th>
                               <th>OT</th>
                               {gameList.prevGame.score.periods[4] && <th>SO</th>}
-                              <th>{gameList.prevGame.score.periods[3] && `Final/OT` || `Final`}</th>
+                              <th>{(gameList.prevGame.score.periods[3] && `Final/OT`) || `Final`}</th>
                             </tr>
                             <tr>
                               <td>
@@ -210,7 +217,7 @@ class Sports extends Component {
                                 {gameList.prevGame.score.periods[2].homeScore}
                               </td>
                               <td>
-                                {gameList.prevGame.score.periods[3] &&  gameList.prevGame.score.periods[3].homeScore || null}
+                                {(gameList.prevGame.score.periods[3] && gameList.prevGame.score.periods[3].homeScore) || null}
                               </td>
                               {gameList.prevGame.score.periods[4] && 
                               <td>
@@ -238,7 +245,7 @@ class Sports extends Component {
                                 {gameList.prevGame.score.periods[2].awayScore}
                               </td>
                               <td>
-                                {gameList.prevGame.score.periods[3] &&  gameList.prevGame.score.periods[3].awayScore || null}
+                                {(gameList.prevGame.score.periods[3] &&  gameList.prevGame.score.periods[3].awayScore) || null}
                               </td>
                               {gameList.prevGame.score.periods[4] && 
                               <td>
@@ -250,7 +257,6 @@ class Sports extends Component {
                           </tbody>
                         </table>
 
-                        {/********* NEXT GAME **********/}
 
                         <div>
                           <span style={{fontSize: "14px", marginRight: "5px", fontWeight: "400"}}>Next Game</span>
@@ -282,7 +288,9 @@ class Sports extends Component {
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div> */}
+
+                        
                       </div>
                     </div>
                   </div>
@@ -313,9 +321,8 @@ class Sports extends Component {
                       </table>
                     </div>
 
-                    {/* ************ LAST GAME ************ */}
 
-                    <span style={{fontSize: "14px", marginRight: "5px", fontWeight: "400"}}>Last Game</span>
+                    {/* <span style={{fontSize: "14px", marginRight: "5px", fontWeight: "400"}}>Last Game</span>
                     <Moment format="ddd, MMM Do h:mma" style={{fontSize: "12px"}}>
                       {gameList.prevGame.schedule.startTime}
                     </Moment>
@@ -328,7 +335,7 @@ class Sports extends Component {
                           <th>3rd</th>
                           <th>4th</th>
                           <th>OT</th>
-                          <th>{gameList.prevGame.score.quarters[4] && `Final/OT` || `Final`}</th>
+                          <th>{(gameList.prevGame.score.quarters[4] && `Final/OT`) || `Final`}</th>
                         </tr>
                         <tr>
                           <td>
@@ -348,10 +355,10 @@ class Sports extends Component {
                           <td>
                             {gameList.prevGame.score.quarters[3].homeScore}
                           </td>
-                          {gameList.prevGame.score.quarters[4] && 
+                          {(gameList.prevGame.score.quarters[4] && 
                               <td>
                                 {gameList.prevGame.score.quarters[4].homeScore}
-                              </td>
+                              </td>)
                               || 
                               <td>-</td>
                           }
@@ -376,7 +383,7 @@ class Sports extends Component {
                             {gameList.prevGame.score.quarters[2].awayScore}
                           </td>
                           <td>
-                            {gameList.prevGame.score.quarters[3] &&  gameList.prevGame.score.quarters[3].awayScore || null}
+                            {(gameList.prevGame.score.quarters[3] &&  gameList.prevGame.score.quarters[3].awayScore) || null}
                           </td>
                           {gameList.prevGame.score.quarters[4] && 
                               <td>
@@ -386,11 +393,10 @@ class Sports extends Component {
                           <td>{gameList.prevGame.score.awayScoreTotal}</td>
                         </tr>
                       </tbody>
-                    </table>
+                    </table> */}
 
-                    {/********* NEXT GAME **********/}
 
-                    <div>
+                    {/* <div>
                       <span style={{fontSize: "14px", marginRight: "5px", fontWeight: "400"}}>Next Game</span>
                       <Moment format="ddd, MMM Do h:mma" style={{fontSize: "12px"}}>
                         {gameList.nextGame.schedule.startTime}
@@ -419,8 +425,8 @@ class Sports extends Component {
                             {gameList.nextGame.schedule.awayTeam.abbreviation}
                           </div>
                         </div>
-                      </div>
-                    </div>
+                      </div> 
+                    </div>*/}
                   </div>)
                   || (team.strLeague === "NBA" &&
                   <div>
@@ -446,7 +452,7 @@ class Sports extends Component {
                           </tr>
                         </tbody>
                       </table>
-                    </div>
+                    </div> 
                   </div>)
                   || (team.strLeague === "MLB" &&
                   <div>
