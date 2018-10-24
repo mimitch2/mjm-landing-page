@@ -165,10 +165,10 @@ class SporstSettings extends Component {
       newData.sports.teams = [...this.state.userTeams]
       this.props.updateUserData(newData, this.props.userName)
 
-      setTimeout(() => {
-        this.props.loadUserData(this.props.userName)
-      }, closeDelay);
-      // this.buildTeamArray()
+      // setTimeout(() => {
+      this.props.loadUserData(this.props.userName)
+      // }, closeDelay);
+      this.buildTeamArray()
     }
 
     if (button === "cancel") {

@@ -76,5 +76,5 @@ export default {
 
 // sportsData: {
 //   teams: [{team: {info: {}, games: {}, stats: {}}, ....],
-//   standings: [{NHL: {}, }]
+//   standings: {{NHL: {}, }}
 // }

@@ -115,57 +115,46 @@ export function setWeather(weather) {
   };
 }
 
-
-// export function loadAllSports (league, teamcode) {
-//   return async function (dispatch) {
-//     loadSportsStandings(league)
-//   }
-// }
-
-
 export function parseTeamInfo (data) {
   return function (dispatch) {
-    const teamObj = {}
+    const sportsObj = {teams: [], standings: {}}
+    
     data.forEach(team =>{
-      const teamLeg = team.strLeague
-      if (!(teamLeg in teamObj)) {
-        teamObj[teamLeg] = {}
-      } 
-      teamObj[teamLeg] = {[team.strTeamShort]:{}, ...teamObj[teamLeg]}
+      sportsObj.teams.push({info: team})
+      if (!sportsObj.standings.hasOwnProperty(team.strLeague)) {
+        sportsObj.standings = {...sportsObj.standings, [team.strLeague]: {}}
+      }
     }) 
-    dispatch(loadSportsData(teamObj))
+    dispatch(loadSportsData(sportsObj))
   }
 }
 
 
-export function loadSportsData (teamObj) {
+export function loadSportsData (sportsObj) {
   return async function (dispatch) {
     try {
-      for (const league in teamObj) {
+      for (const league in sportsObj.standings) {
         const getStandings = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/standings.json`, auth)
         const result = await getStandings.json()
-        teamObj[league].standings = result
+        sportsObj.standings[league] = result
       }
-      const newObj =  teamObj
-      for (const league in newObj) {
-        for (const teamcode in newObj[league]) {
-          if (teamcode !== "standings") {
-            const getStats = fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/team_stats_totals.json?team=${teamcode}`, auth)
-            const getGames = fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/games.json?team=${teamcode}`, auth)
-            const res = await Promise.all([getStats, getGames])
-            const dataArr = res.map(r => r.json())
-            const [stats, games] = await Promise.all(dataArr)
-            newObj[league][teamcode].stats = stats
-            newObj[league][teamcode].games = games
-          }
-        }
+     
+      for (let i = 0; i < sportsObj.teams.length; i++) {
+        const team = sportsObj.teams[i]
+        const getStats = fetch(`https://api.mysportsfeeds.com/v2.0/pull/${team.info.strLeague}/2018-2019-regular/team_stats_totals.json?team=${team.info.strTeamShort}`, auth)
+        const getGames = fetch(`https://api.mysportsfeeds.com/v2.0/pull/${team.info.strLeague}/2018-2019-regular/games.json?team=${team.info.strTeamShort}`, auth)
+        const res = await Promise.all([getStats, getGames])
+        const dataArr = res.map(r => r.json())
+        const [stats, games] = await Promise.all(dataArr)
+        team.games = games 
+        team.stats = stats 
       }
-      dispatch(setSportsData(teamObj))
+
+      dispatch(setSportsData(sportsObj))
       setTimeout(() => {
         dispatch(sportsDataLoaded(true))
       }, 500);
    
-     
     } catch (error) {
       console.log(error)
     }

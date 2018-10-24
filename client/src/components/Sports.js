@@ -26,7 +26,12 @@ const styles ={
     textAlign: "left" 
   },
   winLossWrapper: {
-    marginLeft: "30px"
+    // marginLeft: "30px"
+  },
+  statsAndGames: {
+    marginLeft: "30px",
+    // display: "flex",
+    // justifyContent: "flex-start"
   },
   tableRows: {
     width: '250px',
@@ -57,13 +62,12 @@ class Sports extends Component {
 
   componentDidUpdate = prevProps => {
     if (prevProps.userData.sports.teams !== this.props.userData.sports.teams) {
-
       this.props.parseTeamInfo(this.props.userData.sports.teams)
     }
-    if (prevProps.sportsData !== this.props.sportsData) {
-      this.setState({...this.props.sportsData, loaded: true})
-      // this.props.sportsDataLoaded(true)
-    }
+    // if (prevProps.sportsData !== this.props.sportsData) {
+    //   this.setState({...this.props.sportsData, loaded: true})
+    //   this.props.sportsDataLoaded(true)
+    // }
   }
 
   findGamesByDate (games) {
@@ -88,7 +92,6 @@ class Sports extends Component {
   }
 
   returnTeamLogo = (league, team) => {
-    console.log(league, team)
     const logo = this.props.teamsList[league].find(tm => tm.strTeamShort === team)
     if (logo) {
       return logo.strTeamBadge
@@ -96,59 +99,25 @@ class Sports extends Component {
     return null
   }
 
-  returnWinLoss (league, tm) {
-    const lg = this.state[league]
-    const standing = lg.standings.teams.filter(stand => {
-      return  stand.team.abbreviation === tm 
-    })
-     
-    const { divisionRank:rank, } = standing[0]
-    const { standings, gamesPlayed } = standing[0].stats
-    
-    if (league === "NHL") {
-      return {
-        w: standings.wins, 
-        l: standings.losses, 
-        otw: standings.overtimeWins, 
-        otl: standings.overtimeLosses, 
-        points: standings.points, 
-        gp: gamesPlayed, 
-        rank: rank.rank, 
-        div: rank.divisionName, 
-        gb: standings.gamesBack
-      }
-    } else if (league === "NFL") {
-      return {w: standings.wins, l: standings.losses, otw: standings.otWins, t: standings.ties, gp: gamesPlayed, rank: rank.rank, div: rank.divisionName, gb: standings.gamesBack}
-    } else if (league === "NBA") {
-      return {w: standings.wins, l: standings.losses, gp: gamesPlayed, rank: rank.rank, div: rank.divisionName, gb: standings.gamesBack}
-    } else if (league === "MLB") {
-      return {w: standings.wins, l: standings.losses, pct: standings.winPct, gp: gamesPlayed, rank: rank.rank, div: rank.divisionName, gb: standings.gamesBack}
-    } 
-    return {}
-  }
-
   render() {
-    console.log(this.props)
-    const loaded  = this.props.sportsDataLoaded
 
-    // ********** FIX need to have a loaded state in redux that sets to flase on each userData update
-    if (loaded)  { 
-    
-      const { teams } = this.props.userData.sports
+    if (this.props.sportsDataLoaded)  { 
+      const { teams, standings:rankings } = this.props.sportsData
       return (
         <div className="sports">
           {teams.map((team, i) => {
-            const games = this.props.sportsData[team.strLeague][team.strTeamShort].games.games
-            const teamData = this.returnWinLoss(team.strLeague, team.strTeamShort)
-            const gameList = this.findGamesByDate(games)
-            console.log(gameList)
-            // const homeLogo = 
+            // const { stats } = team.stats.teamStatsTotals[0]
+            // const { gamesPlayed, standings } = stats
+            const ranking = rankings[team.info.strLeague].teams.find(tm => tm.team.abbreviation === team.info.strTeamShort)
+            const { rank, divisionName } = ranking.divisionRank   
+            const { stats } = ranking
+            const gameList = this.findGamesByDate(team.games.games)
 
             const nameRank = (
               <div style={styles.item}>  
-                {team.strTeam}
+                {team.info.strTeam}
                 <span style={{marginLeft: "8px", fontSize: "14px", fontWeight: "300"}}>
-                  { `${teamData.rank}${firstSecond(teamData.rank)} - ${teamData.div}` }
+                  { `${rank}${firstSecond(rank)} - ${divisionName}` }
                 </span>
               </div>
             )
@@ -156,10 +125,10 @@ class Sports extends Component {
             return (
               <div style={styles.teamLine} key={i}>
                 <div style={styles.logoName}>
-                  <img src={team.strTeamBadge} width="60px" height ="60px" alt=""/>
+                  <img src={team.info.strTeamBadge} width="60px" height ="60px" alt=""/>
                 </div>
-                <div> 
-                  {(team.strLeague === "NHL" &&
+                <div style={styles.statsAndGames}> 
+                  {(team.info.strLeague === "NHL" &&
                   <div>
                     <div style={styles.winLossWrapper}>       
                       {nameRank}
@@ -174,19 +143,19 @@ class Sports extends Component {
                             <th>PTS</th>
                           </tr>
                           <tr>
-                            <td>{teamData.gp}</td>
-                            <td>{teamData.w}</td>
-                            <td>{teamData.l}</td>
-                            <td>{teamData.otw}</td>
-                            <td>{teamData.otl}</td>
-                            <td>{teamData.points}</td>
+                            <td>{stats.gamesPlayed}</td> 
+                            <td>{stats.standings.wins}</td>
+                            <td>{stats.standings.losses}</td>
+                            <td>{stats.standings.overtimeWins}</td>
+                            <td>{stats.standings.overtimeLosses}</td>
+                            <td>{stats.standings.points}</td> 
                           </tr>
                         </tbody>
                       </table>
                       <div>
 
 
-                        {/* <span style={{fontSize: "14px", marginRight: "5px", fontWeight: "400"}}>Last Game</span>
+                        <span style={{fontSize: "14px", marginRight: "5px", fontWeight: "400"}}>Last Game</span>
                         <Moment format="ddd, MMM Do h:mma" style={{fontSize: "12px"}}>
                           {gameList.prevGame.schedule.startTime}
                         </Moment>
@@ -266,7 +235,6 @@ class Sports extends Component {
                           <div style={styles.nextGameWrapper}>
                             <div style={styles.nextGame}>
                             HOME
-
                               <div>
                                 <img src={this.returnTeamLogo("nhl", gameList.nextGame.schedule.homeTeam.abbreviation)} 
                                   width="40px" height ="40px" alt="" style={{marginRight: "3px"}}/>
@@ -279,7 +247,6 @@ class Sports extends Component {
                             <div style={styles.nextGame}>
                             AWAY
                               <div>
-                                
                                 <img src={this.returnTeamLogo("nhl", gameList.nextGame.schedule.awayTeam.abbreviation)} 
                                   width="40px" height ="40px" alt="" style={{marginRight: "3px"}}/>
                               </div>
@@ -288,15 +255,13 @@ class Sports extends Component {
                               </div>
                             </div>
                           </div>
-                        </div> */}
-
-                        
+                        </div>
                       </div>
                     </div>
                   </div>
                   )
 
-                  || (team.strLeague === "NFL" &&
+                  || (team.info.strLeague === "NFL" &&
                   <div>
                     <div style={styles.winLossWrapper}>
                       {nameRank}
@@ -312,17 +277,17 @@ class Sports extends Component {
                             <th>-</th>
                           </tr>
                           <tr>
-                            <td>{teamData.gp}</td>
-                            <td>{teamData.w}</td>
-                            <td>{teamData.l}</td>
-                            <td>{teamData.t}</td>
+                            <td>{stats.gamesPlayed}</td> 
+                            <td>{stats.standings.wins}</td>
+                            <td>{stats.standings.losses}</td>
+                            <td>{stats.standings.ties}</td>
                           </tr>
                         </tbody>
                       </table>
                     </div>
 
 
-                    {/* <span style={{fontSize: "14px", marginRight: "5px", fontWeight: "400"}}>Last Game</span>
+                    <span style={{fontSize: "14px", marginRight: "5px", fontWeight: "400"}}>Last Game</span>
                     <Moment format="ddd, MMM Do h:mma" style={{fontSize: "12px"}}>
                       {gameList.prevGame.schedule.startTime}
                     </Moment>
@@ -356,9 +321,9 @@ class Sports extends Component {
                             {gameList.prevGame.score.quarters[3].homeScore}
                           </td>
                           {(gameList.prevGame.score.quarters[4] && 
-                              <td>
-                                {gameList.prevGame.score.quarters[4].homeScore}
-                              </td>)
+                            <td>
+                              {gameList.prevGame.score.quarters[4].homeScore}
+                            </td>)
                               || 
                               <td>-</td>
                           }
@@ -383,20 +348,21 @@ class Sports extends Component {
                             {gameList.prevGame.score.quarters[2].awayScore}
                           </td>
                           <td>
-                            {(gameList.prevGame.score.quarters[3] &&  gameList.prevGame.score.quarters[3].awayScore) || null}
+                            {gameList.prevGame.score.quarters[3].awayScore}
                           </td>
-                          {gameList.prevGame.score.quarters[4] && 
-                              <td>
-                                {gameList.prevGame.score.quarters[4].homeScore}
-                              </td>
+                          {(gameList.prevGame.score.quarters[4] && 
+                            <td>
+                              {gameList.prevGame.score.quarters[4].awayScore}
+                            </td>)
+                              || <td>-</td>
                           }
                           <td>{gameList.prevGame.score.awayScoreTotal}</td>
                         </tr>
                       </tbody>
-                    </table> */}
+                    </table>
 
 
-                    {/* <div>
+                    <div>
                       <span style={{fontSize: "14px", marginRight: "5px", fontWeight: "400"}}>Next Game</span>
                       <Moment format="ddd, MMM Do h:mma" style={{fontSize: "12px"}}>
                         {gameList.nextGame.schedule.startTime}
@@ -426,9 +392,11 @@ class Sports extends Component {
                           </div>
                         </div>
                       </div> 
-                    </div>*/}
+                    </div>
+
                   </div>)
-                  || (team.strLeague === "NBA" &&
+
+                  || (team.info.strLeague === "NBA" &&
                   <div>
                     <div style={styles.winLossWrapper}>
                       {nameRank}
@@ -444,17 +412,125 @@ class Sports extends Component {
                             <th>-</th>
                           </tr>
                           <tr>
-                            <td>{teamData.gp}</td>
-                            <td>{teamData.w}</td>
-                            <td>{teamData.l}</td>
-                            <td>{teamData.gb}</td>
-                      
+                            <td>{stats.gamesPlayed}</td> 
+                            <td>{stats.standings.wins}</td>
+                            <td>{stats.standings.losses}</td>
+                            <td>{stats.standings.gamesBack}</td>
                           </tr>
                         </tbody>
                       </table>
                     </div> 
+
+                    <span style={{fontSize: "14px", marginRight: "5px", fontWeight: "400"}}>Last Game</span>
+                    <Moment format="ddd, MMM Do h:mma" style={{fontSize: "12px"}}>
+                      {gameList.prevGame.schedule.startTime}
+                    </Moment>
+                    <table>
+                      <tbody>
+                        <tr>
+                          <th></th>
+                          <th>1rst</th>
+                          <th>2nd</th>
+                          <th>3rd</th>
+                          <th>4th</th>
+                          <th>OT</th>
+                          <th>{(gameList.prevGame.score.quarters[4] && `Final/OT`) || `Final`}</th>
+                        </tr>
+                        <tr>
+                          <td>
+                            <img src={this.returnTeamLogo("nba", gameList.prevGame.schedule.homeTeam.abbreviation)} 
+                              width="20px" height ="20px" alt="" style={{marginRight: "3px"}}/>
+                            {gameList.prevGame.schedule.homeTeam.abbreviation}
+                          </td>
+                          <td>
+                            {gameList.prevGame.score.quarters[0].homeScore}
+                          </td>
+                          <td>
+                            {gameList.prevGame.score.quarters[1].homeScore}
+                          </td>
+                          <td>
+                            {gameList.prevGame.score.quarters[2].homeScore}
+                          </td>
+                          <td>
+                            {gameList.prevGame.score.quarters[3].homeScore}
+                          </td>
+                          {(gameList.prevGame.score.quarters[4] && 
+                            <td>
+                              {gameList.prevGame.score.quarters[4].homeScore}
+                            </td>)
+                              || 
+                              <td>-</td>
+                          }
+                          <td>
+                            {gameList.prevGame.score.homeScoreTotal}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <img src={this.returnTeamLogo("nba", gameList.prevGame.schedule.awayTeam.abbreviation)} 
+                              width="20px" height ="20px" alt="" style={{marginRight: "3px"}}/>
+                            {gameList.prevGame.schedule.awayTeam.abbreviation} 
+                          </td>
+
+                          <td>
+                            {gameList.prevGame.score.quarters[0].awayScore}
+                          </td>
+                          <td>
+                            {gameList.prevGame.score.quarters[1].awayScore}
+                          </td>
+                          <td>
+                            {gameList.prevGame.score.quarters[2].awayScore}
+                          </td>
+                          <td>
+                            {gameList.prevGame.score.quarters[3].awayScore}
+                          </td>
+                          {(gameList.prevGame.score.quarters[4] && 
+                            <td>
+                              {gameList.prevGame.score.quarters[4].awayScore}
+                            </td>)
+                              || <td>-</td>
+                          }
+                          <td>{gameList.prevGame.score.awayScoreTotal}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+
+
+                    <div>
+                      <span style={{fontSize: "14px", marginRight: "5px", fontWeight: "400"}}>Next Game</span>
+                      <Moment format="ddd, MMM Do h:mma" style={{fontSize: "12px"}}>
+                        {gameList.nextGame.schedule.startTime}
+                      </Moment>
+                      <div style={styles.nextGameWrapper}>
+                        <div style={styles.nextGame}>
+                            HOME
+
+                          <div>
+                            <img src={this.returnTeamLogo("nba", gameList.nextGame.schedule.homeTeam.abbreviation)} 
+                              width="40px" height ="40px" alt="" style={{marginRight: "3px"}}/>
+                          </div>
+                          <div>
+                            {gameList.nextGame.schedule.homeTeam.abbreviation}
+                          </div>
+                        </div>
+                        <div> VS </div>
+                        <div style={styles.nextGame}>
+                            AWAY
+                          <div>
+                                
+                            <img src={this.returnTeamLogo("nba", gameList.nextGame.schedule.awayTeam.abbreviation)} 
+                              width="40px" height ="40px" alt="" style={{marginRight: "3px"}}/>
+                          </div>
+                          <div>
+                            {gameList.nextGame.schedule.awayTeam.abbreviation}
+                          </div>
+                        </div>
+                      </div> 
+                    </div>
+
+
                   </div>)
-                  || (team.strLeague === "MLB" &&
+                  || (team.info.strLeague === "MLB" &&
                   <div>
                     <div style={styles.winLossWrapper}>
                       {nameRank}
@@ -470,11 +546,11 @@ class Sports extends Component {
                             <th>-</th>
                           </tr>
                           <tr>
-                            <td>{teamData.gp}</td>
-                            <td>{teamData.w}</td>
-                            <td>{teamData.l}</td>
-                            <td>{teamData.gb}</td>
-                            <td>{removeLeadingZero(teamData.pct)}</td>
+                            <td>{stats.gamesPlayed}</td> 
+                            <td>{stats.standings.wins}</td>
+                            <td>{stats.standings.losses}</td>
+                            <td>{stats.standings.gamesBack}</td>
+                            <td>{removeLeadingZero(stats.standings.winPct)}</td>
                           </tr>
                         </tbody>
                       </table>
