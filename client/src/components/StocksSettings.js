@@ -148,7 +148,7 @@ class StocksSettings extends Component {
       const stocks = stockStrings.join(',')
 
       setTimeout(() => {
-        this.props.loadStockData(stocks)
+        this.props.loadStocksData(stocks)
         this.props.loadUserData(this.props.userName)
       }, 1000);
 

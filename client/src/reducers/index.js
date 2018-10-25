@@ -83,9 +83,22 @@ function stockSymbols (state = [], action) {
   return state
 }
 
+function stocksData (state = [], action) {
+  if (action.type === "STOCKS_DATA") {
+    return action.value
+  }
+  return state
+}
+
+function marketOpen (state = false, action) {
+  if (action.type === "MARKET_OPEN") {
+    return action.value
+  }
+  return state
+}
 
 const rootReducer = combineReducers({
-  defaultData, userName, userData, userDataLoaded, newsArticles, newsArticlesLoaded, currentWeather, teamsList, citiesList, sportsData, sportsDataLoaded, stocksDataLoaded, stockSymbols
+  defaultData, userName, userData, userDataLoaded, newsArticles, newsArticlesLoaded, currentWeather, teamsList, citiesList, sportsData, sportsDataLoaded, stocksDataLoaded, stockSymbols, stocksData, marketOpen
 });
 
 export default rootReducer;

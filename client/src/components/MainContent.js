@@ -3,13 +3,11 @@ import PropTypes from 'prop-types'
 import Card from '../containers/CardContainer'
 import Weather from '../containers/WeatherContainer'
 import WeatherSettings from '../containers/WeatherSettingsContainer'
-
 import Sports from '../containers/SportsContainer'
 import SportsSettings from '../containers/SportsSettingsContainer'
 import News from '../containers/NewsContainer'
 import NewsSettings from '../containers/NewsSettingsContainer'
-
-import Stocks from './Stocks'
+import Stocks from '../containers/StocksContainer'
 import StocksSettings from '../containers/StocksSettingsContainer'
 
 import '../css/App.css'
@@ -89,7 +87,7 @@ class MainContent extends Component {
 
           <div className="components" id="components" style={styles.components}>
 
-            {/* <Card heading="NEWS" 
+            <Card heading="NEWS" 
               gridColumn="span 2" gridRow="span 4" height= {600}
               settingsClick={this.handleClick}
               options = {news.sources}
@@ -104,7 +102,7 @@ class MainContent extends Component {
 
               <Weather />
 
-            </Card> */}
+            </Card>
             <Card heading="SPORTS" //!!!!!!!!!!!!!!!
               gridColumn="span 1" gridRow="span 2" height= {300}
               settingsClick={this.handleClick}>
@@ -114,8 +112,8 @@ class MainContent extends Component {
             </Card>
             <Card heading="STOCKS" //!!!!!!!!!!!!!!!
               gridColumn="span 1" gridRow="span 2" height= {300}
-              settingsClick={this.handleClick}>
-
+              settingsClick={this.handleClick}
+              message="The market is ">
               <Stocks />
 
             </Card>

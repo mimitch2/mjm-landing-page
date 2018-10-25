@@ -31,7 +31,8 @@ const styles = {
 
   },
   content: {
-    // display: "flex",
+    display: "flex",
+    justifyContent: "center",
     fontSize: "16px",
     overflowY: "auto",
     padding: 10,
@@ -167,6 +168,12 @@ class Card extends Component {
                 </div>
               )}
             </div>)
+            || this.props.message && 
+            <div style={{fontSize: "14px", 
+              textTransform: "uppercase", 
+              color: this.props.marketOpen ? "green" : "red"}}>
+              {this.props.message}{this.props.marketOpen ? "open" : "closed"}
+            </div>
             || null
           }
           <div style={{display: 'flex', alignItems: "center", justifyContent: "space-around", width: "55px"}}>

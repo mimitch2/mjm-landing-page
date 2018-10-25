@@ -197,13 +197,17 @@ export function setStockSymbols(symbols) {
 
 
 
-export function loadStockData(symbols) {
+export function loadStocksData(symbols) {
   return async function (dispatch) {
     try {
       const stockData = await fetch(`https://api.iextrading.com/1.0/stock/market/batch?symbols=${symbols}&types=quote,news,chart&range=1m&last=5`)
       const stocks = await stockData.json()
-      dispatch(stocksDataLoaded(true))
-      console.log(stocks)
+      const stocksArr = Object.values(stocks)
+      
+      dispatch(stocksData(stocksArr))
+      setTimeout(() => {
+        dispatch(stocksDataLoaded(true))
+      }, 300);
       return stocks 
     } catch (error) {
       console.log(error)
@@ -211,9 +215,23 @@ export function loadStockData(symbols) {
   }
 }
 
+export function stocksData(stocks) {
+  return {
+    type: "STOCKS_DATA",
+    value: stocks
+  };
+}
+
 export function stocksDataLoaded(bool) {
   return {
     type: "STOCKS_DATA_LOADED",
+    value: bool
+  };
+}
+
+export function isMarketOpen(bool) {
+  return {
+    type: "MARKET_OPEN",
     value: bool
   };
 }

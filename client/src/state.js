@@ -84,6 +84,7 @@ export default {
   sportsData: {},
   sportsDataLoaded: false,
   stockSymbols: [],
+  stocksData: [],
   stocksDataLoaded: false
     
 };

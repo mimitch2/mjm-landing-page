@@ -1,6 +1,6 @@
 import StocksSettings from "../components/StocksSettings";
 import { connect } from "react-redux";
-import { loadStockSymbols, loadUserData, updateUserData, loadStockData} from "../actions";
+import { loadStockSymbols, loadUserData, updateUserData, loadStocksData} from "../actions";
 
 function mapStateToProps(state) {
   return {
@@ -24,8 +24,8 @@ function mapDispatchToProps(dispatch) {
       const action = updateUserData(data, username);
       dispatch(action);
     },
-    loadStockData: (symbols) => {
-      const action = loadStockData(symbols);
+    loadStocksData: (symbols) => {
+      const action = loadStocksData(symbols);
       dispatch(action);
     },
     

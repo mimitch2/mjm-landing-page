@@ -6,7 +6,7 @@ function mapStateToProps(state) {
   return {
     // defaultData: state.defualtData,
     userData: state.userData,
-    // userName: state.userName,
+    marketOpen: state.marketOpen,
     // userDataLoaded: state.userDataLoaded,
     // newsArticles: state.newsArticles,
     newsArticlesLoaded: state.newsArticlesLoaded,
