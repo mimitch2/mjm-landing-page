@@ -54,7 +54,6 @@ export function updateUserData(data, username) {
       dispatch(setUserData(name));
       return name
     } catch (error) {
-      error.send("Something went wrong loading news articles, please try again")
       console.log(error)
     }
   }
@@ -175,6 +174,55 @@ export function sportsDataLoaded(bool) {
     value: bool
   };
 }
+
+export function loadStockSymbols() {
+  return async function (dispatch) {
+    try {
+      const getSymbols = await fetch('https://api.iextrading.com/1.0/ref-data/symbols')
+      const symbols = await getSymbols.json()
+      
+      dispatch(setStockSymbols(symbols))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export function setStockSymbols(symbols) {
+  return {
+    type: "SET_STOCK_SYMBOLS",
+    value: symbols
+  };
+}
+
+
+
+export function loadStockData(symbols) {
+  return async function (dispatch) {
+    try {
+      const stockData = await fetch(`https://api.iextrading.com/1.0/stock/market/batch?symbols=${symbols}&types=quote,news,chart&range=1m&last=5`)
+      const stocks = await stockData.json()
+      dispatch(stocksDataLoaded(true))
+      console.log(stocks)
+      return stocks 
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export function stocksDataLoaded(bool) {
+  return {
+    type: "STOCKS_DATA_LOADED",
+    value: bool
+  };
+}
+
+
+// https://api.iextrading.com/1.0/stock/market/batch?symbols=aapl,nflx,amzn&types=quote,news,chart&range=1m&last=5
+
+//https://api.iextrading.com/1.0/ref-data/symbols
+
 
 
 // export function showUser(id) {

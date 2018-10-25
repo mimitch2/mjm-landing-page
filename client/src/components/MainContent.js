@@ -2,12 +2,16 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Card from '../containers/CardContainer'
 import Weather from '../containers/WeatherContainer'
-import Sports from '../containers/SportsContainer'
-import News from '../containers/NewsContainer'
-import Stocks from './Stocks'
-import NewsSettings from '../containers/NewsSettingsContainer'
-import SportsSettings from '../containers/SportsSettingsContainer'
 import WeatherSettings from '../containers/WeatherSettingsContainer'
+
+import Sports from '../containers/SportsContainer'
+import SportsSettings from '../containers/SportsSettingsContainer'
+import News from '../containers/NewsContainer'
+import NewsSettings from '../containers/NewsSettingsContainer'
+
+import Stocks from './Stocks'
+import StocksSettings from '../containers/StocksSettingsContainer'
+
 import '../css/App.css'
 
 const styles = {
@@ -65,10 +69,10 @@ class MainContent extends Component {
   handleClick = (type) => {
     const components =  document.getElementById('components')
     const settings =  document.getElementById(`${type.toLowerCase()}-settings`)
-    // setTimeout(() => {
-    components.classList.toggle("invisible")
-    settings.classList.toggle("invisible")
-    // }, 300);
+    setTimeout(() => {
+      components.classList.toggle("invisible")
+      settings.classList.toggle("invisible")
+    }, 300);
   
 
     this.setState({
@@ -121,6 +125,7 @@ class MainContent extends Component {
           <div className="settings-wrapper" style={styles.settingsWrapper}>
             <NewsSettings type={this.state.settings} settingsClick={this.handleClick}/>
             <SportsSettings type={this.state.settings} settingsClick={this.handleClick} />
+            <StocksSettings type={this.state.settings} settingsClick={this.handleClick} />
             <WeatherSettings type={this.state.settings} settingsClick={this.handleClick} />
           </div>
 

@@ -52,6 +52,19 @@ export default {
         }
       ]
     },
+    stocks: {
+      include: true,
+      companies: [
+        {
+          symbol: "AAPL",
+          name: "Apple Inc.",
+          date: "2018-10-24",
+          isEnabled: true,
+          type: "cs",
+          iexId: "11"
+        },
+      ]
+    },
     movies: {
       include: true,
       location: "Austin, TX"
@@ -69,7 +82,9 @@ export default {
   newsArticlesLoaded: false,
   currentWeather: [],
   sportsData: {},
-  sportsDataLoaded: false
+  sportsDataLoaded: false,
+  stockSymbols: [],
+  stocksDataLoaded: false
     
 };
   

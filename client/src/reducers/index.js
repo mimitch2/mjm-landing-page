@@ -69,10 +69,23 @@ function sportsDataLoaded (state = false, action) {
   return state
 }
 
+function stocksDataLoaded (state = false, action) {
+  if (action.type === "STOCKS_DATA_LOADED") {
+    return action.value
+  }
+  return state
+}
+
+function stockSymbols (state = [], action) {
+  if (action.type === "SET_STOCK_SYMBOLS") {
+    return action.value
+  }
+  return state
+}
 
 
 const rootReducer = combineReducers({
-  defaultData, userName, userData, userDataLoaded, newsArticles, newsArticlesLoaded, currentWeather, teamsList, citiesList, sportsData, sportsDataLoaded
+  defaultData, userName, userData, userDataLoaded, newsArticles, newsArticlesLoaded, currentWeather, teamsList, citiesList, sportsData, sportsDataLoaded, stocksDataLoaded, stockSymbols
 });
 
 export default rootReducer;

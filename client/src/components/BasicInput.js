@@ -39,16 +39,7 @@ class FormExample extends React.Component {
             // controlId="formBasicText"
             // validationState={this.getValidationState()}
           >
-            {/* <ControlLabel>Search</ControlLabel> */}
-            {/* <FieldGroup
-              style={{borderRadius: "0px"}}
-              id="formControlsText"
-              type="text"
-              label="Search"
-              placeholder="Search news sources..."
-              onChange={this.handleChange}
-              onKeyDown={(e) => e.keyCode === 13 ? e.preventDefault(): null}
-            /> */}
+          
             <FormControl
               id="formControlsText"
               style={{borderRadius: "30px"}}
@@ -56,9 +47,8 @@ class FormExample extends React.Component {
               value={this.state.value}
               placeholder={this.props.placeholder}
               onChange={this.handleChange}
-              onKeyDown={(e) => e.keyCode === 13 ? e.preventDefault(): null}
+              onKeyDown={(e) => e.keyCode === 13 ? e.preventDefault() : null}
             />
-            {/* <FormControl.Feedback /> */}
           </FormGroup>
         </form>
       </div>
