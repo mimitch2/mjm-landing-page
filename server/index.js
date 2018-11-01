@@ -10,7 +10,6 @@ const authenticationRoutes = require("./routes/AuthenticationRoutes");
 require("dotenv").config();
 
 
-
 mongoose.set("debug", true);
 mongoose.Promise = global.Promise;
 
@@ -68,7 +67,7 @@ function startWebServer(){
   app.listen(port, () => {
     console.log(`We are listening on port:${port}`);
   });
-  }
+}
 
 // <----------- handle bad request------------->
 

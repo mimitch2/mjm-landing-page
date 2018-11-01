@@ -1,5 +1,11 @@
 
 import keys from "../config.js"
+// const result = require('dotenv').config()
+
+
+
+
+// console.log(result.sportsKey)
 
 const auth = {
   type: "GET",
@@ -60,6 +66,7 @@ export function updateUserData(data, username) {
 }
 
 export function loadNewsArticles(newsSources) {
+  console.log("loadnews")
   return async function (dispatch) {
     try {
       const getNews = await fetch(`https://newsapi.org/v2/top-headlines?pageSize=60&sources=${newsSources}&apiKey=${keys.newsKey}`)
@@ -93,7 +100,7 @@ export function loadWeather(city) {
   return async function (dispatch) {
     try {
       if (city) {
-        const getWeather = await fetch(`https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${keys.weatherKey}/${city.lat},${city.long}`)
+        const getWeather = await fetch(`https://api.darksky.net/forecast/${keys.weatherKey}/${city.lat},${city.long}`)
         const weather = await getWeather.json()
         const temp = weather
         temp.id = city.id
@@ -160,7 +167,6 @@ export function loadSportsData (sportsObj) {
   }
 }
 
-
 export function setSportsData(sportsData) {
   return {
     type: "SET_SPORTS_DATA",
@@ -195,8 +201,6 @@ export function setStockSymbols(symbols) {
   };
 }
 
-
-
 export function loadStocksData(symbols) {
   return async function (dispatch) {
     try {
@@ -228,6 +232,7 @@ export function stocksDataLoaded(bool) {
     value: bool
   };
 }
+
 
 export function isMarketOpen(bool) {
   return {

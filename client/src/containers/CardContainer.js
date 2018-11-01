@@ -40,7 +40,8 @@ function mapDispatchToProps(dispatch) {
     parseTeamInfo: (data) => {
       const action = parseTeamInfo(data);
       dispatch(action);
-    }
+    },
+ 
   }
 }
 

@@ -57,6 +57,7 @@ module.exports.update = function update(req, res) {
         if (req.body) {
           foundObject.weather = req.body.weather || foundObject.weather;
           foundObject.sports = req.body.sports || foundObject.sports;
+          foundObject.stocks = req.body.stocks || foundObject.stocks;
           foundObject.news = req.body.news || foundObject.news;
           foundObject.movies = req.body.movies || foundObject.movies;
           foundObject.dailyPics = req.body.dailyPics || foundObject.dailyPics;

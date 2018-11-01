@@ -18,6 +18,11 @@ const schema = new mongoose.Schema({
     require: true,
     type: Object
   },
+  stocks: {
+    require: true,
+    type: Object
+  },
+
   movies: {
     require: true,
     type: Object

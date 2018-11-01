@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './css/App.css';
+import './css/App.scss';
 import SignUpSignIn from "./components/SignUpSignIn";
 import TopNavbar from "./components/TopNavBar";
 import MainContent from "./containers/MainContentContainer";

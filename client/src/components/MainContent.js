@@ -17,6 +17,11 @@ const styles = {
     overflowX: "hidden",
     position: "relative",
     height: "100vh",
+    // width: "80vw",
+    display: "flex",
+    justifyContent: "center",
+  
+
     // background: "rgba(255, 255, 255, 0)"
   },
   components: {
@@ -27,6 +32,9 @@ const styles = {
     gridTemplateRows: 150,
     padding: "30px",
     marginTop: "60px",
+    width: "80vw",
+    paddingBottom: "60px",
+
   },
   loading: {
     marginTop: "90px",
@@ -48,9 +56,33 @@ class MainContent extends Component {
       news:{},
       showSettings: false,
       settings: "",
-      data: {}
+      data: {},
+      input: "",
+      maskedInput: "$ "
     }
   }
+
+  // change = (e) => {
+  //   const lastChar = e.target.value.charAt(e.target.value.length -1)
+  //   console.log(lastChar)
+  //   this.setState({
+  //     input: e.target.value
+  //   })    
+
+  //   const { input } = this.state
+    
+  //   if (input.length === 1) {
+  //     const num = "$ .0" + input
+  //     this.setState({maskedInput: num})
+  //   } else if (input.length === 2) {
+  //     const num = "$ ." + input
+  //     this.setState({maskedInput: num})
+  //   } else {
+  //     const dec = input.length - 2
+  //     const num = "$" + input.substring(0, dec) + "." + input.substring(dec)
+  //     this.setState({maskedInput: num})
+  //   }    
+  // }
 
   // componentDidUpdate = (prevProps) => {
   //   if (prevProps.loggedIn  !==  this.props.loggedIn && this.props.loggedIn) {
@@ -72,7 +104,6 @@ class MainContent extends Component {
       settings.classList.toggle("invisible")
     }, 300);
   
-
     this.setState({
       showSettings: !this.state.showSettings,
       settings: type
@@ -80,18 +111,27 @@ class MainContent extends Component {
   }
 
   render() {
+
     if (this.props.userDataLoaded && this.props.userName) {
       const { news } = this.props.userData
       return (
+ 
         <div className="main-content" style={styles.root} >
+
+          {/* <input 
+            type="text"
+            value = { this.state.input }
+            onChange={this.change}
+            style={{marginTop: "100px"}}
+          /> */}
+
 
           <div className="components" id="components" style={styles.components}>
 
             <Card heading="NEWS" 
               gridColumn="span 2" gridRow="span 4" height= {600}
               settingsClick={this.handleClick}
-              options = {news.sources}
-            >
+              options = {news.sources}>
 
               <News />
 
@@ -114,19 +154,20 @@ class MainContent extends Component {
               gridColumn="span 1" gridRow="span 2" height= {300}
               settingsClick={this.handleClick}
               message="The market is ">
+
               <Stocks />
 
             </Card>
-
+            <div style={{height: "60px", width: "100%"}}></div>
           </div>
 
           <div className="settings-wrapper" style={styles.settingsWrapper}>
-            <NewsSettings type={this.state.settings} settingsClick={this.handleClick}/>
+            <NewsSettings type={this.state.settings} settingsClick={this.handleClick} />
             <SportsSettings type={this.state.settings} settingsClick={this.handleClick} />
             <StocksSettings type={this.state.settings} settingsClick={this.handleClick} />
             <WeatherSettings type={this.state.settings} settingsClick={this.handleClick} />
           </div>
-
+     
         </div>
       )
     } else {

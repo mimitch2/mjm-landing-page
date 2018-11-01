@@ -77,12 +77,12 @@ class News extends Component {
   }
 
   componentDidUpdate = (prevProps) => {
-    if (prevProps.userData !== this.props.userData || prevProps.userName !== this.props.userName){
+    if (prevProps.userData !== this.props.userData){
       this.getData()
     }
-    if (prevProps.newsArticles !== this.props.newsArticles) {
-      this.setState({news: this.props.newsArticles})
-    }
+    // if (prevProps.newsArticles !== this.props.newsArticles) {
+    //   this.setState({news: this.props.newsArticles})
+    // }
 
   }
 

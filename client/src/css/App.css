@@ -94,13 +94,13 @@ text-decoration: none;
 
 .card-content::-webkit-scrollbar {
   width: 19px;
-  background-color: #8AB2C2;
+  background-color: #8BAAAD;
 }
 
 .card-content::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background-color: rgb(74, 74, 74);
-  border: 5px solid #8AB2C2;
+  border: 5px solid #8BAAAD;
 }
 
 

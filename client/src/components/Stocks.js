@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
-import Moment from 'react-moment';
+// import Moment from 'react-moment';
 
 const styles ={
   content: {
@@ -20,9 +20,9 @@ const styles ={
     width: '350px',
     display: "flex",
     justifyContent: "space-between",
+    alignItems: "flex-end",
     fontSize: "20px",
     fontWeight: "400"
-
   },
   stockItem: {
     display: "flex",
@@ -56,7 +56,7 @@ class Stocks extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isOpen: true
+      // isOpen: true
     }
   }
 
@@ -87,13 +87,18 @@ class Stocks extends Component {
   }
 
   async isMarketOpen() {
-    const getInfo = await fetch('https://api.iextrading.com/1.0/deep/system-event')
-    const isOpen = await getInfo.json()
-    if (isOpen.systemEvent === "R") {
-      this.setState({isOpen: true})
-    } else if (isOpen.systemEvent !== "R") {
-      this.setState({isOpen: false})
+    try {
+      const getInfo = await fetch('https://api.iextrading.com/1.0/deep/system-event')
+      const isOpen = await getInfo.json()
+      if (isOpen.systemEvent === "R") {
+        this.props.isMarketOpen(true)
+      } else if (isOpen.systemEvent !== "R") {
+        this.props.isMarketOpen(false)
+      } 
+    } catch (error) {
+      console.log(error)
     }
+  
   }
 
 
@@ -112,7 +117,6 @@ class Stocks extends Component {
 
 
   render() {
-  
     if (this.props.stocksDataLoaded) {
       return (
         <div>
@@ -155,14 +159,8 @@ class Stocks extends Component {
                     </tr>
                   </tbody>
                 </table>
-                  
-               
-
-
-
               </div>
             )
-
           })}
 
         </div>

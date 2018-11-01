@@ -1,6 +1,6 @@
 import Stocks from "../components/Stocks";
 import { connect } from "react-redux";
-import { loadStocksData } from "../actions";
+import { loadStocksData, isMarketOpen } from "../actions";
 
 function mapStateToProps(state) {
   return {
@@ -18,6 +18,10 @@ function mapDispatchToProps(dispatch) {
   return {
     loadStocksData: (symbols) => {
       const action = loadStocksData(symbols);
+      dispatch(action);
+    },
+    isMarketOpen: (bool) => {
+      const action = isMarketOpen(bool);
       dispatch(action);
     }
   }

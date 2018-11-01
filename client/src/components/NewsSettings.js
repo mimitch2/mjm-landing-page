@@ -108,9 +108,9 @@ class NewsSettings extends Component {
       })
     }
 
-    if (prevProps.defaultData !== this.props.defaultData) {
-      this.loadDefaults()
-    }
+    // if (prevProps.defaultData !== this.props.defaultData) {
+    //   this.loadDefaults()
+    // }
   }
 
   // getLanguage = () => {

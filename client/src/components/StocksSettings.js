@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import BasicInput from './BasicInput'
 import Button from './Button'
-import cityData from '../cities.json';
 import {sortAlpha} from './Common'
 
 

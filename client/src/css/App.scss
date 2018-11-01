@@ -1,0 +1,118 @@
+.App {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  text-align: center;
+  width: 100vw;
+
+  .select-main {
+    & scrollbar {
+      width: 1em;
+    }
+  }
+
+  .select-main::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  }
+
+  .select-main::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+  }
+
+  a {
+    color: rgb(31, 16, 163);
+    text-decoration: none;
+
+    &visited {
+      color: rgb(31, 16, 163);
+      text-decoration: none;
+    }
+  }
+  
+  
+  
+  .sign-in-link:hover {
+  color: rgb(240, 240, 240);
+  text-decoration: none;
+  }
+  
+  
+  .components.invisible {
+    /* visibility: hidden; */
+    opacity: 0;
+    transition: .3s ease-in-out;
+    transform: scale(.9)
+  
+  }
+  
+  .settings.invisible {
+    opacity: 0;
+    transition: .3s ease-in-out;
+    transform: scale(.9)
+  }
+  
+  .components {
+    opacity: 1;
+    transition: .3s ease-in-out;
+    transform: scale(1)
+  }
+  
+  .settings {
+    opacity: 1;
+    transition: .3s ease-in-out;
+    transform: scale(1)
+  }
+  
+
+  
+  .spin-sync {
+    animation: spin 1s linear infinite;
+  }
+  
+  .fa-question {
+    animation: pulse 1.5s linear infinite;
+  }
+
+  
+  
+  th {
+    background: rgb(68, 68, 68);
+    color: rgb(175, 175, 175);
+    font-size: 14px;
+    font-weight: 400;
+    padding: 0px 10px 0px 10px;
+    text-align: center;
+  }
+  
+  
+  .select-scroll::-webkit-scrollbar {
+    width: 19px;
+    background-color: white;
+    /* padding: 10px; */
+  }
+  
+  .select-scroll::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background-color: rgb(74, 74, 74);
+    border: 5px solid white;
+  }
+  
+
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1)
+    }
+    50% {
+      transform: scale(1.2)
+    }
+    100% {
+      transform: scale(1)
+    }
+  }
+  
+
+
+
+}

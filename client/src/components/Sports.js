@@ -26,7 +26,7 @@ const styles ={
     textAlign: "left" 
   },
   winLossWrapper: {
-    // marginLeft: "30px"
+    // marginBottom: "10px"
   },
   statsAndGames: {
     marginLeft: "30px",
@@ -35,11 +35,12 @@ const styles ={
   },
   tableRows: {
     width: '250px',
+    marginBottom: "12px"
   },
   nextGameWrapper: {
     display: "flex",
-    alignItems: "center",
-    justifyContent: "space-around"
+    justifyContent: "space-between",
+    alignItems: "center"
   },
   nextGame: {
     display: "flex",
@@ -72,16 +73,22 @@ class Sports extends Component {
 
   findGamesByDate (games) {
     const formatedDate = moment(Date.now()).format('MMDDYYYY')
+    const exactTime = moment(Date.now()).format('MMDDYYYYhhmm')
 
-    const findPrevious =  games.find(gm => moment(gm.schedule.startTime).format('MMDDYYYY') >= formatedDate )
-    const prevGameIndex =  games.indexOf(findPrevious)
-    const formated =  prevGameIndex !== -1 ? games[prevGameIndex].schedule : null
-    const prevGame = moment(formated).format('MMDDYYYY') === formatedDate ? games[prevGameIndex - 1] : games[prevGameIndex] 
+    const findNext =  games.find(gm => {
+      return gm.schedule.playedStatus === "LIVE" ||
+             gm.schedule.playedStatus === "UNPLAYED"
+    })
+
+  
+    const gameIndex =  games.indexOf(findNext)
+    const prevGame =  gameIndex !== 0 ? games[gameIndex - 1] : null // FIX NEED TO ACCOUNT FOR LIVE GAMES 
+    // const prevGame = formated ? formated : games[ prevGameIndex ] 
 
     const findCurrent = games.find(gm => moment(gm.schedule.startTime).format('MMDDYYYY') === formatedDate) 
     const currentGame = findCurrent ? findCurrent : null
    
-    const findNext = games.find(gm => moment(gm.schedule.startTime).format('MMDDYYYY') > formatedDate ) 
+    // const findNext = games.find(gm => gm.schedule.playedStatus === "UNPLAYED" ) 
     const nextGame = findNext ? findNext : null
 
     return {
@@ -154,11 +161,12 @@ class Sports extends Component {
                       </table>
                       <div>
 
-
-                        <span style={{fontSize: "14px", marginRight: "5px", fontWeight: "400"}}>Last Game</span>
-                        <Moment format="ddd, MMM Do h:mma" style={{fontSize: "12px"}}>
-                          {gameList.prevGame.schedule.startTime}
-                        </Moment>
+                        <div style={{display: "flex"}}>
+                          <span style={{fontSize: "14px", marginRight: "5px", fontWeight: "400"}}>Last Game</span>
+                          <Moment format="ddd, MMM Do h:mma" style={{fontSize: "12px"}}>
+                            {gameList.prevGame.schedule.startTime}
+                          </Moment>
+                        </div>
                         <table>
                           <tbody>
                             <tr>
@@ -218,7 +226,7 @@ class Sports extends Component {
                               </td>
                               {gameList.prevGame.score.periods[4] && 
                               <td>
-                                {gameList.prevGame.score.periods[4].homeScore}
+                                {gameList.prevGame.score.periods[4].awayScore}
                               </td>
                               }
                               <td>{gameList.prevGame.score.awayScoreTotal}</td>
@@ -243,7 +251,7 @@ class Sports extends Component {
                                 {gameList.nextGame.schedule.homeTeam.abbreviation}
                               </div>
                             </div>
-                            <div> VS </div>
+                            <div style={{fontSize: "26px", fontWeight: "400"}}> VS </div>
                             <div style={styles.nextGame}>
                             AWAY
                               <div>

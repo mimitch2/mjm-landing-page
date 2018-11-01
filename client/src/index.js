@@ -5,6 +5,8 @@ import App from './AppContainer';//***********Change if using AppContainer.js **
 import * as serviceWorker from './serviceWorker';
 import {Provider} from "react-redux";
 import store from "./store";
+require('dotenv').config()
+
 
 const oldFetch = window.fetch; //This is to get the token from localStorage
 window.fetch = (url, settings = {}) => {

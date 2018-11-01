@@ -11,18 +11,18 @@ function create(req, res, next) {
   }
   console.log("Look for a user with the username",username);
   User.findOne({ username: u}).exec()
-  .then((existingUser) => {
+    .then((existingUser) => {
       // If the user exist return an error on sign up
-    if (existingUser) {
-      console.log("This username is already being used");
-      return res.status(422).json({ error: "Username is in use" });
-    }
-    console.log("This username is free to use");
-    saveUser(username, password, (token) => {
-      res.json(token);
-    });
-  })
-  .catch(err => next(err));
+      if (existingUser) {
+        console.log("This username is already being used");
+        return res.status(422).json({ error: "Username is in use" });
+      }
+      console.log("This username is free to use");
+      saveUser(username, password, (token) => {
+        res.json(token);
+      });
+    })
+    .catch(err => next(err));
 }
 
 function saveUser(username, password, done) {

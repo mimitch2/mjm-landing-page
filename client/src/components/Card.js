@@ -1,29 +1,30 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import './Card.scss'
 
 const styles = {
-  card: {
-    background: "#8AB2C2",
-    borderRadius: "6px",
-    boxShadow: "1px 1px 4px rgba(0, 0, 0, .3)"
-  },
-  heading: {
-    fontSize: 26,
-    fontWeight: 300,
-    background: "#444",
-    color: "rgb(175, 175, 175)",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "0px 6px 0px 8px",
-    borderTopLeftRadius: "6px",
-    borderTopRightRadius: "6px"
-  },
-  headingIcon: {
-    fontSize: "24px",
-    marginRight: "10px"
-  },
+  // card: {
+  //   background: "#8BAAAD",
+  //   borderRadius: "6px",
+  //   boxShadow: "1px 1px 4px rgba(0, 0, 0, .3)"
+  // },
+  // heading: {
+  //   fontSize: 26,
+  //   fontWeight: 300,
+  //   background: "#444",
+  //   color: "rgb(175, 175, 175)",
+  //   display: "flex",
+  //   justifyContent: "space-between",
+  //   alignItems: "center",
+  //   padding: "0px 6px 0px 8px",
+  //   borderTopLeftRadius: "6px",
+  //   borderTopRightRadius: "6px"
+  // },
+  // headingIcon: {
+  //   fontSize: "24px",
+  //   marginRight: "10px"
+  // },
   icon: {
     // padding: "0px 8px 0px 8px",
     cursor: "pointer",
@@ -135,14 +136,14 @@ class Card extends Component {
     const { gridColumn, gridRow, height, heading } = this.props
     return (
       <div className="card" id="card"  
-        style={{...styles.card, gridColumn: gridColumn, gridRow: gridRow, height: "auto", maxHeight: height}}>
-        <div className="card-heading" style={styles.heading}>
+        style={{gridColumn: gridColumn, gridRow: gridRow, height: "auto", maxHeight: height}}>
+        <div className="card-heading">
           <div>
-            {(heading === "NEWS" && <i className="fal fa-newspaper" style={styles.headingIcon}></i>) ||
-             (heading === "SPORTS" && <i className="fas fa-football-ball" style={styles.headingIcon}></i>) ||
-             (heading === "WEATHER" && <i className="fas fa-bolt" style={styles.headingIcon}></i>) ||
-             (heading === "STOCKS" && <i className="far fa-chart-line" style={styles.headingIcon}></i>) ||
-             (heading === "MOVIES" && <i className="fas fa-film" style={styles.headingIcon}></i>)}
+            {(heading === "NEWS" && <i className="fal fa-newspaper heading-icon"></i>) ||
+             (heading === "SPORTS" && <i className="fas fa-football-ball heading-icon"></i>) ||
+             (heading === "WEATHER" && <i className="fas fa-bolt heading-icon"></i>) ||
+             (heading === "STOCKS" && <i className="far fa-chart-line heading-icon"></i>) ||
+             (heading === "MOVIES" && <i className="fas fa-film heading-icon"></i>)}
             { heading } 
           </div>
           {(this.props.options && 
@@ -170,9 +171,8 @@ class Card extends Component {
             </div>)
             || this.props.message && 
             <div style={{fontSize: "14px", 
-              textTransform: "uppercase", 
-              color: this.props.marketOpen ? "green" : "red"}}>
-              {this.props.message}{this.props.marketOpen ? "open" : "closed"}
+              textTransform: "uppercase"}}>
+              {this.props.message} <span style={{color: this.props.marketOpen ? "green" : "red"}}>{this.props.marketOpen ? " open" : "closed"}</span>
             </div>
             || null
           }
