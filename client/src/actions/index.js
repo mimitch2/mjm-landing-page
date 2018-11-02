@@ -1,17 +1,12 @@
 
-import keys from "../config.js"
-// const result = require('dotenv').config()
-
-
-
-
-// console.log(result.sportsKey)
-
-const auth = {
+const sportsAuth = {
   type: "GET",
-  headers: {"Authorization": "Basic " + btoa(keys.sportsKey)}
+  headers: {"Authorization": "Basic " + btoa(process.env.REACT_APP_SPORTS)}
 } 
+const weatherAuth = process.env.REACT_APP_WEATHER
+const newsAuth = process.env.REACT_APP_NEWS
 
+console.log(weatherAuth, newsAuth)
 
 export function setUserName(name) {
   return {
@@ -66,10 +61,9 @@ export function updateUserData(data, username) {
 }
 
 export function loadNewsArticles(newsSources) {
-  console.log("loadnews")
   return async function (dispatch) {
     try {
-      const getNews = await fetch(`https://newsapi.org/v2/top-headlines?pageSize=60&sources=${newsSources}&apiKey=${keys.newsKey}`)
+      const getNews = await fetch(`https://newsapi.org/v2/top-headlines?pageSize=60&sources=${newsSources}&apiKey=${newsAuth}`)
       const news = await getNews.json()
       dispatch(setNewsArticles(news));
       dispatch(newsArticlesLoaded(true));
@@ -100,7 +94,7 @@ export function loadWeather(city) {
   return async function (dispatch) {
     try {
       if (city) {
-        const getWeather = await fetch(`https://api.darksky.net/forecast/${keys.weatherKey}/${city.lat},${city.long}`)
+        const getWeather = await fetch(`https://api.darksky.net/forecast/${weatherAuth}/${city.lat},${city.long}`)
         const weather = await getWeather.json()
         const temp = weather
         temp.id = city.id
@@ -140,15 +134,15 @@ export function loadSportsData (sportsObj) {
   return async function (dispatch) {
     try {
       for (const league in sportsObj.standings) {
-        const getStandings = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/standings.json`, auth)
+        const getStandings = await fetch(`https://api.mysportsfeeds.com/v2.0/pull/${league}/2018-2019-regular/standings.json`, sportsAuth)
         const result = await getStandings.json()
         sportsObj.standings[league] = result
       }
      
       for (let i = 0; i < sportsObj.teams.length; i++) {
         const team = sportsObj.teams[i]
-        const getStats = fetch(`https://api.mysportsfeeds.com/v2.0/pull/${team.info.strLeague}/2018-2019-regular/team_stats_totals.json?team=${team.info.strTeamShort}`, auth)
-        const getGames = fetch(`https://api.mysportsfeeds.com/v2.0/pull/${team.info.strLeague}/2018-2019-regular/games.json?team=${team.info.strTeamShort}`, auth)
+        const getStats = fetch(`https://api.mysportsfeeds.com/v2.0/pull/${team.info.strLeague}/2018-2019-regular/team_stats_totals.json?team=${team.info.strTeamShort}`, sportsAuth)
+        const getGames = fetch(`https://api.mysportsfeeds.com/v2.0/pull/${team.info.strLeague}/2018-2019-regular/games.json?team=${team.info.strTeamShort}`, sportsAuth)
         const res = await Promise.all([getStats, getGames])
         const dataArr = res.map(r => r.json())
         const [stats, games] = await Promise.all(dataArr)

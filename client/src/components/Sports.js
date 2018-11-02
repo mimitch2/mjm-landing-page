@@ -6,7 +6,7 @@ import * as moment from 'moment'
 // import keys from "../config.js"
 // require('dotenv').config()
 import { firstSecond, removeLeadingZero } from "./Common"
-import '../css/App.css'
+import './Sports.scss'
 
 
 const styles ={
@@ -121,7 +121,7 @@ class Sports extends Component {
             const gameList = this.findGamesByDate(team.games.games)
 
             const nameRank = (
-              <div style={styles.item}>  
+              <div className="name-and-rank">  
                 {team.info.strTeam}
                 <span style={{marginLeft: "8px", fontSize: "14px", fontWeight: "300"}}>
                   { `${rank}${firstSecond(rank)} - ${divisionName}` }
@@ -130,144 +130,148 @@ class Sports extends Component {
             )
 
             return (
-              <div style={styles.teamLine} key={i}>
-                <div style={styles.logoName}>
-                  <img src={team.info.strTeamBadge} width="60px" height ="60px" alt=""/>
-                </div>
-                <div style={styles.statsAndGames}> 
-                  {(team.info.strLeague === "NHL" &&
-                  <div>
-                    <div style={styles.winLossWrapper}>       
-                      {nameRank}
-                      <table style={styles.tableRows}>
-                        <tbody>
-                          <tr>
-                            <th>GP</th>
-                            <th>W</th>
-                            <th>L</th>
-                            <th>OTW</th>
-                            <th>OTL</th>
-                            <th>PTS</th>
-                          </tr>
-                          <tr>
-                            <td>{stats.gamesPlayed}</td> 
-                            <td>{stats.standings.wins}</td>
-                            <td>{stats.standings.losses}</td>
-                            <td>{stats.standings.overtimeWins}</td>
-                            <td>{stats.standings.overtimeLosses}</td>
-                            <td>{stats.standings.points}</td> 
-                          </tr>
-                        </tbody>
-                      </table>
-                      <div>
-
-                        <div style={{display: "flex"}}>
-                          <span style={{fontSize: "14px", marginRight: "5px", fontWeight: "400"}}>Last Game</span>
-                          <Moment format="ddd, MMM Do h:mma" style={{fontSize: "12px"}}>
-                            {gameList.prevGame.schedule.startTime}
-                          </Moment>
-                        </div>
-                        <table>
+              <div className="team-line" key={i}>
+             
+        
+                {(team.info.strLeague === "NHL" &&
+                  <div className="team">
+                    <div className="logo-and-stats">
+                      <div className="team-logo">
+                        <img src={team.info.strTeamBadge} width="60px" height ="60px" alt="Team Logo"/>
+                      </div>
+                      <div style={styles.winLossWrapper}>       
+                        {nameRank}
+                        <table style={styles.tableRows}>
                           <tbody>
                             <tr>
-                              <th></th>
-                              <th>1rst</th>
-                              <th>2nd</th>
-                              <th>3rd</th>
-                              <th>OT</th>
-                              {gameList.prevGame.score.periods[4] && <th>SO</th>}
-                              <th>{(gameList.prevGame.score.periods[3] && `Final/OT`) || `Final`}</th>
+                              <th>GP</th>
+                              <th>W</th>
+                              <th>L</th>
+                              <th>OTW</th>
+                              <th>OTL</th>
+                              <th>PTS</th>
                             </tr>
                             <tr>
-                              <td>
-                                <img src={this.returnTeamLogo("nhl", gameList.prevGame.schedule.homeTeam.abbreviation)} 
-                                  width="20px" height ="20px" alt="" style={{marginRight: "3px"}}/>
-                                {gameList.prevGame.schedule.homeTeam.abbreviation}
-                              </td>
-                              <td>
-                                {gameList.prevGame.score.periods[0].homeScore}
-                              </td>
-                              <td>
-                                {gameList.prevGame.score.periods[1].homeScore}
-                              </td>
-                              <td>
-                                {gameList.prevGame.score.periods[2].homeScore}
-                              </td>
-                              <td>
-                                {(gameList.prevGame.score.periods[3] && gameList.prevGame.score.periods[3].homeScore) || null}
-                              </td>
-                              {gameList.prevGame.score.periods[4] && 
-                              <td>
-                                {gameList.prevGame.score.periods[4].homeScore}
-                              </td>
-                              }
-                              <td>
-                                {gameList.prevGame.score.homeScoreTotal}
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <img src={this.returnTeamLogo("nhl", gameList.prevGame.schedule.awayTeam.abbreviation)} 
-                                  width="20px" height ="20px" alt="" style={{marginRight: "3px"}}/>
-                                {gameList.prevGame.schedule.awayTeam.abbreviation} 
-                              </td>
-
-                              <td>
-                                {gameList.prevGame.score.periods[0].awayScore}
-                              </td>
-                              <td>
-                                {gameList.prevGame.score.periods[1].awayScore}
-                              </td>
-                              <td>
-                                {gameList.prevGame.score.periods[2].awayScore}
-                              </td>
-                              <td>
-                                {(gameList.prevGame.score.periods[3] &&  gameList.prevGame.score.periods[3].awayScore) || null}
-                              </td>
-                              {gameList.prevGame.score.periods[4] && 
-                              <td>
-                                {gameList.prevGame.score.periods[4].awayScore}
-                              </td>
-                              }
-                              <td>{gameList.prevGame.score.awayScoreTotal}</td>
+                              <td>{stats.gamesPlayed}</td> 
+                              <td>{stats.standings.wins}</td>
+                              <td>{stats.standings.losses}</td>
+                              <td>{stats.standings.overtimeWins}</td>
+                              <td>{stats.standings.overtimeLosses}</td>
+                              <td>{stats.standings.points}</td> 
                             </tr>
                           </tbody>
                         </table>
+                      </div>
+                    </div>
+                    <div>
+
+                      <div style={{display: "flex"}}>
+                        <span style={{fontSize: "14px", marginRight: "5px", fontWeight: "400"}}>Last Game</span>
+                        <Moment format="ddd, MMM Do h:mma" style={{fontSize: "12px"}}>
+                          {gameList.prevGame.schedule.startTime}
+                        </Moment>
+                      </div>
+                      <table>
+                        <tbody>
+                          <tr>
+                            <th></th>
+                            <th>1rst</th>
+                            <th>2nd</th>
+                            <th>3rd</th>
+                            <th>OT</th>
+                            {gameList.prevGame.score.periods[4] && <th>SO</th>}
+                            <th>{(gameList.prevGame.score.periods[3] && `Final/OT`) || `Final`}</th>
+                          </tr>
+                          <tr>
+                            <td className="sports-game-team-entry">
+                              <img src={this.returnTeamLogo("nhl", gameList.prevGame.schedule.homeTeam.abbreviation)} 
+                                width="20px" height ="20px" alt="" style={{marginRight: "3px"}}/>
+                              {gameList.prevGame.schedule.homeTeam.abbreviation}
+                            </td>
+                            <td>
+                              {gameList.prevGame.score.periods[0].homeScore}
+                            </td>
+                            <td>
+                              {gameList.prevGame.score.periods[1].homeScore}
+                            </td>
+                            <td>
+                              {gameList.prevGame.score.periods[2].homeScore}
+                            </td>
+                            <td>
+                              {(gameList.prevGame.score.periods[3] && gameList.prevGame.score.periods[3].homeScore) || null}
+                            </td>
+                            {gameList.prevGame.score.periods[4] && 
+                              <td>
+                                {gameList.prevGame.score.periods[4].homeScore}
+                              </td>
+                            }
+                            <td>
+                              {gameList.prevGame.score.homeScoreTotal}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <img src={this.returnTeamLogo("nhl", gameList.prevGame.schedule.awayTeam.abbreviation)} 
+                                width="20px" height ="20px" alt="" style={{marginRight: "3px"}}/>
+                              {gameList.prevGame.schedule.awayTeam.abbreviation} 
+                            </td>
+
+                            <td>
+                              {gameList.prevGame.score.periods[0].awayScore}
+                            </td>
+                            <td>
+                              {gameList.prevGame.score.periods[1].awayScore}
+                            </td>
+                            <td>
+                              {gameList.prevGame.score.periods[2].awayScore}
+                            </td>
+                            <td>
+                              {(gameList.prevGame.score.periods[3] &&  gameList.prevGame.score.periods[3].awayScore) || null}
+                            </td>
+                            {gameList.prevGame.score.periods[4] && 
+                              <td>
+                                {gameList.prevGame.score.periods[4].awayScore}
+                              </td>
+                            }
+                            <td>{gameList.prevGame.score.awayScoreTotal}</td>
+                          </tr>
+                        </tbody>
+                      </table>
 
 
-                        <div>
-                          <span style={{fontSize: "14px", marginRight: "5px", fontWeight: "400"}}>Next Game</span>
-                          <Moment format="ddd, MMM Do h:mma" style={{fontSize: "12px"}}>
-                            {gameList.nextGame.schedule.startTime}
-                          </Moment>
-                          <div style={styles.nextGameWrapper}>
-                            <div style={styles.nextGame}>
+                      <div>
+                        <span style={{fontSize: "14px", marginRight: "5px", fontWeight: "400"}}>Next Game</span>
+                        <Moment format="ddd, MMM Do h:mma" style={{fontSize: "12px"}}>
+                          {gameList.nextGame.schedule.startTime}
+                        </Moment>
+                        <div style={styles.nextGameWrapper}>
+                          <div style={styles.nextGame}>
                             HOME
-                              <div>
-                                <img src={this.returnTeamLogo("nhl", gameList.nextGame.schedule.homeTeam.abbreviation)} 
-                                  width="40px" height ="40px" alt="" style={{marginRight: "3px"}}/>
-                              </div>
-                              <div>
-                                {gameList.nextGame.schedule.homeTeam.abbreviation}
-                              </div>
+                            <div>
+                              <img src={this.returnTeamLogo("nhl", gameList.nextGame.schedule.homeTeam.abbreviation)} 
+                                width="40px" height ="40px" alt="" style={{marginRight: "3px"}}/>
                             </div>
-                            <div style={{fontSize: "26px", fontWeight: "400"}}> VS </div>
-                            <div style={styles.nextGame}>
+                            <div>
+                              {gameList.nextGame.schedule.homeTeam.abbreviation}
+                            </div>
+                          </div>
+                          <div style={{fontSize: "26px", fontWeight: "400"}}> VS </div>
+                          <div style={styles.nextGame}>
                             AWAY
-                              <div>
-                                <img src={this.returnTeamLogo("nhl", gameList.nextGame.schedule.awayTeam.abbreviation)} 
-                                  width="40px" height ="40px" alt="" style={{marginRight: "3px"}}/>
-                              </div>
-                              <div>
-                                {gameList.nextGame.schedule.awayTeam.abbreviation}
-                              </div>
+                            <div>
+                              <img src={this.returnTeamLogo("nhl", gameList.nextGame.schedule.awayTeam.abbreviation)} 
+                                width="40px" height ="40px" alt="" style={{marginRight: "3px"}}/>
+                            </div>
+                            <div>
+                              {gameList.nextGame.schedule.awayTeam.abbreviation}
                             </div>
                           </div>
                         </div>
                       </div>
                     </div>
+                    
                   </div>
-                  )
+                )
 
                   || (team.info.strLeague === "NFL" &&
                   <div>
@@ -564,9 +568,7 @@ class Sports extends Component {
                       </table>
                     </div>
                   </div>)
-                  }
-                </div>
-              
+                }
               </div>
             )
           })}

@@ -1,0 +1,28 @@
+.sports {
+  .team-line {
+    border-bottom: 1px solid grey;
+    display: flex;
+    padding: 6px 0;
+
+    .team {
+      display: flex;
+      flex-direction: column;
+    }
+    .logo-and-stats {
+      display: flex;
+    }
+   
+  }
+
+  .name-and-rank {
+    font-size: 20px;
+    font-weight: 400;
+    text-align: left;
+  }
+
+
+
+
+
+
+}
