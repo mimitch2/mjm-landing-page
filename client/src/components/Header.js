@@ -15,7 +15,7 @@ class Header extends Component {
       brightness: 200,
       light: 1,
       lights: [],
-      selected: null
+      on: []
     }
   }
 
@@ -28,19 +28,39 @@ class Header extends Component {
     const hueData = await info.json()
     const tempArr = Object.values(hueData)
     this.setState({
-      lights: tempArr
+      lights: tempArr,
     })
-
+    tempArr.forEach((lt, i) => {
+      if (lt.state.on) {
+        this.setState({
+          on: [ ...this.state.on, i + 1 ]
+        })
+      }
+       
+    })
   }
     
-
+  lightSwitch = ( lt ) => {
+    const { on, lights } = this.state
+    const thisLight = lights.find((lght, i) => lights.indexOf(lght) === lt - 1 )
+    console.log(thisLight)
+    this.setState({
+      on: on.includes(lt) ? on.filter(bulb => bulb !== lt) 
+        : [...on, lt],
+    })
+    fetch(`http://192.168.1.137/api/HnLwzBnIEZeDFoJM4XUlwloW7vLgyp87NZKXYRVf/lights/${lt}/state`, {
+      method: "PUT",
+      body: JSON.stringify({
+        "on": !thisLight.state.on
+      })
+    })
+    this.getHueInfo()
+  }
 
   colorPicker = ( lt ) => {
-    const { light,lights, showPicker } = this.state
-    console.log(lights[light - 1].state.hue)
+    const { light, lights, showPicker } = this.state
     this.setState({
       light: lt,
-      selected: !this.state.selected ? lt : null,
       showPicker: !showPicker,
       hue: lights[lt - 1].state.hue,
       brightness: lights[lt - 1].state.bri
@@ -90,9 +110,9 @@ class Header extends Component {
             return (
               <div className="color-picker-title"
                 key={light.name}
-                onClick={ () => this.colorPicker(i + 1)}
+                onClick={ () => this.lightSwitch(i + 1)}
                 style={
-                  this.state.selected === i + 1 ?
+                  this.state.on.includes(i + 1) ?
                     { background: "#AFAFAF", color: "#444"}
                     : null
                 }

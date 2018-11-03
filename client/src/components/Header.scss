@@ -21,10 +21,10 @@ $secondary-color: #AFAFAF;
       cursor: pointer;
       padding: 1px 2px 2px 2px;
       margin: 0px 4px 0px 4px;
-      &:hover {
-      background: $secondary-color;
-      color: $primary-color;
-      }
+      // &:hover {
+      // background: $secondary-color;
+      // color: $primary-color;
+      // }
     }
     .color-picker-div {
       position: absolute;
