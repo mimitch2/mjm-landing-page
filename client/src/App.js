@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './css/App.scss';
 import SignUpSignIn from "./components/SignUpSignIn";
-import TopNavbar from "./components/TopNavBar";
+import Header from "./components/Header";
 import MainContent from "./containers/MainContentContainer";
 import createHistory from 'history/createBrowserHistory'
 import { BrowserRouter, Route, Switch } from "react-router-dom";
@@ -33,6 +33,7 @@ class App extends Component {
       console.log(location, action)
     })
   }
+
 
   getUserData (username) {
     this.props.loadUserData(username)
@@ -143,7 +144,7 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="App">
-          <TopNavbar 
+          <Header 
             showNavItems={this.state.authenticated} 
             onSignOut={this.handleSignOut} />
           <Switch>

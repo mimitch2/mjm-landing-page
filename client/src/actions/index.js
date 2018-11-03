@@ -1,10 +1,14 @@
 
+// light 1 == bed 1, light 2 = bed 2, light 3 = swag
+
+
 const sportsAuth = {
   type: "GET",
   headers: {"Authorization": "Basic " + btoa(process.env.REACT_APP_SPORTS)}
 } 
 const weatherAuth = process.env.REACT_APP_WEATHER
 const newsAuth = process.env.REACT_APP_NEWS
+const hueAuth = process.env.REACT_APP_HUE
 
 console.log(weatherAuth, newsAuth)
 

@@ -131,10 +131,10 @@ class Sports extends Component {
 
             return (
               <div className="team-line" key={i}>
-             
-        
+
                 {(team.info.strLeague === "NHL" &&
                   <div className="team">
+                    {/* ************************** STATS  ********************* */}
                     <div className="logo-and-stats">
                       <div className="team-logo">
                         <img src={team.info.strTeamBadge} width="60px" height ="60px" alt="Team Logo"/>
@@ -163,8 +163,10 @@ class Sports extends Component {
                         </table>
                       </div>
                     </div>
-                    <div>
+                  
+                    {/* ************************** PREVIOUS GAME ********************* */}
 
+                    <div className="game-entry">
                       <div style={{display: "flex"}}>
                         <span style={{fontSize: "14px", marginRight: "5px", fontWeight: "400"}}>Last Game</span>
                         <Moment format="ddd, MMM Do h:mma" style={{fontSize: "12px"}}>
@@ -237,34 +239,35 @@ class Sports extends Component {
                           </tr>
                         </tbody>
                       </table>
+                    </div>
+ 
+                    {/* ************************** NEXT GAME  ********************* */}
 
-
-                      <div>
-                        <span style={{fontSize: "14px", marginRight: "5px", fontWeight: "400"}}>Next Game</span>
-                        <Moment format="ddd, MMM Do h:mma" style={{fontSize: "12px"}}>
-                          {gameList.nextGame.schedule.startTime}
-                        </Moment>
-                        <div style={styles.nextGameWrapper}>
-                          <div style={styles.nextGame}>
+                    <div>
+                      <span style={{fontSize: "14px", marginRight: "5px", fontWeight: "400"}}>Next Game</span>
+                      <Moment format="ddd, MMM Do h:mma" style={{fontSize: "12px"}}>
+                        {gameList.nextGame.schedule.startTime}
+                      </Moment>
+                      <div style={styles.nextGameWrapper}>
+                        <div style={styles.nextGame}>
                             HOME
-                            <div>
-                              <img src={this.returnTeamLogo("nhl", gameList.nextGame.schedule.homeTeam.abbreviation)} 
-                                width="40px" height ="40px" alt="" style={{marginRight: "3px"}}/>
-                            </div>
-                            <div>
-                              {gameList.nextGame.schedule.homeTeam.abbreviation}
-                            </div>
+                          <div>
+                            <img src={this.returnTeamLogo("nhl", gameList.nextGame.schedule.homeTeam.abbreviation)} 
+                              width="40px" height ="40px" alt="" style={{marginRight: "3px"}}/>
                           </div>
-                          <div style={{fontSize: "26px", fontWeight: "400"}}> VS </div>
-                          <div style={styles.nextGame}>
+                          <div>
+                            {gameList.nextGame.schedule.homeTeam.abbreviation}
+                          </div>
+                        </div>
+                        <div style={{fontSize: "26px", fontWeight: "400"}}> VS </div>
+                        <div style={styles.nextGame}>
                             AWAY
-                            <div>
-                              <img src={this.returnTeamLogo("nhl", gameList.nextGame.schedule.awayTeam.abbreviation)} 
-                                width="40px" height ="40px" alt="" style={{marginRight: "3px"}}/>
-                            </div>
-                            <div>
-                              {gameList.nextGame.schedule.awayTeam.abbreviation}
-                            </div>
+                          <div>
+                            <img src={this.returnTeamLogo("nhl", gameList.nextGame.schedule.awayTeam.abbreviation)} 
+                              width="40px" height ="40px" alt="" style={{marginRight: "3px"}}/>
+                          </div>
+                          <div>
+                            {gameList.nextGame.schedule.awayTeam.abbreviation}
                           </div>
                         </div>
                       </div>
@@ -273,6 +276,7 @@ class Sports extends Component {
                   </div>
                 )
 
+                
                   || (team.info.strLeague === "NFL" &&
                   <div>
                     <div style={styles.winLossWrapper}>

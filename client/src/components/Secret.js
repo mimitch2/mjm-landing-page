@@ -21,8 +21,8 @@ class Secret extends Component {
 
   render() {
     return (
-      <p style={{color: "#9d9d9d", marginTop: "15px"}}>
-        <i className="fal fa-user" style={{fontSize: "18px", marginRight: "6px"}}>
+      <p style={{color: "#AFAFAF", marginTop: "10px"}}>
+        <i className="fal fa-user" style={{fontSize: "18px", marginRight: "3px"}}>
         </i>
         {this.state.message}
       </p>
