@@ -15,7 +15,8 @@ class Header extends Component {
       brightness: 200,
       light: 1,
       lights: [],
-      on: []
+      on: [],
+      carret: null
     }
   }
 
@@ -58,13 +59,15 @@ class Header extends Component {
   }
 
   colorPicker = ( lt ) => {
-    const { light, lights, showPicker } = this.state
+   
+    const { lights, carret } = this.state
     this.setState({
+      carret: carret !== lt ? lt : null,
       light: lt,
-      showPicker: !showPicker,
       hue: lights[lt - 1].state.hue,
       brightness: lights[lt - 1].state.bri
     })
+    
   }
 
   changeColor = ( e ) => {
@@ -108,23 +111,38 @@ class Header extends Component {
   
           {lights.map((light, i) => {
             return (
-              <div className="color-picker-title"
-                key={light.name}
-                onClick={ () => this.lightSwitch(i + 1)}
-                style={
-                  this.state.on.includes(i + 1) ?
-                    { background: "#AFAFAF", color: "#444"}
-                    : null
-                }
-              >
-                {light.name}
+              <div className="light-controls" key={light.name}>
+                <div className="color-picker-title"
+                  
+                  onClick={ () => this.lightSwitch(i + 1)}
+                  style={
+                    this.state.on.includes(i + 1) ?
+                      { background: "#AFAFAF", color: "#444"}
+                      : null
+                  }
+                >
+                  {light.name}
+                </div>
+                <div className="carret-div" 
+                  onClick={ ()=> this.colorPicker(i + 1)} >
+                  {this.state.on.includes( i + 1 ) &&
+                  <i className="fas fa-caret-right"
+                    style={
+                      this.state.carret === i + 1 ? 
+                        {transform: "rotate(90deg)"}
+                        : null
+                    }
+                  ></i>
+                  }
+                </div>
               </div>
             )
           })
           }
+
           
-          {this.state.showPicker &&
-          <div className="color-picker-div">
+          {this.state.carret &&
+          // <div className="color-picker-div">
             <div className="color-picker-wrapper">
               <div className="brightness-slider-wrapper">
                 <input type="range" min="0" max="65535" className="slider hue" 
@@ -139,7 +157,7 @@ class Header extends Component {
            
             </div>
      
-          </div>
+          // </div>
           }
           
         </div>

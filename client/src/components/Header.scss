@@ -1,5 +1,6 @@
 $primary-color: #444;
 $secondary-color: #AFAFAF;
+$carret-width: 20px;
 
 
 .header {
@@ -14,6 +15,7 @@ $secondary-color: #AFAFAF;
     color: $secondary-color;
     z-index: 1000;
     display: flex;
+
    
     .color-picker-title {
       border-radius: 3px;
@@ -26,27 +28,37 @@ $secondary-color: #AFAFAF;
       // color: $primary-color;
       // }
     }
-    .color-picker-div {
-      position: absolute;
-      width: 20%;
-      height: 10px;
-      // border: 2px solid red;
-      transform: translateY(30px);
-      .color-picker-anchor {
-        transform: translateY(1px);
-        background: $secondary-color;
-        height: 30px;
+    .light-controls {
+      .carret-div {
+        height: 20px;
         width: 30px;
-        -webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
-        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        cursor: pointer;
+        // border: 1px solid white;
+        padding: 1px 3px 0px 5px;
+        .fa-caret-right {
+          transition: transform .1s linear;
+          font-size: 26px;
+          cursor: pointer;
+        }
       }
-
+    }
+ 
+     
       .color-picker-wrapper {
+        position: absolute;
+        width: 20%;
+        height: 10px;
+        // border: 2px solid red;
+        transform: translateY(30px);
+        margin-top: 15px;
         // display: block;
         // border: 5px solid $secondary-color;
         .brightness-slider-wrapper {
+          margin-top: 5px;
           transform: translateY(10px);
-          margin-top: 4px;
           .slider {
             -webkit-appearance: none;
             width: 100%;
@@ -85,7 +97,7 @@ $secondary-color: #AFAFAF;
       
       }
     
-    }
+   
   }
 
   .right-nav {
