@@ -1,75 +1,11 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 import BasicInput from './BasicInput'
 import cityData from '../cities.json';
 import {sortAlpha} from './Common'
 
+import './WeatherSettings.scss'
 
-
-const styles = {
-  settings: {
-    width: "100vw",
-    padding: "0px 40px 0px 40px",
-    position: "absolute",
-    top: 85,
-    left: 0
-  },
-  settingsWrapper: {
-    width: "100vw",
-    display: "flex",
-    justifyContent: "space-around"
-
-  },
-  icon: {
-    fontSize: "40px",
-    color: "grey",
-    cursor: "pointer"
-  },
-  controlsLeft: {
-    width: "45%"
-  },
-  rightList: {
-    fontSize: "18px",
-    fontWeight: 300,
-    height: "300px",
-    maxHeight: "300px",
-    overflowY: "auto",
-    marginTop: "45px",
-    width: "45%"
-  },
-  list: {
-    fontSize: "18px",
-    fontWeight: 300,
-    height: "300px",
-    maxHeight: "300px",
-    overflowY: "auto"
-  },
-  listItem: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "3px 10px 3px 10px"
-  },
-  rightListItem: {
-    display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    padding: "3px 10px 3px 10px"
-  },
-  buttons: {
-    marginTop: "30px",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  bottomIcons: {
-    margin: "0px 12px 0px 12px",
-    fontSize: "40px",
-    cursor: "pointer",
-    height: "60px"
-  },
-  
-}
 
 class WeatherSettings extends Component {
   constructor(props) {
@@ -82,17 +18,14 @@ class WeatherSettings extends Component {
     }
   }
 
-
   componentDidMount () {
     this.setState({
       userCities: this.props.userData.weather.cities
     })
-
   }
 
   addCity = (city) => {
     const tempCities = [...this.state.userCities, city]
-    // const sortedUserSources = sortAlpha(tempCities)
     const tempArr = this.state.filteredList.filter(item => {
       return item.id !== city.id
     })
@@ -123,26 +56,21 @@ class WeatherSettings extends Component {
       const newData = this.props.userData
       newData.weather.cities = this.state.userCities
       this.props.updateUserData(newData, this.props.userName)
-   
       setTimeout(() => {
         this.props.userData.weather.cities.forEach(city =>{
           this.props.loadWeather(city)
         })
         this.props.loadUserData(this.props.userName)
       }, 1000);
-
     }
-
     if (button === "cancel") {
       setTimeout(() => {
         this.setState({userCities: this.props.userData.weather.cities})
       }, closeDelay);
     }
-    
     setTimeout(() => {
       this.props.settingsClick(type)
     }, closeDelay);
-
   }
 
 
@@ -175,31 +103,28 @@ class WeatherSettings extends Component {
 
   render() {
     return (
-      <div className="settings invisible" id="weather-settings" style={styles.settings}>
+      <div className="settings invisible" id="weather-settings">
 
         <div className="settings-name">{this.props.type}</div>
 
-        <div style={styles.settingsWrapper}>
+        <div className="settings-wrapper">
 
-          <div className="control-left" style={styles.controlsLeft}>
+          <div className="left-list">
 
             <BasicInput sendInput={this.filterSources}
               placeholder="Search cities..." />
    
-            <div className ="select-scroll" style={styles.list}>
+            <div className ="settings-list-container">
               {this.state.filteredList.map((city, i) => {
                 return (
-                  <div key={i} >
-                    <div style={styles.listItem}>
-                      <div style={{display: "flex", justifyContent: "flex-start"}}>
-                        <div>
-                          {`${city.name} - ${city.region} - ${city.country}`}
-                        </div>
-                      </div>
-                      <i className="fas fa-plus-circle" style={{color: "green", cursor: "pointer"}}
-                        onClick={() => this.addCity(city)}>
-                      </i>
+                  <div className="list-item" key={i}>
+                    
+                    <div className="list-item-name">
+                      {`${city.name} - ${city.region} - ${city.country}`}
                     </div>
+                    <i className="fas fa-plus-circle" style={{color: "green", cursor: "pointer"}}
+                      onClick={() => this.addCity(city)}>
+                    </i>
                   </div>
                 )
               })}
@@ -207,33 +132,29 @@ class WeatherSettings extends Component {
           </div>
           
  
-          <div style={styles.rightList}>
+          <div className="right-list">
             {this.state.userCities.map((city, i) => {
               return (
-                <div key={i} >
-                  <div style={styles.rightListItem}>
-                  
-                    <i className="fas fa-minus-circle" style={{color: "red", marginRight:"4px", cursor: "pointer"}}
-                      onClick={() => this.removeCity(city)}></i>
-                    <div>
-                      {`${city.name} - ${city.region} - ${city.country}`}
-                    </div>
+                <div className="right-list-item" key={i} >
+                  <i className="fas fa-minus-circle" style={{color: "red", marginRight:"4px", cursor: "pointer"}}
+                    onClick={() => this.removeCity(city)}></i>
+                  <div className="right-list-item-name">
+                    {`${city.name} - ${city.region} - ${city.country}`}
                   </div>
-    
                 </div>
               )
             })}
           </div>
         </div>
-        <div className="button-group" style={styles.buttons}>
-          <i className="fas fa-times-circle"
+        <div className="button-group">
+          <i className="fas fa-times-circle bottom-icons"
             id="weather-cancel" 
-            style={{...styles.bottomIcons, color: "red"}}
+            style={{color: "red"}}
             onClick={(e) => this.handleSubmit(this.props.type, "cancel", e)}
           ></i>
-          <i className="fas fa-check-circle" 
+          <i className="fas fa-check-circle bottom-icons" 
             id="weather-submit"
-            style={{...styles.bottomIcons, color: "green"}}
+            style={{color: "green"}}
             onClick={(e) => this.handleSubmit(this.props.type, "submit", e)}></i>
         </div>
       </div> 
@@ -241,8 +162,8 @@ class WeatherSettings extends Component {
   }
 }
 
-WeatherSettings.propTypes = {
-  prop: PropTypes.array,
-}
+// WeatherSettings.propTypes = {
+//   prop: PropTypes.array,
+// }
 
 export default WeatherSettings;

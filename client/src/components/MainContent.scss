@@ -1,0 +1,27 @@
+
+.main-content {
+  position: relative;
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+  .components {
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    grid-template-rows: 150px;
+    margin-top: 80px;
+    width: 78vw;
+    padding-bottom: 40px;
+  }
+}
+
+.loading {
+  margin-top: 90px;
+  height: 90vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .spin-sync {
+    font-size: 40px;
+  }
+}

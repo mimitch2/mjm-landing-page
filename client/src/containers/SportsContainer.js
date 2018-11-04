@@ -1,6 +1,6 @@
 import Sports from "../components/Sports";
 import { connect } from "react-redux";
-import { loadSportsData, parseTeamInfo, sportsDataLoaded } from "../actions";
+import { loadSportsData, parseTeamInfo } from "../actions";
 
 function mapStateToProps(state) {
   return {

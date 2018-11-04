@@ -1,0 +1,74 @@
+.settings {
+  width: 100vw;
+  padding-inline-end: 0px 40px 0px 40px;
+  position: absolute;
+  top: 100;
+  left: 0;
+  .settings-name {
+    padding-left: 20px;
+    text-align: left;
+    font-size: 40px;
+    font-style: italic;
+    text-transform: capitalize;
+    font-weight: 500;
+  }
+  .settings-wrapper {
+    width: 100vw;
+    display: flex;
+    justify-content: space-around;
+    .left-list {
+      width: 45%;
+      .form-controls {
+        display: flex;
+        align-items: center;
+      }
+      .settings-list-container {
+        background: #fff;
+        font-size: 18px;
+        font-weight: 300;
+        height: 300px;
+        max-height: 300px;
+        overflow-y: auto;
+        .list-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 3px 10px 3px 10px;
+        }
+      }
+    }
+    .right-list-wrapper {
+      transform: translateY(104px);
+      width: 45%;
+      .right-list-heading {
+        transform: translateY(45px);
+      }
+      .right-list {
+        background: #fff;
+        font-size: 18px;
+        font-weight: 300;
+        height: 300px;
+        max-height: 300px;
+        overflow-y: auto;
+        width: 100%;
+      
+        .right-list-item {
+          display: flex;
+          align-items: center;
+          padding: 3px 10px 3px 10px;
+        }
+      }
+    }
+  }
+  .button-group {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .bottom-icons {
+      margin: 0px 12px 0px 12px;
+      font-size: 40px;
+      cursor: pointer
+    }
+  }
+}

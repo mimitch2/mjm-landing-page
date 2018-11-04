@@ -169,11 +169,11 @@ class Card extends Component {
                 </div>
               )}
             </div>)
-            || this.props.message && 
+            || (this.props.message && 
             <div style={{fontSize: "14px", 
               textTransform: "uppercase"}}>
               {this.props.message} <span style={{color: this.props.marketOpen ? "green" : "red"}}>{this.props.marketOpen ? " open" : "closed"}</span>
-            </div>
+            </div>)
             || null
           }
           <div style={{display: 'flex', alignItems: "center", justifyContent: "space-around", width: "55px"}}>

@@ -1,61 +1,10 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
 import BasicInput from './BasicInput'
-// import Button from './Button'
-import MultiSelect from './MultiSelect'
 import {sortAlpha} from './Common'
-import '../css/App.css'
 
-const styles = {
-  settings: {
-    width: "100vw",
-    padding: "0px 40px 0px 40px",
-    position: "absolute",
-    top: 85,
-    left: 0
-  },
-  settingsWrapper: {
-    display: "flex",
-    justifyContent: "space-between",
+import './NewsSettings.scss'
 
-  },
-  checkIcons: {
-    fontSize: "20px",
-    cursor: "pointer",
-
-  },
-  buttons: {
-    marginTop: "30px",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  bottomIcons: {
-    margin: "0px 12px 0px 12px",
-    fontSize: "40px",
-    cursor: "pointer",
-    height: "60px"
-  },
-  controlsLeft: {
-    width: "45%"
-  },
-  rightList: {
-    marginTop: "165px",
-    width: "45%"
-  },
-  checkBoxes: {
-    title: {
-      marginTop: "20px",
-      fontWeight: "700",
-      fontSize: "14px"
-    },
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    marginBottom: "20px",
-    height: "60px"
-  }
-}
 
 class NewsSettings extends Component {
   constructor(props) {
@@ -250,24 +199,34 @@ class NewsSettings extends Component {
 
   render() {
     return (
-      <div className="settings invisible" id="news-settings" style={styles.settings}>
+      <div className="settings invisible" id="news-settings">
         <div className="settings-name">{this.props.type}</div>
 
-        <div style={styles.settingsWrapper}>
+        <div className="settings-wrapper">
 
-          <div className="control-left" style={styles.controlsLeft}>
-            <BasicInput sendInput={this.takeInput}
-              placeholder="Search news sources..."/>
-            <div style={styles.checkBoxes.title}>Filter by category</div>
-            <div className="checkboxes" style={styles.checkBoxes}>
+          <div className="left-list">
+            <BasicInput 
+              sendInput={this.takeInput}
+              placeholder="Search news sources..."
+            />
+            <div className="checkboxes-titles">
+            Filter by category
+            </div>
+            <div className="checkboxes">
               {this.state.categories.map(cat =>{
                 return (
                   <div key={cat}>
                     { (this.state.checkboxChecked.indexOf(cat) > -1 &&
-                   <i className="fas fa-check-circle checkbox" id={cat} 
-                     onClick={this.handleCheckBox} style={{...styles.checkIcons, color: "green"}}></i>)
-                  || <i className="far fa-circle checkbox" id ={cat} 
-                    onClick={this.handleCheckBox} style={styles.checkIcons}></i> 
+                   <i className="fas fa-check-circle checkbox" 
+                     id={cat} 
+                     onClick={this.handleCheckBox} 
+                     style={{color: "green"}}>
+                   </i>)
+                  || 
+                  <i className="far fa-circle checkbox" 
+                    id ={cat} 
+                    onClick={this.handleCheckBox}>
+                  </i> 
                     }
                     <div style={{textTransform: "capitalize"}}>
                       {cat}
@@ -275,34 +234,65 @@ class NewsSettings extends Component {
                   </div>
                 )
               })}
+             
             </div>
+
             <div>News Sources</div>
-            <MultiSelect sources={this.state.filteredList} 
-              add={this.handleAdd}
-              type="add"/>
+
+            <div className ="settings-list-container">
+              { this.state.filteredList &&
+                this.state.filteredList.map((source, i) => {
+                  return (
+                    <div className="list-item" key={i}>
+                      <div style={{display: "flex"}}>
+                        <img src={`https://icon-locator.herokuapp.com/icon?url=${source.url}&size=70..120..200`} alt="" height="24px" 
+                          style={{margin: "0px 4px 0px 4px", borderRadius: "50%"}}/>
+                        <div className="list-item-name">{source.name}</div>
+                        <div style={{marginLeft: "3px", textTransform: "capitalize", fontStyle: "italic", color: "grey"}}>{`  - ${source.category}`}</div>
+                      </div>
+                      <i className="fas fa-plus-circle" style={{color: "green", cursor: "pointer"}}
+                        onClick={() => this.handleAdd(source)}></i>
+                    </div>
+                  )
+                })
+              } 
+            </div>
           </div>
 
-          <div style={styles.rightList}>
-            <div>Your Sources</div>
-            <MultiSelect sources={this.state.userSources} 
-              remove={this.hanndleRemove}
-              type="remove"
-            />
-          </div>
+          
+          <div className="right-list-wrapper">
+            
+            <div className="right-list-heading">Your Sources</div>
 
+            <div className="right-list">
+              {this.state.userSources &&
+                 this.state.userSources.map((source, i) => {
+                   return ( 
+                     <div className="right-list-item" key={source.name}>
+                       <i className="fas fa-minus-circle" style={{color: "red", marginRight:"4px", cursor: "pointer"}}
+                         onClick={() => this.hanndleRemove(source)}
+                       ></i>
+                       <img src={`https://icon-locator.herokuapp.com/icon?url=${source.url}&size=70..120..200`} alt="" width="24px" style={{margin: "0px 4px 0px 4px", borderRadius: "50%"}}/>
+                       <div>{source.name}</div>
+                     </div>
+                   )
+                 })
+              } 
+            </div>
+          </div>
         </div>
        
         <div>
-          <div className="button-group" style={styles.buttons}>
-            <i className="fas fa-times-circle"
+          <div className="button-group">
+            <i className="fas fa-times-circle bottom-icons"
               id="cancel" 
-              style={{...styles.bottomIcons, color: "red"}}
+              style={{color: "red"}}
               onClick={() => this.handleSubmit(this.props.type, "cancel")}
             ></i>
             {/* <i className="fas fa-question" style={{fontSize: "20px"}}></i> */}
-            <i className="fas fa-check-circle" 
+            <i className="fas fa-check-circle bottom-icons" 
               id="submit"
-              style={{...styles.bottomIcons, color: "green"}}
+              style={{color: "green"}}
               onClick={() => this.handleSubmit(this.props.type, "submit")}></i>
             {/* <Button label="Cancel"
               height="auto"

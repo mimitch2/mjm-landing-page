@@ -27,31 +27,27 @@ class FormExample extends React.Component {
     setTimeout(() => {
       this.props.sendInput(this.state.value)
     }, 40);
-   
   }
 
   render() {
     return (
-      <div >
-        <form>
-          <FormGroup
-            bsSize="sm"
-            // controlId="formBasicText"
-            // validationState={this.getValidationState()}
-          >
-          
-            <FormControl
-              id="formControlsText"
-              style={{borderRadius: "30px"}}
-              type="text"
-              value={this.state.value}
-              placeholder={this.props.placeholder}
-              onChange={this.handleChange}
-              onKeyDown={(e) => e.keyCode === 13 ? e.preventDefault() : null}
-            />
-          </FormGroup>
-        </form>
-      </div>
+      <form style={{width: "100%"}}>
+        <FormGroup
+          bsSize="sm"
+          // controlId="formBasicText"
+          // validationState={this.getValidationState()}
+        >
+          <FormControl
+            id="formControlsText"
+            style={{borderRadius: "30px"}}
+            type="text"
+            value={this.state.value}
+            placeholder={this.props.placeholder}
+            onChange={this.handleChange}
+            onKeyDown={(e) => e.keyCode === 13 ? e.preventDefault() : null}
+          />
+        </FormGroup>
+      </form>
     );
   }
 }

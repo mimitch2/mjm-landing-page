@@ -28,7 +28,7 @@ const styles ={
   imgSource: {
     display: "flex",
     flexDirection: "column",
-    width: "100%"
+    // width: "100%"
   },
   sourceName: {
     display: "flex",
@@ -45,8 +45,7 @@ const styles ={
     color: "black"
   },
   image: {
-    width: "100%",
-    // height: "30%",
+    maxWidth: "200px",
     cursor: "pointer"
   },
   article: {

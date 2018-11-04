@@ -10,44 +10,8 @@ import NewsSettings from '../containers/NewsSettingsContainer'
 import Stocks from '../containers/StocksContainer'
 import StocksSettings from '../containers/StocksSettingsContainer'
 
-import '../css/App.css'
+import './MainContent.scss'
 
-const styles = {
-  root: {
-    overflowX: "hidden",
-    position: "relative",
-    height: "100vh",
-    // width: "80vw",
-    display: "flex",
-    justifyContent: "center",
-  
-
-    // background: "rgba(255, 255, 255, 0)"
-  },
-  components: {
-    zIndex: "100",
-    display: "grid",
-    gridGap: "20px",
-    gridTemplateColumns: "repeat(auto-fill, minmax(400px, 1fr))",
-    gridTemplateRows: 150,
-    padding: "30px",
-    marginTop: "60px",
-    width: "80vw",
-    paddingBottom: "60px",
-
-  },
-  loading: {
-    marginTop: "90px",
-    height: "90vh",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center"
-  },
-  icon: {
-    fontSize: "40px",
-  }
-
-}
 
 class MainContent extends Component {
   constructor(props) {
@@ -116,7 +80,9 @@ class MainContent extends Component {
       const { news } = this.props.userData
       return (
  
-        <div className="main-content" style={styles.root} >
+        <div className="main-content"
+          // style={styles.root} 
+        >
 
           {/* <input 
             type="text"
@@ -126,7 +92,7 @@ class MainContent extends Component {
           /> */}
 
 
-          <div className="components" id="components" style={styles.components}>
+          <div className="components" id="components">
 
             <Card heading="NEWS" 
               gridColumn="span 2" gridRow="span 4" height= {600}
@@ -161,7 +127,7 @@ class MainContent extends Component {
             <div style={{height: "60px", width: "100%"}}></div>
           </div>
 
-          <div className="settings-wrapper" style={styles.settingsWrapper}>
+          <div className="settings-wrapper">
             <NewsSettings type={this.state.settings} settingsClick={this.handleClick} />
             <SportsSettings type={this.state.settings} settingsClick={this.handleClick} />
             <StocksSettings type={this.state.settings} settingsClick={this.handleClick} />
@@ -172,8 +138,8 @@ class MainContent extends Component {
       )
     } else {
       return(  
-        <div className="loading" style={styles.loading}>
-          <i className="fal fa-sync spin-sync" style={styles.icon}></i>
+        <div className="loading" >
+          <i className="fal fa-sync spin-sync"></i>
         </div>
       )
     }

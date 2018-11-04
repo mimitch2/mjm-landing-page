@@ -73,7 +73,7 @@ class Sports extends Component {
 
   findGamesByDate (games) {
     const formatedDate = moment(Date.now()).format('MMDDYYYY')
-    const exactTime = moment(Date.now()).format('MMDDYYYYhhmm')
+    // const exactTime = moment(Date.now()).format('MMDDYYYYhhmm')
 
     const findNext =  games.find(gm => {
       return gm.schedule.playedStatus === "LIVE" ||

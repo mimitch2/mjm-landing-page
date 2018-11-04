@@ -1,11 +1,18 @@
+html {
+  overflow-x: hidden;
 
+}
 
 .App {
+  
+  overflow-y: hidden;
   font-family: 'Oswald', sans-serif;
   font-weight: 300;
-  overflow-x: hidden;
+  // overflow-x: hidden;
   text-align: center;
   width: 100vw;
+  // padding-bottom: 400px;
+  background: rgb(240, 240, 240);
 
   .select-main {
     & scrollbar {
@@ -41,7 +48,7 @@
   
   
   .components.invisible {
-    /* visibility: hidden; */
+    visibility: hidden; 
     opacity: 0;
     transition: .3s ease-in-out;
     transform: scale(.9)
@@ -88,16 +95,16 @@
   // }
   
   
-  .select-scroll::-webkit-scrollbar {
+  .settings-list-container::-webkit-scrollbar {
     width: 19px;
-    background-color: white;
+    background-color: #f0f0f0;
     /* padding: 10px; */
   }
   
-  .select-scroll::-webkit-scrollbar-thumb {
+  .settings-list-container::-webkit-scrollbar-thumb {
     border-radius: 10px;
     background-color: rgb(74, 74, 74);
-    border: 5px solid white;
+    border: 5px solid #f0f0f0;
   }
   
 

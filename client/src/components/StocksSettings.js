@@ -4,77 +4,8 @@ import BasicInput from './BasicInput'
 import Button from './Button'
 import {sortAlpha} from './Common'
 
+import './StockSettings.scss'
 
-
-const styles = {
-  settings: {
-    width: "100vw",
-    padding: "0px 40px 0px 40px",
-    position: "absolute",
-    top: 85,
-    left: 0
-  },
-  settingsWrapper: {
-    width: "100vw",
-    display: "flex",
-    justifyContent: "space-around"
-
-  },
-  icon: {
-    fontSize: "40px",
-    color: "grey",
-    cursor: "pointer"
-  },
-  controlsLeft: {
-    width: "45%"
-  },
-  formControls: {
-    display: "flex",
-    alignItems: "center",
-    background: "pink"
-  },
-  rightList: {
-    fontSize: "18px",
-    fontWeight: 300,
-    height: "300px",
-    maxHeight: "300px",
-    overflowY: "auto",
-    marginTop: "45px",
-    width: "45%"
-  },
-  list: {
-    fontSize: "18px",
-    fontWeight: 300,
-    height: "300px",
-    maxHeight: "300px",
-    overflowY: "auto"
-  },
-  listItem: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "3px 10px 3px 10px"
-  },
-  rightListItem: {
-    display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    padding: "3px 10px 3px 10px"
-  },
-  buttons: {
-    marginTop: "30px",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  bottomIcons: {
-    margin: "0px 12px 0px 12px",
-    fontSize: "40px",
-    cursor: "pointer",
-    height: "60px"
-  },
-  
-}
 
 class StocksSettings extends Component {
   constructor(props) {
@@ -98,12 +29,15 @@ class StocksSettings extends Component {
 
   handleSearchClick = () => {
     const { input } = this.state
-    const foundCompanies = this.props.stockSymbols.filter(symb => {
-      return symb.name.toLowerCase().includes(input.toLowerCase()) ||
-      symb.symbol.toLowerCase().includes(input.toLowerCase())  
-
-    })
-    this.setState({filteredList: foundCompanies})
+    if (input.length > 1) {
+      const foundCompanies = this.props.stockSymbols.filter(symb => {
+        return symb.name.toLowerCase().includes(input.toLowerCase()) ||
+        symb.symbol.toLowerCase().includes(input.toLowerCase())  
+  
+      })
+      this.setState({filteredList: foundCompanies})
+    }
+  
   }
 
   addCompany= (company) => {
@@ -167,11 +101,14 @@ class StocksSettings extends Component {
   
   getInput = (input) => {
     this.setState({input: input})
+    if (input.length === 0 ) {
+      this.setState({filteredList: []})
+    }
   }
 
 
   filterSources = (input) => {
-    let filteredCompanies = [...this.state.filteredList]
+    // let filteredCompanies = [...this.state.filteredList]
    
     // if (this.state.input.length > 2) {
     //   filteredCompanies = this.state.companyList.filter(conpany => {
@@ -199,76 +136,74 @@ class StocksSettings extends Component {
   render() {
     // console.log(this.props)
     return (
-      <div className="settings invisible" id="stocks-settings" style={styles.settings}>
+      <div className="settings invisible" id="stocks-settings">
 
         <div className="settings-name">{this.props.type}</div>
 
-        <div style={styles.settingsWrapper}>
+        <div className="settings-wrapper">
 
-          <div className="control-left" style={styles.controlsLeft}>
-            <div style={styles.formControls}>
-              <BasicInput sendInput={this.getInput}
-                placeholder="Search companies..." />
-              <Button 
-                height="26px"
-                width="80px"
-                color="white"
-                background="red"
-                label="Search"
-                button="search-stocks"
-                click={this.handleSearchClick}
+          <div className="left-list">
+            <div className="form-controls">
+              <BasicInput 
+                sendInput={this.getInput}
+                placeholder="Search companies..." 
               />
+              <div style={{transform: "translateY(-6px)"}}>
+                <Button 
+                  height="26px"
+                  width="80px"
+                  color="white"
+                  background={ this.state.input.length > 1 ? "green" : "grey"}
+                  label="Search"
+                  button="search-stocks"
+                  click={this.handleSearchClick}
+                />
+              </div>
             </div>
-            
-   
-            <div className ="select-scroll" style={styles.list}>
+          
+            <div className ="settings-list-container">
               {this.state.filteredList.map((company, i) => {
                 return (
-                  <div key={i} >
-                    <div style={styles.listItem}>
-                      <div style={{display: "flex", justifyContent: "flex-start"}}>
-                        <div>
-                          {`${company.name} - ${company.symbol}`}
-                        </div>
-                      </div>
-                      <i className="fas fa-plus-circle" style={{color: "green", cursor: "pointer"}}
-                        onClick={() => this.addCompany(company)}>
-                      </i>
+                  <div className="list-item" key={i}>
+                    <div className="list-item-name">
+                      {`${company.name} - ${company.symbol}`}
                     </div>
+                    <i className="fas fa-plus-circle" style={{color: "green", cursor: "pointer"}}
+                      onClick={() => this.addCompany(company)}>
+                    </i>
                   </div>
                 )
               })}
             </div>
+
           </div>
           
- 
-          <div style={styles.rightList}>
+          <div className="right-list">
             {this.state.userCompanies.map((company, i) => {
               return (
-                <div key={i}>
-                  <div style={styles.rightListItem}>
-                  
-                    <i className="fas fa-minus-circle" style={{color: "red", marginRight:"4px", cursor: "pointer"}}
-                      onClick={() => this.removeCompany(company)}></i>
-                    <div>
-                      {`${company.name} - ${company.symbol}`}
-                    </div>
+                <div className="right-list-item" key={i}>
+                  <i className="fas fa-minus-circle" style={{color: "red", marginRight:"4px", cursor: "pointer"}}
+                    onClick={() => this.removeCompany(company)}>
+                  </i>
+                  <div className="list-item-name">
+                    {`${company.name} - ${company.symbol}`}
                   </div>
-    
                 </div>
               )
             })}
           </div>
+
         </div>
-        <div className="button-group" style={styles.buttons}>
-          <i className="fas fa-times-circle"
+
+        <div className="button-group">
+          <i className="fas fa-times-circle bottom-icons"
             id="stocks-cancel" 
-            style={{...styles.bottomIcons, color: "red"}}
+            style={{color: "red"}}
             onClick={(e) => this.handleSubmit(this.props.type, "cancel", e)}
           ></i>
-          <i className="fas fa-check-circle" 
+          <i className="fas fa-check-circle bottom-icons" 
             id="stocks-submit"
-            style={{...styles.bottomIcons, color: "green"}}
+            style={{color: "green"}}
             onClick={(e) => this.handleSubmit(this.props.type, "submit", e)}></i>
         </div>
       </div> 

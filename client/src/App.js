@@ -150,7 +150,6 @@ class App extends Component {
           <Switch>
             <Route exact path="/" render={() => 
               <MainContent loggedIn={this.state.authenticated} 
-                // data={this.state.userData}
               />} />
                     
             <Route exact path="/signin" render={ () => 

@@ -1,0 +1,83 @@
+.settings {
+  width: 100vw;
+  padding-inline-end: 0px 40px 0px 40px;
+  position: absolute;
+  top: 100;
+  left: 0;
+  .settings-name {
+    padding-left: 20px;
+    text-align: left;
+    font-size: 40px;
+    font-style: italic;
+    text-transform: capitalize;
+    font-weight: 500;
+  }
+  .settings-wrapper {
+    width: 100vw;
+    display: flex;
+    justify-content: space-around;
+    .left-list {
+      width: 45%;
+      .checkboxes-titles {
+        margin-top: 20px;
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .checkboxes {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        height: 60px;
+        .checkbox {
+          font-size: 20px;
+          cursor: pointer;
+        }
+      }
+      .form-controls {
+        display: flex;
+        align-items: center;
+      }
+      .settings-list-container {
+        background: #fff;
+        font-size: 18px;
+        font-weight: 300;
+        height: 300px;
+        max-height: 300px;
+        overflow-y: auto;
+        .list-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 3px 10px 3px 10px;
+        }
+      }
+    }
+    .right-list {
+      background: #fff;
+      font-size: 18px;
+      font-weight: 300;
+      height: 300px;
+      max-height: 300px;
+      overflow-y: auto;
+      margin-top: 95px;
+      width: 45%;
+      .right-list-item {
+        display: flex;
+        align-items: center;
+        padding: 3px 10px 3px 10px;
+      }
+    }
+  }
+  .button-group {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .bottom-icons {
+      margin: 0px 12px 0px 12px;
+      font-size: 40px;
+      cursor: pointer
+    }
+  }
+}
