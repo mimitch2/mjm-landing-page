@@ -61,12 +61,22 @@ class MainContent extends Component {
   // }
 
   handleClick = (type) => {
+   
     const components =  document.getElementById('components')
     const settings =  document.getElementById(`${type.toLowerCase()}-settings`)
     setTimeout(() => {
       components.classList.toggle("invisible")
       settings.classList.toggle("invisible")
+     
     }, 300);
+
+    setTimeout(() => {
+      window.scroll({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
+    }, 800);
   
     this.setState({
       showSettings: !this.state.showSettings,

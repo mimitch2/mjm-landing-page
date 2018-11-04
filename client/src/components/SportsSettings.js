@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
 import BasicInput from './BasicInput'
-import '../css/App.css'
+
+import './SportsSettings.scss'
 
 const styles = {
   settings: {
@@ -209,13 +210,16 @@ class SporstSettings extends Component {
     // console.log(this.props)
     if (this.state.filteredList) {
       return (
-        <div className="settings invisible" id="sports-settings" style={styles.settings}>
-          <div className="settings-name">{this.props.type}</div>
-          <div style={styles.settingsWrapper}>
-            <div className="control-left" style={styles.controlsLeft}>
+        <div className="settings sports-settings invisible" id="sports-settings">
+          <div className="settings-name">
+            <i className="far fa-user-cog"></i>
+             Sports Settings 
+          </div>
+          <div className="settings-wrapper">
+            <div className="left-list">
               <BasicInput sendInput={this.filterSources} 
                 placeholder="Search teams..."/>
-              <div className="league-div" style={{display: "flex"}}>
+              <div className="league-div" style={{display: "flex", justifyContent: "center"}}>
                 {leagueIcons.map(ico => {
                   return (
                     <div style={{width: "40px"}} key={ico.league}>
@@ -224,11 +228,11 @@ class SporstSettings extends Component {
                   )
                 })}
               </div>
-              <div>Available Teams</div>
-              <div className="select-scroll" style={styles.list}>
+              <div className="list-header">Available Teams</div>
+              <div className="settings-list-container">
                 {this.state.filteredList.map((team, i) => {
                   return (
-                    <div style={styles.listItem} key={i}>
+                    <div className="list-item" key={i}>
                       <div >
                         <img src={team.strTeamBadge} width="24px" height="24px" alt="" style={{margin:"0px 4px 0px 4px"}} />
                         {`${team.strTeam} - ${team.strLeague}`}
@@ -241,33 +245,38 @@ class SporstSettings extends Component {
                 })}
               </div>
             </div> 
-            <div style={styles.rightList}>
-              {this.state.userTeams.map((team, i) => {
-                return (
-                  <div key={i} >
-                    <div style={styles.rightListItem}>
+            <div className="right-list-wrapper">
+              <div className="right-list-heading list-heading">
+            Your Teams
+              </div>
+              <div className="right-list">
+                {this.state.userTeams.map((team, i) => {
+                  return (
+                    <div key={i} >
+                      <div className="right-list-item">
                   
-                      <i className="fas fa-minus-circle" style={{color: "red", marginRight:"4px", cursor: "pointer"}}
-                        onClick={() => this.removeTeam(team)}></i>
-                      <div>
-                        <img src={team.strTeamBadge} width="24px" height="24px" alt="" style={{margin:"0px 4px 0px 4px"}} />
-                        {`${team.strTeam} - ${team.strLeague}`}
+                        <i className="fas fa-minus-circle" style={{color: "red", marginRight:"4px", cursor: "pointer"}}
+                          onClick={() => this.removeTeam(team)}></i>
+                        <div>
+                          <img src={team.strTeamBadge} width="24px" height="24px" alt="" style={{margin:"0px 4px 0px 4px"}} />
+                          {`${team.strTeam} - ${team.strLeague}`}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                )
-              })}
+                  )
+                })}
+              </div>
             </div>
           </div>
-          <div className="button-group" style={styles.buttons}>
-            <i className="fas fa-times-circle"
+          <div className="button-group">
+            <i className="fas fa-times-circle bottom-icons"
               id="sports-cancel" 
-              style={{...styles.bottomIcons, color: "red"}}
+              style={{ color: "red" }}
               onClick={(e) => this.handleSubmit(this.props.type, "cancel", e)}
             ></i>
-            <i className="fas fa-check-circle" 
+            <i className="fas fa-check-circle bottom-icons" 
               id="sports-submit"
-              style={{...styles.bottomIcons, color: "green"}}
+              style={{ color: "green" }}
               onClick={(e) => this.handleSubmit(this.props.type, "submit", e)}></i>
           </div>
         </div>      

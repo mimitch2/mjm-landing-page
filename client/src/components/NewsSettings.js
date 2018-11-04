@@ -199,8 +199,12 @@ class NewsSettings extends Component {
 
   render() {
     return (
-      <div className="settings invisible" id="news-settings">
-        <div className="settings-name">{this.props.type}</div>
+      <div className="settings news-settings invisible" id="news-settings">
+
+        <div className="settings-name">
+          <i className="far fa-user-cog"></i>
+        News Settings 
+        </div>
 
         <div className="settings-wrapper">
 
@@ -237,7 +241,7 @@ class NewsSettings extends Component {
              
             </div>
 
-            <div>News Sources</div>
+            <div className="list-header">News Sources</div>
 
             <div className ="settings-list-container">
               { this.state.filteredList &&
@@ -262,7 +266,9 @@ class NewsSettings extends Component {
           
           <div className="right-list-wrapper">
             
-            <div className="right-list-heading">Your Sources</div>
+            <div className="right-list-heading list-heading">
+            Your Sources
+            </div>
 
             <div className="right-list">
               {this.state.userSources &&

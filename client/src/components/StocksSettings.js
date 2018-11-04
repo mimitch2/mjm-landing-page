@@ -136,9 +136,12 @@ class StocksSettings extends Component {
   render() {
     // console.log(this.props)
     return (
-      <div className="settings invisible" id="stocks-settings">
+      <div className=" settings stock-settings invisible" id="stocks-settings">
 
-        <div className="settings-name">{this.props.type}</div>
+        <div className="settings-name">
+          <i className="far fa-user-cog"></i>
+         Stocks Settings
+        </div>
 
         <div className="settings-wrapper">
 
@@ -157,10 +160,11 @@ class StocksSettings extends Component {
                   label="Search"
                   button="search-stocks"
                   click={this.handleSearchClick}
+                  input={this.state.input}
                 />
               </div>
             </div>
-          
+            <div className="list-header">Stocks List</div>
             <div className ="settings-list-container">
               {this.state.filteredList.map((company, i) => {
                 return (
@@ -177,24 +181,27 @@ class StocksSettings extends Component {
             </div>
 
           </div>
-          
-          <div className="right-list">
-            {this.state.userCompanies.map((company, i) => {
-              return (
-                <div className="right-list-item" key={i}>
-                  <i className="fas fa-minus-circle" style={{color: "red", marginRight:"4px", cursor: "pointer"}}
-                    onClick={() => this.removeCompany(company)}>
-                  </i>
-                  <div className="list-item-name">
-                    {`${company.name} - ${company.symbol}`}
+          <div className="right-list-wrapper">
+            <div className="right-list-heading list-heading">
+            Your Stocks
+            </div>
+            <div className="right-list">
+              {this.state.userCompanies.map((company, i) => {
+                return (
+                  <div className="right-list-item" key={i}>
+                    <i className="fas fa-minus-circle" style={{color: "red", marginRight:"4px", cursor: "pointer"}}
+                      onClick={() => this.removeCompany(company)}>
+                    </i>
+                    <div className="list-item-name">
+                      {`${company.name} - ${company.symbol}`}
+                    </div>
                   </div>
-                </div>
-              )
-            })}
+                )
+              })}
+            </div>
+
           </div>
-
         </div>
-
         <div className="button-group">
           <i className="fas fa-times-circle bottom-icons"
             id="stocks-cancel" 

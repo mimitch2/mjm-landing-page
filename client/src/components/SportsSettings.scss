@@ -1,4 +1,4 @@
-.weather-settings.settings {
+.sports-settings.settings {
   width: 100vw;
   padding-inline-end: 0px 40px 0px 40px;
   position: absolute;
@@ -12,17 +12,41 @@
     font-weight: 500;
     text-transform: uppercase;
     .fa-user-cog {
-      margin-right: 6px;
-      margin-left: 5px;
-      transform: translateY(-5px);
-     }
+     margin-right: 6px;
+     margin-left: 10px;
+     transform: translateY(-5px);
+    }
   }
+  
   .settings-wrapper {
     width: 100vw;
     display: flex;
     justify-content: space-around;
     .left-list {
       width: 45%;
+      .checkboxes-titles {
+        margin-top: 20px;
+        text-align: left;
+        font-size: 16px;
+        font-weight: 400;
+        font-style: italic;
+        text-transform: uppercase;
+      }
+      .checkboxes {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        height: 60px;
+        .checkbox {
+          font-size: 20px;
+          cursor: pointer;
+        }
+      }
+      .form-controls {
+        display: flex;
+        align-items: center;
+      }
       .list-header {
         text-align: left;
         font-size: 16px;
@@ -30,10 +54,6 @@
         font-style: italic;
         text-transform: uppercase;
         margin-bottom: 5px;
-      }
-      .form-controls {
-        display: flex;
-        align-items: center;
       }
       .settings-list-container {
         background: #fff;
@@ -51,8 +71,8 @@
       }
     }
     .right-list-wrapper {
-      transform: translateY(48px);
       width: 45%;
+      transform: translateY(84px);
       .right-list-heading {
         text-align: left;
         font-size: 16px;
@@ -68,8 +88,7 @@
         height: 300px;
         max-height: 300px;
         overflow-y: auto;
-        width: 100%;
-      
+     
         .right-list-item {
           display: flex;
           align-items: center;

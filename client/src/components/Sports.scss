@@ -1,17 +1,57 @@
 .sports {
+  width: 100%;
+  .stats-table {
+    width: 250px;
+    margin-bottom: 12px;
+  }
+  th {
+    background: rgb(68, 68, 68);
+    color: rgb(175, 175, 175);
+    font-size: 14px;
+    font-weight: 400;
+    padding: 0px 10px 0px 10px;
+    text-align: center;
+  }
+
   .team-line {
     border-bottom: 1px solid grey;
     display: flex;
     padding: 6px 0;
 
     .team {
+      width: 100%;
       display: flex;
       flex-direction: column;
-    }
+      align-items: center;
+      .logo-and-stats {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        transform: translateX(-48px);
+        .team-logo {
+          margin-right: 19px;
+        }      
+      }
+      .last-game-title {
+        font-size: 14px;
+        margin-right: 5px;
+        font-weight: 400;
+        transform: translateY(-3px);
+      }
+      .next-game-title {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        text-align: left;
+      }
+      .next-game-wrapper {
+        width: 270px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+     
     
-    .logo-and-stats {
-      background: rgb(255, 172, 186);
-      display: flex;
+     
     }
    
   }

@@ -1,16 +1,21 @@
-.settings {
+.stock-settings.settings {
   width: 100vw;
   padding-inline-end: 0px 40px 0px 40px;
   position: absolute;
-  top: 100;
+  transform: translateY(60px);
   left: 0;
   .settings-name {
-    padding-left: 20px;
+    padding-left: 26px;
     text-align: left;
-    font-size: 40px;
+    font-size: 30px;
     font-style: italic;
-    text-transform: capitalize;
+    text-transform: uppercase;
     font-weight: 500;
+    .fa-user-cog {
+      margin-right: 6px;
+      margin-left: 5px;
+      transform: translateY(-5px);
+     }
   }
   .settings-wrapper {
     width: 100vw;
@@ -21,6 +26,14 @@
       .form-controls {
         display: flex;
         align-items: center;
+      }
+      .list-header {
+        text-align: left;
+        font-size: 16px;
+        font-weight: 400;
+        font-style: italic;
+        text-transform: uppercase;
+        margin-bottom: 5px;
       }
       .settings-list-container {
         background: #fff;
@@ -37,19 +50,29 @@
         }
       }
     }
-    .right-list {
-      background: #fff;
-      font-size: 18px;
-      font-weight: 300;
-      height: 300px;
-      max-height: 300px;
-      overflow-y: auto;
-      margin-top: 45px;
+    .right-list-wrapper {
       width: 45%;
-      .right-list-item {
-        display: flex;
-        align-items: center;
-        padding: 3px 10px 3px 10px;
+      transform: translateY(45px);
+      .right-list-heading {
+        text-align: left;
+        font-size: 16px;
+        font-weight: 400;
+        font-style: italic;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+      }
+      .right-list {
+        background: #fff;
+        font-size: 18px;
+        font-weight: 300;
+        height: 300px;
+        max-height: 300px;
+        overflow-y: auto;
+        .right-list-item {
+          display: flex;
+          align-items: center;
+          padding: 3px 10px 3px 10px;
+        }
       }
     }
   }
