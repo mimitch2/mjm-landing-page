@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import Secret from './Secret'
 import { Link } from "react-router-dom";
 
-
 import './Header.scss'
 
 class Header extends Component {
@@ -111,7 +110,9 @@ class Header extends Component {
     return (
 
       <header className="header">
-        {lights.length > 0 &&
+       
+        <div >
+          {lights.length > 0 &&
         <div className="hue-controls">
           <img src="/img/hue.png" alt="phillips hue" 
             width="30px" height="20px" 
@@ -170,9 +171,10 @@ class Header extends Component {
            
             </div>
           }
-          
         </div>
-        }
+          }
+        </div>
+        
         {!this.props.showNavItems &&
       <nav className="right-nav">
         <Link to="/signin"
