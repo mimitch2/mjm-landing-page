@@ -61,32 +61,35 @@ class MainContent extends Component {
   // }
 
   handleClick = (type) => {
-   
-    const components =  document.getElementById('components')
-    const settings =  document.getElementById(`${type.toLowerCase()}-settings`)
-    setTimeout(() => {
-      components.classList.toggle("invisible")
-      settings.classList.toggle("invisible")
+    if (this.props.userName) {
+      const components =  document.getElementById('components')
+      const settings =  document.getElementById(`${type.toLowerCase()}-settings`)
+      setTimeout(() => {
+        components.classList.toggle("invisible")
+        settings.classList.toggle("invisible")
      
-    }, 300);
+      }, 300);
 
-    setTimeout(() => {
-      window.scroll({
-        top: 0,
-        left: 0,
-        behavior: 'smooth'
-      });
-    }, 800);
+      setTimeout(() => {
+        window.scroll({
+          top: 0,
+          left: 0,
+          behavior: 'smooth'
+        });
+      }, 800);
   
-    this.setState({
-      showSettings: !this.state.showSettings,
-      settings: type
-    })
+      this.setState({
+        showSettings: !this.state.showSettings,
+        settings: type
+      })
+    } else {
+      alert("you need to sign in!")
+    }
   }
 
   render() {
-
-    if (this.props.userDataLoaded && this.props.userName) {
+    console.log(this.props.userData)
+    if (this.props.userDataLoaded) {
       const { news } = this.props.userData
       return (
  
@@ -134,7 +137,6 @@ class MainContent extends Component {
               <Stocks />
 
             </Card>
-            <div style={{height: "60px", width: "100%"}}></div>
           </div>
 
           <div className="settings-wrapper">

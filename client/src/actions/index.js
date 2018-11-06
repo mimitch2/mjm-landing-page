@@ -1,3 +1,5 @@
+import state from '../state.js'
+
 
 const sportsAuth = {
   type: "GET",
@@ -17,15 +19,23 @@ export function setUserName(name) {
 
 export function loadUserData(username) {
   return  async function (dispatch) {
-    try {
-      const fetchData = await fetch(`api/data/${username}`)
-      const userData = await fetchData.json()
-      dispatch(setUserData(userData));
+    if (username) {
+      try {
+        const fetchData = await fetch(`api/data/${username}`)
+        const userData = await fetchData.json()
+        dispatch(setUserData(userData));
+        dispatch(userDataLoaded(true));
+        return userData
+      } catch (error) {
+        console.log(error)
+      }
+    } else {
+      console.log(state.defaultData)
+      dispatch(setUserData(state.defaultData));
       dispatch(userDataLoaded(true));
-      return userData
-    } catch (error) {
-      console.log(error)
+      return state.defaultData
     }
+ 
   }
 }
 

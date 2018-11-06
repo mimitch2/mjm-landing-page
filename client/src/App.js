@@ -28,6 +28,8 @@ class App extends Component {
         this.getUserData(data)
         this.props.setUserName(data)
       });
+    } else {
+      this.getUserData()
     }
     history.listen((location, action) => {
       console.log(location, action)
