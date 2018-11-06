@@ -4,9 +4,7 @@ import SportsStats from './SportsStats'
 import SportsGame from './SportsGame'
 import SportsNextGame from './SportsNextGame'
 
-
 import './Sports.scss'
-
 
 class Sports extends Component {
   constructor(props) {
@@ -16,7 +14,7 @@ class Sports extends Component {
     }
   }
 
-  componentDidMount = () => {
+  componentDidMount = () => {    
     this.props.parseTeamInfo(this.props.userData.sports.teams)
   }
 
@@ -61,10 +59,7 @@ class Sports extends Component {
     return null
   }
 
- 
-
   render() {
-
     if (this.props.sportsDataLoaded)  { 
       const { teams, standings:rankings } = this.props.sportsData
       return (

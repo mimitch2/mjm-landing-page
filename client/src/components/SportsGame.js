@@ -15,19 +15,20 @@ class SportsGame extends Component {
   
   render() {
     const { gameList, team, returnTeamLogo, league } = this.props
-    return (
-      <div className="game-entry">
-        <div style={{display: "flex"}}>
-          <div className="last-game-title" 
-            style={{fontSize: "14px", marginRight: "5px", fontWeight: "400"}}>
+    if (gameList.prevGame) {
+      return (
+        <div className="game-entry">
+          <div style={{display: "flex"}}>
+            <div className="last-game-title" 
+              style={{fontSize: "14px", marginRight: "5px", fontWeight: "400"}}>
               Last Game
+            </div>
+            <Moment format="ddd, MMM Do h:mma" style={{fontSize: "12px"}}>
+              {gameList.prevGame.schedule.startTime}
+            </Moment>
           </div>
-          <Moment format="ddd, MMM Do h:mma" style={{fontSize: "12px"}}>
-            {gameList.prevGame.schedule.startTime}
-          </Moment>
-        </div>
-        <table>
-          {(team.info.strLeague === "NHL" &&
+          <table>
+            {(team.info.strLeague === "NHL" &&
           <tbody>
             <tr>
               <th></th>
@@ -66,13 +67,13 @@ class SportsGame extends Component {
                 {gameList.prevGame.score.periods[4].homeScore}
               </td>
               }
-              <td>
+              <td className="final-score">
                 {gameList.prevGame.score.homeScoreTotal}
               </td>
             </tr>
             <tr>
               <td>
-                <img src={returnTeamLogo("nhl", gameList.prevGame.schedule.awayTeam.abbreviation)} 
+                <img src={returnTeamLogo(league.toLowerCase(), gameList.prevGame.schedule.awayTeam.abbreviation)} 
                   width="20px" height ="20px" alt="" style={{marginRight: "3px"}}/>
                 {gameList.prevGame.schedule.awayTeam.abbreviation} 
               </td>
@@ -94,10 +95,10 @@ class SportsGame extends Component {
                 {gameList.prevGame.score.periods[4].awayScore}
               </td>
               }
-              <td>{gameList.prevGame.score.awayScoreTotal}</td>
+              <td className="final-score">{gameList.prevGame.score.awayScoreTotal}</td>
             </tr>
           </tbody>
-          ) ||  (team.info.strLeague === "NFL" &&
+            ) ||  (team.info.strLeague === "NFL" &&
            <tbody>
              <tr>
                <th></th>
@@ -133,7 +134,7 @@ class SportsGame extends Component {
                  || 
                  <td>-</td>
                }
-               <td>
+               <td className="final-score">
                  {gameList.prevGame.score.homeScoreTotal}
                </td>
              </tr>
@@ -162,10 +163,10 @@ class SportsGame extends Component {
                </td>)
                  || <td>-</td>
                }
-               <td>{gameList.prevGame.score.awayScoreTotal}</td>
+               <td className="final-score">{gameList.prevGame.score.awayScoreTotal}</td>
              </tr>
            </tbody>
-          ) || (team.info.strLeague === "NBA" &&
+            ) || (team.info.strLeague === "NBA" &&
          <tbody>
            <tr>
              <th></th>
@@ -201,13 +202,13 @@ class SportsGame extends Component {
                 || 
                 <td>-</td>
              }
-             <td>
+             <td className="final-score">
                {gameList.prevGame.score.homeScoreTotal}
              </td>
            </tr>
            <tr>
              <td>
-               <img src={returnTeamLogo("nba", gameList.prevGame.schedule.awayTeam.abbreviation)} 
+               <img src={returnTeamLogo(league.toLowerCase(), gameList.prevGame.schedule.awayTeam.abbreviation)} 
                  width="20px" height ="20px" alt="" style={{marginRight: "3px"}}/>
                {gameList.prevGame.schedule.awayTeam.abbreviation} 
              </td>
@@ -230,17 +231,18 @@ class SportsGame extends Component {
               </td>)
               || <td>-</td>
              }
-             <td>{gameList.prevGame.score.awayScoreTotal}</td>
+             <td className="final-score">{gameList.prevGame.score.awayScoreTotal}</td>
            </tr>
          </tbody>) 
-         || team.info.strLeague === "MLB" &&
-          <tbody></tbody>
+         || (team.info.strLeague === "MLB" &&
+          <tbody></tbody>)
                           
-          }
+            }
 
-        </table>
-      </div>
-    )
+          </table>
+        </div>
+      )
+    } else return <div>Could not find last game...</div>
   }
 }
 

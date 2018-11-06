@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+
 import './Card.scss'
 
 const styles = {
@@ -37,7 +38,7 @@ const styles = {
     fontSize: "16px",
     overflowY: "auto",
     padding: 10,
-    marginTop: 10
+    // marginTop: 10
   },
   dataDiv: {
     display: "flex",

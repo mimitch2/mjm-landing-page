@@ -7,7 +7,6 @@ const weatherAuth = process.env.REACT_APP_WEATHER
 const newsAuth = process.env.REACT_APP_NEWS
 // const hueAuth = process.env.REACT_APP_HUE
 
-console.log(weatherAuth, newsAuth)
 
 export function setUserName(name) {
   return {
