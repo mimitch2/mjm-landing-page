@@ -1,45 +1,44 @@
-$primary-color: #8baaad;
-$secondary-color: #444;
+@import "tables";
+@import "../css/common";
 
 
 .card {
   background: $primary-color;
   border-radius: 6px;
-  box-shadow: 1px 1px 4px rgba(0, 0, 0, .3);
+  // box-shadow: 1px 1px 4px rgba(0, 0, 0, .3);
 
   .card-heading {
     font-size: 26px;
     font-weight: 300;
     background: $secondary-color;
-    color: rgb(175, 175, 175);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    color: $primary-color;
+    @include flex-rsbc;
     padding: 0px 6px 0px 8px;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
     .heading-icon {
       font-size: 24px;
       margin-right: 10px;
-     
-    
     }
-      
     .card-options-div.clicked {
       opacity: .3;
     }
+    .reload {
+      &:hover {
+        color: rgb(240, 240, 240);
+      }
+    }
+    .fa-user-cog {
+     &:hover {
+      color: rgb(240, 240, 240);
+      }
+    }
   }
 
-
-
-
-
-
-
-  
   .card-content::-webkit-scrollbar {
     width: 19px;
     background-color: $primary-color;
+    border-bottom-right-radius: 4px;
   }
   
   .card-content::-webkit-scrollbar-thumb {
@@ -48,23 +47,30 @@ $secondary-color: #444;
     border: 5px solid $primary-color;
   }
 
-
-  .reload .fa-user-cog {
-    &hover {
-      color: rgb(240, 240, 240);
-    }
+  .spin-once {
+    -webkit-animation: spin .5s linear;
+            animation: spin .5s linear;
   }
 
-  .spin-once {
-    animation: spin .5s linear;
+  @-webkit-keyframes spin {
+    from {
+      -webkit-transform: rotate(0deg);
+              transform: rotate(0deg);
+    }
+    to {
+      -webkit-transform: rotate(360deg);
+              transform: rotate(360deg);
+    }
   }
 
   @keyframes spin {
     from {
-      transform: rotate(0deg);
+      -webkit-transform: rotate(0deg);
+              transform: rotate(0deg);
     }
     to {
-      transform: rotate(360deg);
+      -webkit-transform: rotate(360deg);
+              transform: rotate(360deg);
     }
   }
 

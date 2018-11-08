@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import './css/App.scss';
 import SignUpSignIn from "./components/SignUpSignIn";
 import Header from "./components/Header";
 import MainContent from "./containers/MainContentContainer";
 import createHistory from 'history/createBrowserHistory'
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+
+import './css/App.scss';
 
 const history = createHistory()
 

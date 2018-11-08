@@ -31,6 +31,7 @@ class SportsGame extends Component {
             {(team.info.strLeague === "NHL" &&
           <tbody>
             <tr>
+              {/* <thead> */}
               <th></th>
               <th>1rst</th>
               <th>2nd</th>
@@ -41,6 +42,7 @@ class SportsGame extends Component {
                 {(gameList.prevGame.score.periods[3] && 
                 `Final/OT`) || `Final`}
               </th>
+              {/* </thead> */}
             </tr>
             <tr>
               <td className="team-score-logo">

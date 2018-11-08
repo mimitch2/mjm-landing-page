@@ -1,25 +1,22 @@
-$primary-color: #444;
-$secondary-color: #AFAFAF;
+@import "../css/common";
 $carret-width: 20px;
-
 
 .header {
   position: fixed;
   width: 100vw;
-  z-index: 1000;
+  z-index: 20;
   height: 60px;
-  background: $primary-color;
+  background: $secondary-color;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   .hue-controls {
     margin-left: 8px;
-    color: $secondary-color;
+    color: $primary-color;
     display: flex;
     height: 50px;
 
-   
     .color-picker-title {
       border-radius: 3px;
       user-select: none;
@@ -39,7 +36,6 @@ $carret-width: 20px;
         justify-content: flex-start;
         align-items: flex-start;
         cursor: pointer;
-        // border: 1px solid white;
         padding: 1px 3px 0px 5px;
         .fa-caret-right {
           transition: transform .1s linear;
@@ -55,7 +51,6 @@ $carret-width: 20px;
         height: 10px;
         transition: transform .1s linear;
         transform: translateY(50px);
-        // background: rgba(255, 255, 255, .2);
         .brightness-slider-wrapper {
           margin-top: 5px;
           transform: translateY(10px);
@@ -77,8 +72,6 @@ $carret-width: 20px;
           outline: none;
         }
         
-       
-        
         .slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
@@ -96,11 +89,8 @@ $carret-width: 20px;
             background: #4CAF50;
             cursor: pointer;
         }
-        }
-      
-      }
-    
-   
+      }    
+    }   
   }
 
   .right-nav {
@@ -108,11 +98,50 @@ $carret-width: 20px;
     justify-content: flex-end;
     align-items: center;
     margin-right: 28px;
+    color: #AFAFAF!important;
+    z-index: 30;
     .sign-out {
-      color: $secondary-color;
+      color: $primary-color;
       margin-right: 18px;
       cursor: pointer;
+      &:hover {
+        color: rgb(240, 240, 240);
+      }
     }
   }
 
+  .sign-in {
+    margin-right: 26px;
+    color: $primary-color;
+    cursor: pointer;
+    &:hover {
+      color: rgb(240, 240, 240);
+      text-decoration: none;
+    }
+  }
+
+  .sign-in.wiggle {
+    animation: wiggle .4s ease-in-out;
+  }
+}
+
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg) scale(1);
+  }
+  20% {
+    transform: rotate(0deg) scale(1.2);
+  }
+  40% {
+    transform: rotate(-8deg) scale(1.4);
+  }
+  60% {
+    transform: rotate(8deg) scale(1.4);
+  }
+  80% {
+    transform: rotate(0deg) scale(1.2);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
 }

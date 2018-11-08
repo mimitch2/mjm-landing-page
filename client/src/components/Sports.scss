@@ -4,29 +4,35 @@
     width: 250px;
     margin-bottom: 12px;
   }
-  th {
-    background: rgb(68, 68, 68);
-    color: rgb(175, 175, 175);
-    font-size: 14px;
-    font-weight: 400;
-    padding: 0px 10px 0px 10px;
-    text-align: center;
-  }
+
 
   .team-line {
     border-bottom: 1px solid grey;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     padding: 6px 0;
 
     .team {
       width: 100%;
+      display: -webkit-box;
+      display: -ms-flexbox;
       display: flex;
-      flex-direction: column;
-      align-items: center;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column;
+      -webkit-box-align: center;
+          -ms-flex-align: center;
+              align-items: center;
       .logo-and-stats {
         width: 100%;
+        display: -webkit-box;
+        display: -ms-flexbox;
         display: flex;
-        justify-content: center;
+        -webkit-box-pack: center;
+            -ms-flex-pack: center;
+                justify-content: center;
         margin-left: -20px;
         .team-logo {
           margin-right: 19px;
@@ -36,7 +42,8 @@
         font-size: 14px;
         margin-right: 5px;
         font-weight: 400;
-        transform: translateY(-3px);
+        -webkit-transform: translateY(-3px);
+                transform: translateY(-3px);
       }
       .final-score {
         // width: 80px;
@@ -49,14 +56,29 @@
       }
       .next-game-wrapper {
         width: 270px;
+        display: -webkit-box;
+        display: -ms-flexbox;
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        -webkit-box-pack: justify;
+            -ms-flex-pack: justify;
+                justify-content: space-between;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center;
         .team-logo-name {
+          display: -webkit-box;
+          display: -ms-flexbox;
           display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
+          -webkit-box-orient: vertical;
+          -webkit-box-direction: normal;
+              -ms-flex-direction: column;
+                  flex-direction: column;
+          -webkit-box-pack: center;
+              -ms-flex-pack: center;
+                  justify-content: center;
+          -webkit-box-align: center;
+              -ms-flex-align: center;
+                  align-items: center;
         }
       }
      

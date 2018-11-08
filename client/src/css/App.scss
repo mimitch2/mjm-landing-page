@@ -1,118 +1,82 @@
 html {
   overflow-x: hidden;
-  // scroll-behavior: smooth;
 
-}
-
-.App {
-  
-  overflow-y: hidden;
-  font-family: 'Oswald', sans-serif;
-  font-weight: 300;
-  // overflow-x: hidden;
-  text-align: center;
-  width: 100vw;
-  // padding-bottom: 400px;
-  background: rgb(240, 240, 240);
-
-  .select-main {
-    & scrollbar {
-      width: 1em;
+  .App {
+    overflow-y: hidden;
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    text-align: center;
+    width: 100vw;
+    background: rgb(240, 240, 240);
+    .select-main {
+      & scrollbar {
+        width: 1em;
+      }
     }
-  }
 
-  .select-main::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-  }
-
-  .select-main::-webkit-scrollbar-thumb {
-    background-color: darkgrey;
-    outline: 1px solid slategrey;
-  }
-
-  a {
-    color: rgb(31, 16, 163);
-    text-decoration: none;
-
-    &visited {
-      color: rgb(31, 16, 163);
-      text-decoration: none;
+    .select-main::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
     }
-  }
-  
-  
-  
-  .sign-in-link:hover {
-  color: rgb(240, 240, 240);
-  text-decoration: none;
-  }
-  
-  
-  .components.invisible {
-    // display: none;
-    opacity: 0;
-    transition: .3s ease-in-out;
-    transform: scale(.9)
-  
-  }
-  
-  .settings.invisible {
-    opacity: 0;
-    transition: .3s ease-in-out;
-    transform: scale(.9)
-  }
-  
-  .components {
-    opacity: 1;
-    transition: .3s ease-in-out;
-    transform: scale(1)
-  }
-  
-  .settings {
-    transform: translateY(160px);
-    opacity: 1;
-    transition: .3s ease-in-out;
-    transform: scale(1)
-  }
-  
 
-  
-  .spin-sync {
-    animation: spin 1s linear infinite;
-  }
-  
-  .fa-question {
-    animation: pulse 1.5s linear infinite;
-  }
+    .select-main::-webkit-scrollbar-thumb {
+      background-color: darkgrey;
+      outline: 1px solid slategrey;
+    }
 
-  
-  .settings-list-container::-webkit-scrollbar {
-    width: 19px;
-    background-color: #fff;
-    /* padding: 10px; */
-  }
-  
-  .settings-list-container::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background-color: rgb(74, 74, 74);
-    border: 5px solid #fff;
-  }
-  
+    .components.invisible {
+      opacity: 0;
+      transition: .3s ease-in-out;
+      transform: scale(.9)
+    }
 
-  
-  @keyframes pulse {
-    0% {
+    .settings.invisible {
+      opacity: 0;
+      transition: .3s ease-in-out;
+      transform: scale(.9)
+    }
+
+    .components {
+      opacity: 1;
+      transition: .3s ease-in-out;
       transform: scale(1)
     }
-    50% {
-      transform: scale(1.2)
-    }
-    100% {
+
+    .settings {
+      transform: translateY(160px);
+      opacity: 1;
+      transition: .3s ease-in-out;
       transform: scale(1)
     }
+
+    .spin-sync {
+      animation: spin 1s linear infinite;
+    }
+
+    .fa-question {
+      animation: pulse 1.5s linear infinite;
+    }
+
+    .settings-list-container::-webkit-scrollbar {
+      width: 19px;
+      background-color: #fff;
+    }
+
+    .settings-list-container::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background-color: rgb(74, 74, 74);
+      border: 5px solid #fff;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1)
+      }
+      50% {
+        transform: scale(1.2)
+      }
+      100% {
+        transform: scale(1)
+      }
+    }
   }
-  
-
-
-
 }

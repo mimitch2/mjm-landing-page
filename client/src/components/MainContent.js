@@ -83,12 +83,16 @@ class MainContent extends Component {
         settings: type
       })
     } else {
-      alert("you need to sign in!")
+      const signIn = document.getElementById('sign-in')
+      signIn.classList.toggle('wiggle')
+
+      setTimeout(() => {
+        signIn.classList.toggle('wiggle')
+      }, 550);
     }
   }
 
   render() {
-    console.log(this.props.userData)
     if (this.props.userDataLoaded) {
       const { news } = this.props.userData
       return (
@@ -107,19 +111,29 @@ class MainContent extends Component {
 
           <div className="components" id="components">
 
+            <Card heading="WEATHER" //!!!!!!!!!!!!!!!
+              gridColumn="span 1" gridRow="span 2" height= {300} 
+              settingsClick={this.handleClick}>
+
+              <Weather />
+
+            </Card>
+      
+            <Card heading="STOCKS" //!!!!!!!!!!!!!!!
+              gridColumn="span 1" gridRow="span 2" height= {300}
+              settingsClick={this.handleClick}
+              message="The market is ">
+
+              <Stocks />
+
+            </Card>
+
             <Card heading="NEWS" 
               gridColumn="span 2" gridRow="span 4" height= {600}
               settingsClick={this.handleClick}
               options = {news.sources}>
 
               <News />
-
-            </Card>
-            <Card heading="WEATHER" //!!!!!!!!!!!!!!!
-              gridColumn="span 1" gridRow="span 2" height= {300} 
-              settingsClick={this.handleClick}>
-
-              <Weather />
 
             </Card>
             <Card heading="SPORTS" //!!!!!!!!!!!!!!!
@@ -129,14 +143,7 @@ class MainContent extends Component {
               <Sports />
 
             </Card>
-            <Card heading="STOCKS" //!!!!!!!!!!!!!!!
-              gridColumn="span 1" gridRow="span 2" height= {300}
-              settingsClick={this.handleClick}
-              message="The market is ">
-
-              <Stocks />
-
-            </Card>
+        
           </div>
 
           <div className="settings-wrapper">

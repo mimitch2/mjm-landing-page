@@ -176,12 +176,13 @@ class Header extends Component {
         </div>
         
         {!this.props.showNavItems &&
-      <nav className="right-nav">
+      <div className="sign-in" id="sign-in">
         <Link to="/signin"
-          style={{color: "#AFAFAF"}}>
-            Sign In
+          // style={{color: "#AFAFAF"}}
+        >
+        Sign In
         </Link>
-      </nav>
+      </div>
         }
         {this.props.showNavItems &&
           <nav className="right-nav">
