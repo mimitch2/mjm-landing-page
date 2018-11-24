@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 
 import './Header.scss'
 
+
+
 class Header extends Component {
   constructor(props) {
     super(props)
@@ -17,6 +19,7 @@ class Header extends Component {
       on: [],
       carret: null
     }
+    this.hueAddress = "http://192.168.1.222/api/HnLwzBnIEZeDFoJM4XUlwloW7vLgyp87NZKXYRVf"
   }
 
   componentDidMount = () => {
@@ -30,52 +33,57 @@ class Header extends Component {
   }
 
   async getHueInfo () {
-    const info = await fetch("http://192.168.1.137/api/HnLwzBnIEZeDFoJM4XUlwloW7vLgyp87NZKXYRVf/lights")
-    const hueData = await info.json()
-    const tempArr = Object.values(hueData)
-    this.setState({
-      lights: tempArr,
-    })
-    tempArr.forEach((lt, i) => {
-      if (lt.state.on) {
-        this.setState({
-          on: [ ...this.state.on, i + 1 ]
-        })
-      }
-       
-    })
+    try {
+      const info = await fetch(`${this.hueAddress}/lights`)
+      const hueData = await info.json()
+      const tempArr = Object.values(hueData)
+      this.setState({
+        lights: tempArr,
+      })
+      tempArr.forEach((lt, i) => {
+        if (lt.state.on) {
+          this.setState({
+            on: [ ...this.state.on, i + 1 ]
+          })
+        }   
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
     
   lightSwitch = ( lt ) => {
     const { on, lights } = this.state
     const thisLight = lights.find(lght=> lights.indexOf(lght) === lt - 1 )
-     
     this.setState({
       on: on.includes(lt) ? on.filter( bulb => bulb !== lt ) 
         : [ ...on, lt ],
       carret: null
     })
-    fetch(`http://192.168.1.137/api/HnLwzBnIEZeDFoJM4XUlwloW7vLgyp87NZKXYRVf/lights/${lt}/state`, {
-      method: "PUT",
-      body: JSON.stringify({
-        "on": !thisLight.state.on
+    try {
+      fetch(`${this.hueAddress}/lights/${lt}/state`, {
+        method: "PUT",
+        body: JSON.stringify({
+          "on": !thisLight.state.on
+        })
       })
-    })
-    this.getHueInfo()
+      this.getHueInfo()
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   colorPicker = ( lt ) => {
     const { lights, carret, on } = this.state
     if (on.includes(lt)) {
       this.setState({
-        carret: carret !== lt ? lt : null, //*** put a condition if it's on or not */
+        carret: carret !== lt ? lt : null,
         light: lt,
         hue: lights[lt - 1].state.hue,
         brightness: lights[lt - 1].state.bri
       })
       this.getHueInfo()
     }
-
   }
 
   changeColor = ( e ) => {
@@ -83,13 +91,17 @@ class Header extends Component {
     this.setState({
       hue: hue
     })
-    fetch(`http://192.168.1.137/api/HnLwzBnIEZeDFoJM4XUlwloW7vLgyp87NZKXYRVf/lights/${this.state.light}/state`, {
-      method: "PUT",
-      body: JSON.stringify({
-        "hue": hue
+    try {
+      fetch(`${this.hueAddress}/lights/${this.state.light}/state`, {
+        method: "PUT",
+        body: JSON.stringify({
+          "hue": hue
+        })
       })
-    })
-    this.getHueInfo()
+      this.getHueInfo()
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   changeBrightness = ( e ) => {
@@ -97,12 +109,16 @@ class Header extends Component {
     this.setState({
       brightness: brightness
     })
-    fetch(`http://192.168.1.137/api/HnLwzBnIEZeDFoJM4XUlwloW7vLgyp87NZKXYRVf/lights/${this.state.light}/state`, {
-      method: "PUT",
-      body: JSON.stringify({
-        "bri": brightness
+    try {
+      fetch(`${this.hueAddress}/lights/${this.state.light}/state`, {
+        method: "PUT",
+        body: JSON.stringify({
+          "bri": brightness
+        })
       })
-    })
+    } catch (error) {
+      console.log(error)
+    }
   }
   
   render() {

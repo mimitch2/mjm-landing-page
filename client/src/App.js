@@ -87,8 +87,7 @@ class App extends Component {
           }).then((res) => {
             return res.json().then((data) => {
               this.props.setUserData(data)
-           
-            
+                 
             })
           })
         }
@@ -98,7 +97,6 @@ class App extends Component {
 
   handleSignIn = (credentials) => {
     const { username, password } = credentials;
-
     if (!username.trim() || !password.trim() ) {
       this.setState({
         signUpSignInError: "Must Provide All Fields"

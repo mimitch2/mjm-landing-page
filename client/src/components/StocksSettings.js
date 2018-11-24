@@ -79,24 +79,19 @@ class StocksSettings extends Component {
         stockStrings.push(cmp.symbol.toLowerCase())
       })
       const stocks = stockStrings.join(',')
-
       setTimeout(() => {
         this.props.loadStocksData(stocks)
         this.props.loadUserData(this.props.userName)
-      }, 1000);
-
+      }, 400);
     }
-
     if (button === "cancel") {
       setTimeout(() => {
         this.setState({userCompanies: this.props.userData.stocks.companies})
       }, closeDelay);
     }
-    
     setTimeout(() => {
       this.props.settingsClick(type)
     }, closeDelay);
-
   }
   
   getInput = (input) => {

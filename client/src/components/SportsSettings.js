@@ -1,20 +1,10 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types'
 import BasicInput from './BasicInput'
-
 import './SportsSettings.scss'
 
 
-const leagueIcons = [
-  {icon: "https://www.thesportsdb.com/images/media/league/badge/vxwtqq1421413200.png", 
-    league: "NHL"},
-  {icon: "https://www.thesportsdb.com/images/media/league/badge/trppxv1421413032.png", 
-    league: "NFL"},
-  {icon: "https://www.thesportsdb.com/images/media/league/badge/frdjqy1536585083.png", 
-    league: "NBA"},
-  {icon: "https://www.thesportsdb.com/images/media/league/badge/c5r83j1521893739.png", 
-    league: "MLB"}
-]
+
  
 
 class SporstSettings extends Component {
@@ -27,6 +17,16 @@ class SporstSettings extends Component {
       input: ''
     }
   }
+   leagueIcons = [
+     {icon: "https://www.thesportsdb.com/images/media/league/badge/vxwtqq1421413200.png", 
+       league: "NHL"},
+     {icon: "https://www.thesportsdb.com/images/media/league/badge/trppxv1421413032.png", 
+       league: "NFL"},
+     {icon: "https://www.thesportsdb.com/images/media/league/badge/frdjqy1536585083.png", 
+       league: "NBA"},
+     {icon: "https://www.thesportsdb.com/images/media/league/badge/c5r83j1521893739.png", 
+       league: "MLB"}
+   ]
 
   componentDidMount = () => {
     this.buildTeamArray()
@@ -156,7 +156,7 @@ class SporstSettings extends Component {
               <BasicInput sendInput={this.filterSources} 
                 placeholder="Search teams..."/>
               <div className="league-div" style={{display: "flex", justifyContent: "center"}}>
-                {leagueIcons.map(ico => {
+                {this.leagueIcons.map(ico => {
                   return (
                     <div style={{width: "40px"}} key={ico.league}>
                       <img src={ico.icon} width="40px" height="40px"alt=""/>
