@@ -88,7 +88,7 @@ class Stocks extends Component {
 
   async isMarketOpen() {
     try {
-      const getInfo = await fetch('https://api.iextrading.com/1.0/deep/system-event')
+      const getInfo = await fetch('https://cors-anywhere.herokuapp.com/https://api.iextrading.com/1.0/deep/system-event')
       const isOpen = await getInfo.json()
       if (isOpen.systemEvent === "R") {
         this.props.isMarketOpen(true)
@@ -98,9 +98,7 @@ class Stocks extends Component {
     } catch (error) {
       console.log(error)
     }
-  
   }
-
 
   greenOrRed = (num) => {
     if (num > 0) {

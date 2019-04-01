@@ -2,17 +2,14 @@
   width: 100%;
   .stats-table {
     width: 250px;
-    margin-bottom: 12px;
+    margin-bottom: 20px;
   }
-
-
   .team-line {
     border-bottom: 1px solid grey;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     padding: 6px 0;
-
     .team {
       width: 100%;
       display: -webkit-box;
@@ -20,35 +17,22 @@
       display: flex;
       -webkit-box-orient: vertical;
       -webkit-box-direction: normal;
-          -ms-flex-direction: column;
-              flex-direction: column;
+      -ms-flex-direction: column;
+      flex-direction: column;
       -webkit-box-align: center;
-          -ms-flex-align: center;
-              align-items: center;
-      .logo-and-stats {
-        width: 100%;
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: flex;
-        -webkit-box-pack: center;
-            -ms-flex-pack: center;
-                justify-content: center;
-        margin-left: -20px;
-        .team-logo {
-          margin-right: 19px;
-        }      
-      }
+      -ms-flex-align: center;
+      align-items: center;
       .last-game-title {
-        font-size: 14px;
+        font-size: 20px;
         margin-right: 5px;
         font-weight: 400;
         -webkit-transform: translateY(-3px);
-                transform: translateY(-3px);
+        transform: translateY(-3px);
       }
       .final-score {
         // width: 80px;
       }
-      
+
       .next-game-title {
         margin-top: 10px;
         margin-bottom: 10px;
@@ -60,43 +44,27 @@
         display: -ms-flexbox;
         display: flex;
         -webkit-box-pack: justify;
-            -ms-flex-pack: justify;
-                justify-content: space-between;
+        -ms-flex-pack: justify;
+        justify-content: space-between;
         -webkit-box-align: center;
-            -ms-flex-align: center;
-                align-items: center;
+        -ms-flex-align: center;
+        align-items: center;
         .team-logo-name {
           display: -webkit-box;
           display: -ms-flexbox;
           display: flex;
           -webkit-box-orient: vertical;
           -webkit-box-direction: normal;
-              -ms-flex-direction: column;
-                  flex-direction: column;
+          -ms-flex-direction: column;
+          flex-direction: column;
           -webkit-box-pack: center;
-              -ms-flex-pack: center;
-                  justify-content: center;
+          -ms-flex-pack: center;
+          justify-content: center;
           -webkit-box-align: center;
-              -ms-flex-align: center;
-                  align-items: center;
+          -ms-flex-align: center;
+          align-items: center;
         }
       }
-     
-    
-     
     }
-   
   }
-
-  .name-and-rank {
-    font-size: 20px;
-    font-weight: 400;
-    text-align: left;
-  }
-
-
-
-
-
-
 }

@@ -7,15 +7,15 @@ const sportsAuth = {
 const weatherAuth = process.env.REACT_APP_WEATHER;
 const newsAuth = process.env.REACT_APP_NEWS;
 
-export function setUserName(name) {
+export const setUserName = (name) => {
   return {
     type: 'SET_USER_NAME',
     value: name
   };
 }
 
-export function loadUserData(username) {
-  return async function(dispatch) {
+export const loadUserData = (username) => {
+  return async (dispatch) => {
     if (username) {
       try {
         const fetchData = await fetch(`api/data/${username}`);
@@ -27,7 +27,6 @@ export function loadUserData(username) {
         console.log(error);
       }
     } else {
-      console.log(state.defaultData);
       dispatch(setUserData(state.defaultData));
       dispatch(userDataLoaded(true));
       return state.defaultData;
@@ -35,22 +34,22 @@ export function loadUserData(username) {
   };
 }
 
-export function setUserData(data) {
+export const setUserData = (data) => {
   return {
     type: 'SET_USER_DATA',
     value: data
   };
 }
 
-export function userDataLoaded(result) {
+export const userDataLoaded = (result) => {
   return {
     type: 'USERDATA_LOADED',
     value: result
   };
 }
 
-export function updateUserData(data, username) {
-  return async function(dispatch, res) {
+export const updateUserData = (data, username) => {
+  return async (dispatch) => {
     try {
       const putUserData = await fetch(`api/data/${username}`, {
         method: 'PUT',
@@ -66,8 +65,8 @@ export function updateUserData(data, username) {
   };
 }
 
-export function loadNewsArticles(newsSources) {
-  return async function(dispatch) {
+export const loadNewsArticles = (newsSources) => {
+  return async (dispatch) => {
     try {
       const getNews = await fetch(
         `https://newsapi.org/v2/top-headlines?pageSize=60&sources=${newsSources}&apiKey=${newsAuth}`
@@ -82,14 +81,14 @@ export function loadNewsArticles(newsSources) {
   };
 }
 
-export function setNewsArticles(articles) {
+export const setNewsArticles = (articles) => {
   return {
     type: 'SET_NEWS_ARTICLES',
     value: articles
   };
 }
 
-export function newsArticlesLoaded(result) {
+export const newsArticlesLoaded = (result) => {
   return {
     type: 'NEWSARTICLES_LOADED',
     value: result
@@ -98,12 +97,12 @@ export function newsArticlesLoaded(result) {
 
 //https://cors-anywhere.herokuapp.com/
 
-export function loadWeather(city) {
-  return async function(dispatch) {
+export const loadWeather = (city) => {
+  return async (dispatch) => {
     try {
       if (city) {
         const getWeather = await fetch(
-          `https://api.darksky.net/forecast/${weatherAuth}/${city.lat},${
+          `https://cors-anywhere.herokuapp.com/https://api.darksky.net/forecast/${weatherAuth}/${city.lat},${
             city.long
           }`
         );
@@ -112,7 +111,6 @@ export function loadWeather(city) {
         temp.id = city.id;
         temp.name = city.name;
         dispatch(setWeather(temp));
-        return temp;
       }
     } catch (error) {
       console.log(error);
@@ -120,17 +118,16 @@ export function loadWeather(city) {
   };
 }
 
-export function setWeather(weather) {
+export const setWeather = (weather) => {
   return {
     type: 'SET_WEATHER',
     value: weather
   };
 }
 
-export function parseTeamInfo(data) {
-  return function(dispatch) {
+export const parseTeamInfo = (data) => {
+  return (dispatch) => {
     const sportsObj = { teams: [], standings: {} };
-
     data.forEach(team => {
       sportsObj.teams.push({ info: team });
       if (!sportsObj.standings.hasOwnProperty(team.strLeague)) {
@@ -141,8 +138,8 @@ export function parseTeamInfo(data) {
   };
 }
 
-export function loadSportsData(sportsObj) {
-  return async function(dispatch) {
+export const loadSportsData = (sportsObj) => {
+  return async (dispatch) => {
     try {
       for (const league in sportsObj.standings) {
         const getStandings = await fetch(
@@ -155,7 +152,7 @@ export function loadSportsData(sportsObj) {
 
       for (let i = 0; i < sportsObj.teams.length; i++) {
         const team = sportsObj.teams[i];
-        const getStats = fetch(
+        const getStats = await fetch(
           `https://api.mysportsfeeds.com/v2.0/pull/${
             team.info.strLeague
           }/2018-2019-regular/team_stats_totals.json?team=${
@@ -163,48 +160,75 @@ export function loadSportsData(sportsObj) {
           }`,
           sportsAuth
         );
-        const getGames = fetch(
+        const getGames = await fetch(
           `https://api.mysportsfeeds.com/v2.0/pull/${
             team.info.strLeague
           }/2018-2019-regular/games.json?team=${team.info.strTeamShort}`,
           sportsAuth
         );
-
         const res = await Promise.all([getStats, getGames]);
         const dataArr = res.map(r => r.json());
         const [stats, games] = await Promise.all(dataArr);
         team.games = games;
         team.stats = stats;
       }
+
+      // const team = sportsObj.teams
+      // const arrOne = team.map(tm => `https://api.mysportsfeeds.com/v2.0/pull/${tm.info.strLeague}/2018-2019-regular/team_stats_totals.json?team=${tm.info.strTeamShort}`)
+      // // const arrTwo = 
+      // console.log(arrOne)
+
+      // const all = await Promise.all(team.map(tm => {
+      //   return fetch(`https://api.mysportsfeeds.com/v2.0/pull/${tm.info.strLeague}/2018-2019-regular/team_stats_totals.json?team=${tm.info.strTeamShort}`,
+      //     sportsAuth
+      //   )
+      // }))
+
+      // const res = await all
+      // const data = res.map(res => res.json())
+      // const [newData] = await Promise.all(data)
+      // // console.table(newData)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       dispatch(setSportsData(sportsObj));
-      setTimeout(() => {
-        dispatch(sportsDataLoaded(true));
-      }, 500);
+      dispatch(sportsDataLoaded(true));
     } catch (error) {
       console.log(error);
     }
   };
 }
 
-export function setSportsData(sportsData) {
+export const setSportsData = (sportsData) => {
   return {
     type: 'SET_SPORTS_DATA',
     value: sportsData
   };
 }
 
-export function sportsDataLoaded(bool) {
+export const sportsDataLoaded = (bool) => {
   return {
     type: 'SPORTS_DATA_LOADED',
     value: bool
   };
 }
 
-export function loadStockSymbols() {
-  return async function(dispatch) {
+export const loadStockSymbols = () => {
+  return async (dispatch) => {
     try {
       const getSymbols = await fetch(
-        'https://api.iextrading.com/1.0/ref-data/symbols'
+        'https://cors-anywhere.herokuapp.com/https://api.iextrading.com/1.0/ref-data/symbols'
       );
       const symbols = await getSymbols.json();
       dispatch(setStockSymbols(symbols));
@@ -214,18 +238,18 @@ export function loadStockSymbols() {
   };
 }
 
-export function setStockSymbols(symbols) {
+export const setStockSymbols = (symbols) => {
   return {
     type: 'SET_STOCK_SYMBOLS',
     value: symbols
   };
 }
 
-export function loadStocksData(symbols) {
-  return async function(dispatch) {
+export const loadStocksData = (symbols) => {
+  return async (dispatch) => {
     try {
       const stockData = await fetch(
-        `https://api.iextrading.com/1.0/stock/market/batch?symbols=${symbols}&types=quote,news,chart&range=1m&last=5`
+        `https://cors-anywhere.herokuapp.com/https://api.iextrading.com/1.0/stock/market/batch?symbols=${symbols}&types=quote,news,chart&range=1m&last=5`
       );
       const stocks = await stockData.json();
       const stocksArr = Object.values(stocks);
@@ -241,37 +265,23 @@ export function loadStocksData(symbols) {
   };
 }
 
-export function stocksData(stocks) {
+export const stocksData = (stocks) => {
   return {
     type: 'STOCKS_DATA',
     value: stocks
   };
 }
 
-export function stocksDataLoaded(bool) {
+export const stocksDataLoaded = (bool) => {
   return {
     type: 'STOCKS_DATA_LOADED',
     value: bool
   };
 }
 
-export function isMarketOpen(bool) {
+export const isMarketOpen = (bool) => {
   return {
     type: 'MARKET_OPEN',
     value: bool
   };
 }
-
-// https://api.iextrading.com/1.0/stock/market/batch?symbols=aapl,nflx,amzn&types=quote,news,chart&range=1m&last=5
-
-//https://api.iextrading.com/1.0/ref-data/symbols
-
-// export function showUser(id) {
-//   return function (dispatch) {
-//     fetch("/user/" + id).then((response) => {
-//       return response.json();
-//     }).then(() => {
-//       dispatch(loadUsers());
-//     });
-//   };
-// }

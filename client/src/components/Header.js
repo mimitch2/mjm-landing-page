@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types'
 import Secret from './Secret'
 import { Link } from "react-router-dom";
 
 import './Header.scss'
-
-
 
 class Header extends Component {
   constructor(props) {
@@ -56,7 +53,8 @@ class Header extends Component {
     const { on, lights } = this.state
     const thisLight = lights.find(lght=> lights.indexOf(lght) === lt - 1 )
     this.setState({
-      on: on.includes(lt) ? on.filter( bulb => bulb !== lt ) 
+      on: on.includes(lt) ? 
+        on.filter( bulb => bulb !== lt ) 
         : [ ...on, lt ],
       carret: null
     })
@@ -140,7 +138,9 @@ class Header extends Component {
                   onClick={ () => this.lightSwitch(i + 1)}
                   style={
                     this.state.on.includes(i + 1) ?
-                      { background: "#AFAFAF", color: "#444"}
+                      { 
+                        background: "#AFAFAF",
+                        color: "#444"}
                       : null
                   }
                 >
@@ -149,14 +149,14 @@ class Header extends Component {
                 {this.state.on.includes( i + 1 ) &&
                 <div className="carret-div" 
                   onClick={ ()=> this.colorPicker(i + 1) }
+                  style={
+                    this.state.carret === i + 1 ? 
+                      {transform: "rotate(90deg)"}
+                      : null
+                  }
                 >
-                  
                   <i className="fas fa-caret-right"
-                    style={
-                      this.state.carret === i + 1 ? 
-                        {transform: "rotate(90deg)"}
-                        : null
-                    }>
+                  >
                   </i>
                 </div>
                 }
@@ -164,8 +164,6 @@ class Header extends Component {
             )
           })
           }
-
-          
           {this.state.carret &&
             <div className="color-picker-wrapper"
               // style={

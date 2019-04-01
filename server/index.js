@@ -55,6 +55,13 @@ function startWebServer(){
   app.use(sessionRoutes);
   app.use(authenticationRoutes);
 
+  // app.get("/api/hue", function (req, res) {
+  //   fetch("http://192.168.1.222/api/HnLwzBnIEZeDFoJM4XUlwloW7vLgyp87NZKXYRVf/lights").then(data => {
+  //     console.log(data.json())
+  //     return data.json()
+  //   })
+  // })
+
   app.get("/api/canigetthis", function (req, res) {
     res.send("You got the data. You are authenticated");
   });

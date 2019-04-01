@@ -1,0 +1,23 @@
+.sports-stats {
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .name-and-rank {
+    width: 100%;
+    font-size: 20px;
+    font-weight: 400;
+    text-align: left;
+    // display: -webkit-box;
+    // display: -ms-flexbox;
+    // display: flex;
+    // align-items: center;
+    margin-bottom: 10px;
+    .team-name {
+      margin-left: 10px;
+    }
+  }
+  .stats-table {
+    width: 400px;
+  }
+}

@@ -1,5 +1,5 @@
 @import "../css/common";
-$carret-width: 20px;
+// $carret-width: 20px;
 
 .header {
   position: fixed;
@@ -21,12 +21,13 @@ $carret-width: 20px;
       border-radius: 3px;
       user-select: none;
       cursor: pointer;
-      padding: 1px 2px 2px 2px;
+      padding: 1px 2px 0px 2px;
       margin: 0px 3px 0px 2px;
-      // &:hover {
-      // background: $secondary-color;
-      // color: $primary-color;
-      // }
+      height: 24px;
+      &:hover {
+      background: $secondary-color;
+      color: $primary-color;
+      }
     }
     .light-controls {
       display: flex;
@@ -34,15 +35,16 @@ $carret-width: 20px;
       padding: 0;
       margin: 0px;
       .carret-div {
-        height: 20px;
-        // width: 30px;
         display: flex;
         cursor: pointer;
-        // padding: 1px 3px 0px 5px;
-        .fa-caret-right {
-          transition: transform .1s linear;
-          font-size: 32px;
-        }
+        margin-left: 5px;
+        margin-top: -2px;
+     
+      }
+      .fa-caret-right {
+        transition: transform .1s linear;
+        font-size: 32px;
+        color: #AFAFAF;
       }
     }
  
